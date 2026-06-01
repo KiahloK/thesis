@@ -22,11 +22,19 @@ def load_benchmarks(benchmark_dir: str | Path, types: List[str], limit: Optional
             if not queries_path.exists():
                 continue
             queries = json.loads(queries_path.read_text()).get("queries", [])
-            services = [p.read_text() for p in sector_path.rglob("openapi.json")]
+            services = []
+            service_files = []
+            for p in sector_path.rglob("openapi.json"):
+                services.append(p.read_text())
+                try:
+                    service_files.append(str(p.relative_to(benchmark_dir)))
+                except Exception:
+                    service_files.append(str(p))
             benchmark_sets.append({
                 "name": sector_path.name,
                 "type": benchmark_type,
                 "services": services,
+                "service_files": service_files,
                 "queries": queries[:query_limit] if query_limit is not None else queries,
             })
 

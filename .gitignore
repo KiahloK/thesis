@@ -3,3 +3,4 @@
 benchmark/
 pycache/
 *.py[cod]
+output/

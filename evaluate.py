@@ -28,16 +28,13 @@ def evaluate(generated_code: str, expected_endpoints: List[str]) -> Dict:
     norm_extracted = set()
     for e in extracted:
         n = _normalize_endpoint(e)
-        if n != e:
-            print(f"[normalization] extracted: '{e}' -> '{n}'")  # TODO: remove once confirmed working
         norm_extracted.add(n)
 
     norm_expected = set()
     for e in expected:
         n = _normalize_endpoint(e)
-        if n != e:
-            print(f"[normalization] expected:  '{e}' -> '{n}'")  # TODO: remove once confirmed working
         norm_expected.add(n)
+
     tp = len(norm_extracted & norm_expected)
     precision = tp / len(norm_extracted) if norm_extracted else 0.0
     recall = tp / len(norm_expected) if norm_expected else 0.0
@@ -68,3 +65,39 @@ def print_metrics(metrics: Dict, title: str = "Evaluation") -> None:
     print(f"  Expected:  {sorted(expected)}")
     print(f"  Missing:   {missing if missing else '[]'}")
     print(f"  Extra:     {extra if extra else '[]'}")
+
+
+def print_evaluation_summary(metrics_list: List[Dict], title: str = "Evaluation Summary") -> None:
+    """Print aggregate metrics across multiple evaluation results."""
+    if not metrics_list:
+        print(title)
+        print("  No evaluations available.")
+        return
+
+    total = len(metrics_list)
+    avg_precision = sum(float(metrics.get("precision", 0.0)) for metrics in metrics_list) / total
+    avg_recall = sum(float(metrics.get("recall", 0.0)) for metrics in metrics_list) / total
+    avg_f1 = sum(float(metrics.get("f1", 0.0)) for metrics in metrics_list) / total
+    avg_missing = sum(
+        len(set(metrics.get("expected", set())) - set(metrics.get("extracted", set())))
+        for metrics in metrics_list
+    ) / total
+    avg_extra = sum(
+        len(set(metrics.get("extracted", set())) - set(metrics.get("expected", set())))
+        for metrics in metrics_list
+    ) / total
+    correct = sum(
+        1
+        for metrics in metrics_list
+        if not metrics.get("syntax_error")
+        and set(metrics.get("extracted", set())) == set(metrics.get("expected", set()))
+    )
+    correct_rate = (correct / total) * 100
+
+    print(title)
+    print(f"  Average Precision: {avg_precision:.2f}")
+    print(f"  Average Recall:    {avg_recall:.2f}")
+    print(f"  Average F1:        {avg_f1:.2f}")
+    print(f"  Avg. Missing Endpoints: {avg_missing:.2f}")
+    print(f"  Avg. Extra Endpoints:   {avg_extra:.2f}")
+    print(f"  Correct Compositions: {correct}/{total} ({correct_rate:.1f}%)")
