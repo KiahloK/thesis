@@ -1,5 +1,12 @@
 from socbenchsc.analysis import Analysis
 from typing import Dict, Set, List
+import re
+
+
+def _normalize_endpoint(endpoint: str) -> str:
+    """Strip version prefix (e.g. /v1/, /v2/) from endpoint paths so that
+    'GET /v1/foo' and 'GET /foo' are treated as equivalent."""
+    return re.sub(r'^(\w+ )/v\d+/', r'\1/', endpoint)
 
 
 def evaluate(generated_code: str, expected_endpoints: List[str]) -> Dict:
@@ -18,16 +25,29 @@ def evaluate(generated_code: str, expected_endpoints: List[str]) -> Dict:
             "syntax_error": f"{exc.msg} at line {exc.lineno}, column {exc.offset}",
         }
 
-    tp = len(extracted & expected)
-    precision = tp / len(extracted) if extracted else 0.0
-    recall = tp / len(expected) if expected else 0.0
+    norm_extracted = set()
+    for e in extracted:
+        n = _normalize_endpoint(e)
+        if n != e:
+            print(f"[normalization] extracted: '{e}' -> '{n}'")  # TODO: remove once confirmed working
+        norm_extracted.add(n)
+
+    norm_expected = set()
+    for e in expected:
+        n = _normalize_endpoint(e)
+        if n != e:
+            print(f"[normalization] expected:  '{e}' -> '{n}'")  # TODO: remove once confirmed working
+        norm_expected.add(n)
+    tp = len(norm_extracted & norm_expected)
+    precision = tp / len(norm_extracted) if norm_extracted else 0.0
+    recall = tp / len(norm_expected) if norm_expected else 0.0
     f1 = 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
     return {
         "precision": precision,
         "recall": recall,
         "f1": f1,
-        "extracted": extracted,
-        "expected": expected,
+        "extracted": norm_extracted,
+        "expected": norm_expected,
     }
 
 
