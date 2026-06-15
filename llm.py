@@ -26,12 +26,15 @@ def call_llm(prompt: str, model: str, instructions: str) -> str:
     The client is created on demand so importing this module doesn't require credentials.
     """
     client = _get_client()
-    response = client.responses.create(
+    messages = []
+    if instructions:
+        messages.append({"role": "system", "content": instructions})
+    messages.append({"role": "user", "content": prompt})
+    response = client.chat.completions.create(
         model=model,
-        instructions=instructions,
-        input=prompt,
+        messages=messages,
     )
-    return response.output_text
+    return response.choices[0].message.content
 
 
 def build_prompt(services: list[str], query: str, prompt_template: str) -> str:

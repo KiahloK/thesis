@@ -3,13 +3,15 @@ from __future__ import annotations
 import ast
 import shutil
 import subprocess
+import sys
 import tempfile
+import textwrap
 from pathlib import Path
 from typing import Literal, Sequence
 
 
-AnalysisType = Literal["ast", "ruff"]
-DEFAULT_ANALYSES: tuple[AnalysisType, ...] = ("ast", "ruff")
+AnalysisType = Literal["ast", "ruff", "httpretty"]
+DEFAULT_ANALYSES: tuple[AnalysisType, ...] = ("ast", "ruff", "httpretty")
 
 
 def _normalize_analyses(analyses: Sequence[str] | str | None) -> tuple[AnalysisType, ...]:
@@ -29,7 +31,7 @@ def _normalize_analyses(analyses: Sequence[str] | str | None) -> tuple[AnalysisT
         choice = analysis.lower().strip()
         if choice not in DEFAULT_ANALYSES:
             raise ValueError(
-                f"Unknown analysis type '{analysis}'. Use one or more of: ast, ruff."
+                f"Unknown analysis type '{analysis}'. Use one or more of: ast, ruff, httpretty."
             )
         if choice not in normalized:
             normalized.append(choice)
@@ -101,6 +103,78 @@ def analyze_ruff(code: str, *, filename_hint: str = "generated.py") -> list[str]
     return [f"Ruff: {line}" for line in output.splitlines() if line.strip()]
 
 
+_HTTPRETTY_RUNNER = textwrap.dedent("""\
+    import re, sys
+    import httpretty
+    from httpretty.core import fakesock
+
+    # fakesock has no shutdown method; its __getattr__ raises UnmockedError for
+    # any unknown attribute, causing requests' connection cleanup to throw.
+    # Patching it to a no-op lets multi-request code run uninterrupted.
+    fakesock.socket.shutdown = lambda self, *a, **kw: None
+
+    _calls = []
+
+    def _handler(request, uri, response_headers):
+        _calls.append(f"{request.method} {uri}")
+        return [200, response_headers, b"{}"]
+
+    httpretty.enable(allow_net_connect=False, verbose=False)
+    for _method in (
+        httpretty.GET, httpretty.POST, httpretty.PUT,
+        httpretty.PATCH, httpretty.DELETE, httpretty.HEAD, httpretty.OPTIONS,
+    ):
+        httpretty.register_uri(_method, re.compile(r".*"), body=_handler)
+
+    try:
+        with open(sys.argv[1], encoding="utf-8") as _f:
+            exec(compile(_f.read(), sys.argv[1], "exec"), {"__name__": "__main__"})
+    except Exception as exc:
+        print(f"RUNTIME_ERROR:{exc}", file=sys.stderr)
+    finally:
+        for _call in _calls:
+            print(f"HTTP_CALL:{_call}")
+        httpretty.disable()
+        httpretty.reset()
+""")
+
+
+def analyze_httpretty(code: str, *, filename_hint: str = "generated.py") -> list[str]:
+    """Execute the code with httpretty intercepting all HTTP calls."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmp = Path(tmpdir)
+        code_path = tmp / filename_hint
+        runner_path = tmp / "_runner.py"
+        code_path.write_text(code, encoding="utf-8")
+        runner_path.write_text(_HTTPRETTY_RUNNER, encoding="utf-8")
+
+        try:
+            completed = subprocess.run(
+                [sys.executable, str(runner_path), str(code_path)],
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=10,
+            )
+        except subprocess.TimeoutExpired:
+            return ["Httpretty: Execution timed out after 10 seconds."]
+
+    findings: list[str] = []
+    for line in completed.stdout.splitlines():
+        if line.startswith("HTTP_CALL:"):
+            findings.append(f"Httpretty: {line[len('HTTP_CALL:'):]}")
+    for line in completed.stderr.splitlines():
+        if line.startswith("RUNTIME_ERROR:"):
+            findings.append(f"Httpretty: Runtime error — {line[len('RUNTIME_ERROR:'):]}")
+
+    if not findings:
+        if completed.returncode == 0:
+            return ["Httpretty: Code executed without HTTP calls or errors."]
+        return ["Httpretty: Execution failed without output."]
+
+    return findings
+
+
 def analyze(code: str, analyses: Sequence[str] | str | None = None) -> str:
     """Return a short report for the selected analyses.
 
@@ -114,5 +188,8 @@ def analyze(code: str, analyses: Sequence[str] | str | None = None) -> str:
 
     if "ruff" in selected:
         findings.extend(analyze_ruff(code))
+
+    if "httpretty" in selected:
+        findings.extend(analyze_httpretty(code))
 
     return "\n".join(findings)

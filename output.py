@@ -13,7 +13,8 @@ def make_output_dir(name: str) -> str:
 
 def write_query_output(output_dir: str, result: dict) -> None:
     idx = result.get('query_index') or 0
-    query_dir = os.path.join(output_dir, f"query_{int(idx):03d}")
+    sector = result.get('sector_name', 'unknown')
+    query_dir = os.path.join(output_dir, sector, f"query_{int(idx):03d}")
     os.makedirs(query_dir, exist_ok=True)
 
     fname = os.path.join(query_dir, "query.json")
@@ -41,18 +42,19 @@ def write_query_output(output_dir: str, result: dict) -> None:
         with open(analysis_file, 'w', encoding='utf-8') as af:
             af.write(analysis)
 
+    baseline = not result.get('generated_refined') or not result.get('refined_metrics')
     data = {
         'query_index': result.get('query_index'),
         'query': result.get('query'),
         'services': result.get('service_files') or result.get('services'),
         'model': result.get('model'),
-        # do not include the prompt text (can be large); store filenames for code instead
         'generated_file': os.path.basename(gen_file) if gen_file else None,
-        'generated_refined_file': os.path.basename(gen_ref_file) if gen_ref_file else None,
         'analysis_file': os.path.basename(analysis_file) if analysis_file else None,
         'initial_metrics': _serialize_metrics(result.get('initial_metrics')),
-        'refined_metrics': _serialize_metrics(result.get('refined_metrics'))
     }
+    if not baseline:
+        data['generated_refined_file'] = os.path.basename(gen_ref_file) if gen_ref_file else None
+        data['refined_metrics'] = _serialize_metrics(result.get('refined_metrics'))
 
     # Ensure everything is JSON-serializable (convert sets to lists, Paths to strings, etc.)
     serializable = _serialize_for_json(data)
@@ -72,7 +74,7 @@ def _serialize_metrics(metrics: dict | None) -> dict | None:
     return out
 
 
-def write_overall_summary(output_dir: str, sector_results: list) -> None:
+def write_overall_summary(output_dir: str, sector_results: list, run_config: dict | None = None) -> None:
     fname = os.path.join(output_dir, "summary.json")
     initial_metrics = [r.get('initial_metrics') for r in sector_results if r.get('initial_metrics')]
     refined_metrics = [r.get('refined_metrics') for r in sector_results if r.get('refined_metrics')]
@@ -81,24 +83,29 @@ def write_overall_summary(output_dir: str, sector_results: list) -> None:
         vals = [m.get(key) for m in lst if m and (m.get(key) is not None)]
         return sum(vals)/len(vals) if vals else None
 
-    summary = {
-        'initial_count': len(initial_metrics),
-        'refined_count': len(refined_metrics),
-        'initial_avg_precision': avg(initial_metrics, 'precision'),
-        'initial_avg_recall': avg(initial_metrics, 'recall'),
-        'initial_avg_f1': avg(initial_metrics, 'f1'),
-        'refined_avg_precision': avg(refined_metrics, 'precision'),
-        'refined_avg_recall': avg(refined_metrics, 'recall'),
-        'refined_avg_f1': avg(refined_metrics, 'f1'),
-        'per_query': [
-            {
-                'query_index': r.get('query_index'),
-                'initial': _serialize_metrics(r.get('initial_metrics')),
-                'refined': _serialize_metrics(r.get('refined_metrics'))
-            }
-            for r in sector_results
-        ]
-    }
+    is_baseline = (run_config or {}).get('baseline', False)
+
+    summary = {'config': run_config or {}}
+
+    summary['count'] = len(initial_metrics)
+    summary['avg_precision'] = avg(initial_metrics, 'precision')
+    summary['avg_recall'] = avg(initial_metrics, 'recall')
+    summary['avg_f1'] = avg(initial_metrics, 'f1')
+
+    if not is_baseline:
+        summary['refined_count'] = len(refined_metrics)
+        summary['refined_avg_precision'] = avg(refined_metrics, 'precision')
+        summary['refined_avg_recall'] = avg(refined_metrics, 'recall')
+        summary['refined_avg_f1'] = avg(refined_metrics, 'f1')
+
+    per_query = [
+        {'query_index': r.get('query_index'), 'sector': r.get('sector_name'), 'metrics': _serialize_metrics(r.get('initial_metrics'))}
+        for r in sector_results
+    ]
+    if not is_baseline:
+        for entry, r in zip(per_query, sector_results):
+            entry['refined_metrics'] = _serialize_metrics(r.get('refined_metrics'))
+    summary['per_query'] = per_query
 
     serializable = _serialize_for_json(summary)
     with open(fname, 'w', encoding='utf-8') as f:
