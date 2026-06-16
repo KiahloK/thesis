@@ -1,6 +1,6 @@
 import os
 import json
-from datetime import datetime
+from pathlib import Path
 
 def make_output_dir(name: str) -> str:
     base = "output"
@@ -29,6 +29,11 @@ def write_query_output(output_dir: str, result: dict) -> None:
         gen_file = os.path.join(query_dir, "generated.py")
         with open(gen_file, 'w', encoding='utf-8') as gf:
             gf.write(gen)
+
+    prompt = result.get('prompt')
+    if prompt:
+        with open(os.path.join(query_dir, "prompt.txt"), 'w', encoding='utf-8') as pf:
+            pf.write(prompt)
 
     if gen_ref:
         gen_ref_file = os.path.join(query_dir, "refined.py")
@@ -110,6 +115,35 @@ def write_overall_summary(output_dir: str, sector_results: list, run_config: dic
     serializable = _serialize_for_json(summary)
     with open(fname, 'w', encoding='utf-8') as f:
         json.dump(serializable, f, ensure_ascii=False, indent=2)
+
+
+def load_baseline_results(output_dir: str) -> list:
+    """Reconstruct sector_results from a saved baseline output directory."""
+    results = []
+    base = Path(output_dir)
+    for sector_dir in sorted(base.iterdir()):
+        if not sector_dir.is_dir():
+            continue
+        for query_dir in sorted(sector_dir.iterdir()):
+            if not query_dir.is_dir():
+                continue
+            query_json = query_dir / "query.json"
+            if not query_json.exists():
+                continue
+            data = json.loads(query_json.read_text(encoding='utf-8'))
+            gen_file = query_dir / "generated.py"
+            prompt_file = query_dir / "prompt.txt"
+            results.append({
+                'query_index': data['query_index'],
+                'sector_name': sector_dir.name,
+                'query': data['query'],
+                'generated': gen_file.read_text(encoding='utf-8') if gen_file.exists() else None,
+                'prompt': prompt_file.read_text(encoding='utf-8') if prompt_file.exists() else None,
+                'initial_metrics': data.get('initial_metrics'),
+                'service_files': data.get('services', []),
+                'model': data.get('model'),
+            })
+    return results
 
 
 def _serialize_for_json(obj):
