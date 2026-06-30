@@ -46,5 +46,6 @@ traitlets==5.15.0
 typing-inspection==0.4.2
 typing_extensions==4.15.0
 wcwidth==0.7.0
+rank-bm25==0.2.2
 requests==2.31.0
 ruff==0.15.15

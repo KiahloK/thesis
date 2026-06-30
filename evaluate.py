@@ -9,6 +9,35 @@ def _normalize_endpoint(endpoint: str) -> str:
     return re.sub(r'^(\w+ )/v\d+/', r'\1/', endpoint)
 
 
+def _matches_template(extracted_ep: str, expected_ep: str) -> bool:
+    """True if extracted_ep matches expected_ep, treating {…} path segments as wildcards.
+
+    This handles the case where the model correctly calls e.g. GET /items/123 but the
+    expected endpoint uses template notation GET /items/{id}. An empty segment never
+    matches a template placeholder, so /items// does not match /items/{id}.
+    """
+    e_parts = extracted_ep.split(' ', 1)
+    t_parts = expected_ep.split(' ', 1)
+    if len(e_parts) != 2 or len(t_parts) != 2:
+        return extracted_ep == expected_ep
+    e_method, e_path = e_parts
+    t_method, t_path = t_parts
+    if e_method != t_method:
+        return False
+    e_segs = e_path.split('/')
+    t_segs = t_path.split('/')
+    if len(e_segs) != len(t_segs):
+        return False
+    for e_seg, t_seg in zip(e_segs, t_segs):
+        if t_seg.startswith('{') and t_seg.endswith('}'):
+            if not e_seg:
+                return False
+            continue
+        if e_seg != t_seg:
+            return False
+    return True
+
+
 def evaluate(generated_code: str, expected_endpoints: List[str]) -> Dict:
     """Evaluate generated code by extracting used endpoints and computing precision/recall/f1."""
     expected = set(expected_endpoints)
@@ -25,17 +54,19 @@ def evaluate(generated_code: str, expected_endpoints: List[str]) -> Dict:
             "syntax_error": f"{exc.msg} at line {exc.lineno}, column {exc.offset}",
         }
 
-    norm_extracted = set()
-    for e in extracted:
-        n = _normalize_endpoint(e)
-        norm_extracted.add(n)
+    norm_extracted = {_normalize_endpoint(e) for e in extracted}
+    norm_expected = {_normalize_endpoint(e) for e in expected}
 
-    norm_expected = set()
-    for e in expected:
-        n = _normalize_endpoint(e)
-        norm_expected.add(n)
+    # Template-aware matching: each expected template can match at most one extracted endpoint.
+    matched_extracted: Set[str] = set()
+    tp = 0
+    for exp in norm_expected:
+        for ext in norm_extracted:
+            if ext not in matched_extracted and _matches_template(ext, exp):
+                tp += 1
+                matched_extracted.add(ext)
+                break
 
-    tp = len(norm_extracted & norm_expected)
     precision = tp / len(norm_extracted) if norm_extracted else 0.0
     recall = tp / len(norm_expected) if norm_expected else 0.0
     f1 = 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
