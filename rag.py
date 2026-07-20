@@ -1,4 +1,5 @@
 import json
+import threading
 
 import faiss
 from sentence_transformers import SentenceTransformer
@@ -9,6 +10,12 @@ _MODEL_NAME = "BAAI/bge-small-en-v1.5"
 _EMBED_DIM = 384
 
 _model: SentenceTransformer | None = None
+
+# PyTorch/FAISS on this platform are not safe to call concurrently from multiple threads
+# (racing native OpenMP init/compute can segfault the process) - serialize all embedding
+# and index work behind one lock. LLM network calls (the actual expensive, parallelizable
+# part of the pipeline) are unaffected since they never touch this lock.
+_compute_lock = threading.Lock()
 
 
 def _get_model() -> SentenceTransformer:
@@ -30,50 +37,51 @@ def filter_services_rag(services: list[str], query: str, top_k: int = 5) -> list
     if not services:
         return services
 
-    model = _get_model()
-    query_vector = model.encode([query], normalize_embeddings=True).astype("float32")
-
     pruned: list[str] = []
 
-    for service_json in services:
-        try:
-            spec = json.loads(service_json)
-        except (json.JSONDecodeError, ValueError):
-            pruned.append(service_json)
-            continue
+    with _compute_lock:
+        model = _get_model()
+        query_vector = model.encode([query], normalize_embeddings=True).astype("float32")
 
-        paths = spec.get('paths', {})
-        if not paths:
-            pruned.append(service_json)
-            continue
+        for service_json in services:
+            try:
+                spec = json.loads(service_json)
+            except (json.JSONDecodeError, ValueError):
+                pruned.append(service_json)
+                continue
 
-        # Flatten to (method, path, operation) triples
-        endpoints: list[tuple[str, str, dict]] = []
-        for path, methods in paths.items():
-            for method, operation in methods.items():
-                if isinstance(operation, dict):
-                    endpoints.append((method.upper(), path, operation))
+            paths = spec.get('paths', {})
+            if not paths:
+                pruned.append(service_json)
+                continue
 
-        if len(endpoints) <= top_k:
-            # Nothing to prune
-            pruned.append(service_json)
-            continue
+            # Flatten to (method, path, operation) triples
+            endpoints: list[tuple[str, str, dict]] = []
+            for path, methods in paths.items():
+                for method, operation in methods.items():
+                    if isinstance(operation, dict):
+                        endpoints.append((method.upper(), path, operation))
 
-        texts = [_endpoint_text(m, p, op) for m, p, op in endpoints]
-        embeddings = model.encode(texts, normalize_embeddings=True).astype("float32")
+            if len(endpoints) <= top_k:
+                # Nothing to prune
+                pruned.append(service_json)
+                continue
 
-        index = faiss.IndexFlatIP(_EMBED_DIM)
-        index.add(embeddings)
-        _, top_indices_arr = index.search(query_vector, top_k)
-        top_indices = set(int(i) for i in top_indices_arr[0] if i != -1)
+            texts = [_endpoint_text(m, p, op) for m, p, op in endpoints]
+            embeddings = model.encode(texts, normalize_embeddings=True).astype("float32")
 
-        pruned_paths: dict = {}
-        for i, (method, path, operation) in enumerate(endpoints):
-            if i in top_indices:
-                pruned_paths.setdefault(path, {})[method.lower()] = operation
+            index = faiss.IndexFlatIP(_EMBED_DIM)
+            index.add(embeddings)
+            _, top_indices_arr = index.search(query_vector, top_k)
+            top_indices = set(int(i) for i in top_indices_arr[0] if i != -1)
 
-        pruned_spec = {k: v for k, v in spec.items() if k != 'paths'}
-        pruned_spec['paths'] = pruned_paths
-        pruned.append(json.dumps(pruned_spec, ensure_ascii=False))
+            pruned_paths: dict = {}
+            for i, (method, path, operation) in enumerate(endpoints):
+                if i in top_indices:
+                    pruned_paths.setdefault(path, {})[method.lower()] = operation
+
+            pruned_spec = {k: v for k, v in spec.items() if k != 'paths'}
+            pruned_spec['paths'] = pruned_paths
+            pruned.append(json.dumps(pruned_spec, ensure_ascii=False))
 
     return pruned

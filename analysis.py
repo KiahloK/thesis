@@ -90,7 +90,12 @@ def _strip_to_path(url: str) -> str:
 
 
 def _path_matches(concrete: str, template: str) -> bool:
-    """Segment-by-segment comparison; {…} in either side is treated as a wildcard."""
+    """Segment-by-segment comparison; {…} in either side is treated as a wildcard.
+
+    A template wildcard segment must be filled by a non-empty concrete value - an
+    empty segment (e.g. `/artists//top-tracks`, from a path param that resolved to
+    "" or None at runtime) does not count as a match.
+    """
     concrete = concrete.split("?")[0]
     c_segs = concrete.split("/")
     t_segs = template.split("/")
@@ -98,9 +103,42 @@ def _path_matches(concrete: str, template: str) -> bool:
         return False
     for cs, ts in zip(c_segs, t_segs):
         is_wildcard = (cs.startswith("{") and cs.endswith("}")) or (ts.startswith("{") and ts.endswith("}"))
-        if not is_wildcard and cs != ts:
+        if is_wildcard:
+            if ts.startswith("{") and ts.endswith("}") and not cs:
+                return False
+            continue
+        if cs != ts:
             return False
     return True
+
+
+def _empty_param_template(concrete: str, endpoints: list[tuple[str, str, list[str]]], method: str) -> str | None:
+    """If `concrete` would match one of `endpoints` (same method) except that an empty
+    string was substituted for a path parameter, return that endpoint's template path.
+    Used to give a specific, actionable finding instead of a generic "unknown endpoint".
+    """
+    concrete = concrete.split("?")[0]
+    c_segs = concrete.split("/")
+    for ep_method, ep_path, _required in endpoints:
+        if ep_method != method:
+            continue
+        t_segs = ep_path.split("/")
+        if len(c_segs) != len(t_segs):
+            continue
+        saw_empty_wildcard = False
+        ok = True
+        for cs, ts in zip(c_segs, t_segs):
+            is_template_wildcard = ts.startswith("{") and ts.endswith("}")
+            if is_template_wildcard:
+                if not cs:
+                    saw_empty_wildcard = True
+                continue
+            if cs != ts:
+                ok = False
+                break
+        if ok and saw_empty_wildcard:
+            return ep_path
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -483,7 +521,15 @@ def analyze_openapi(
                             )
 
         if not matched_methods:
-            findings.append(f"OpenAPI: `{method} {path}` is not defined in any provided spec.")
+            empty_template = _empty_param_template(path, all_endpoints, method)
+            if empty_template:
+                findings.append(
+                    f"OpenAPI: `{method} {path}` looks like a call to `{method} {empty_template}` with an "
+                    "empty path parameter (note the `//` or trailing `/`). The ID/value being substituted "
+                    "into the URL is empty or None - check where it's extracted from the prior response."
+                )
+            else:
+                findings.append(f"OpenAPI: `{method} {path}` is not defined in any provided spec.")
         elif not has_exact_method:
             findings.append(
                 f"OpenAPI: `{method} {path}` — path exists but only as {'/'.join(matched_methods)}."

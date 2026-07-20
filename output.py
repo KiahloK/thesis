@@ -60,6 +60,8 @@ def write_query_output(output_dir: str, result: dict) -> None:
     if not baseline:
         data['generated_refined_file'] = os.path.basename(gen_ref_file) if gen_ref_file else None
         data['refined_metrics'] = _serialize_metrics(result.get('refined_metrics'))
+        if result.get('endpoint_issues'):
+            data['endpoint_issues'] = result['endpoint_issues']
 
     # Ensure everything is JSON-serializable (convert sets to lists, Paths to strings, etc.)
     serializable = _serialize_for_json(data)
