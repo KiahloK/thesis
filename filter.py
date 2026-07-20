@@ -29,56 +29,57 @@ def _endpoint_text(method: str, path: str, operation: dict) -> str:
 
 
 def filter_services(services: list[str], query: str, top_k: int = 5) -> list[str]:
-    """Return pruned OpenAPI JSON strings keeping only the top_k most query-relevant endpoints per service.
+    """Return pruned OpenAPI JSON strings keeping only the top_k most query-relevant endpoints,
+    ranked globally across all given services (not per service) - so a query touching five
+    services still gets a total budget of top_k endpoints, not top_k per service.
 
-    Endpoints are scored with BM25 against the query. The info/servers/components
-    blocks are preserved so the model still has base URLs and shared schemas.
-    Services that cannot be parsed are returned unchanged.
+    Endpoints are scored with BM25 against the query. The info/servers/components blocks are
+    preserved so the model still has base URLs and shared schemas. Services that cannot be
+    parsed, or have no paths, are returned unchanged.
     """
     if not services:
         return services
 
     query_tokens = _tokenize(query)
-    pruned: list[str] = []
 
-    for service_json in services:
+    specs: list[dict | None] = []
+    all_endpoints: list[tuple[int, str, str, dict]] = []  # (service_index, method, path, operation)
+    for si, service_json in enumerate(services):
         try:
             spec = json.loads(service_json)
         except (json.JSONDecodeError, ValueError):
-            pruned.append(service_json)
+            specs.append(None)
             continue
-
-        paths = spec.get('paths', {})
-        if not paths:
-            pruned.append(service_json)
-            continue
-
-        # Flatten to (method, path, operation) triples
-        endpoints: list[tuple[str, str, dict]] = []
-        for path, methods in paths.items():
+        specs.append(spec)
+        for path, methods in spec.get('paths', {}).items():
             for method, operation in methods.items():
                 if isinstance(operation, dict):
-                    endpoints.append((method.upper(), path, operation))
+                    all_endpoints.append((si, method.upper(), path, operation))
 
-        if len(endpoints) <= top_k:
-            # Nothing to prune
+    if len(all_endpoints) <= top_k:
+        # Nothing to prune globally
+        return services
+
+    corpus = [_tokenize(_endpoint_text(m, p, op)) for _, m, p, op in all_endpoints]
+    scores = BM25Okapi(corpus).get_scores(query_tokens)
+
+    top_indices = set(
+        sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:top_k]
+    )
+
+    selected_paths: dict[int, dict] = {}
+    for i, (si, method, path, operation) in enumerate(all_endpoints):
+        if i in top_indices:
+            selected_paths.setdefault(si, {}).setdefault(path, {})[method.lower()] = operation
+
+    pruned: list[str] = []
+    for si, service_json in enumerate(services):
+        spec = specs[si]
+        if spec is None or not spec.get('paths'):
             pruned.append(service_json)
             continue
-
-        corpus = [_tokenize(_endpoint_text(m, p, op)) for m, p, op in endpoints]
-        scores = BM25Okapi(corpus).get_scores(query_tokens)
-
-        top_indices = set(
-            sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:top_k]
-        )
-
-        pruned_paths: dict = {}
-        for i, (method, path, operation) in enumerate(endpoints):
-            if i in top_indices:
-                pruned_paths.setdefault(path, {})[method.lower()] = operation
-
         pruned_spec = {k: v for k, v in spec.items() if k != 'paths'}
-        pruned_spec['paths'] = pruned_paths
+        pruned_spec['paths'] = selected_paths.get(si, {})
         pruned.append(json.dumps(pruned_spec, ensure_ascii=False))
 
     return pruned

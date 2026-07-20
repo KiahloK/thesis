@@ -5,9 +5,6 @@ from socbenchsc.analysis import Analysis
 from evaluate import _matches_template, _normalize_endpoint
 from llm import call_llm_chat
 
-# Adapted near-verbatim from SOCBench's query-check-necessary-template.txt (socbench-d/code/src/
-# benchmark/socbenchd/). Reference-free by design: only the query and the given services are used,
-# never the ground-truth expected endpoints, so this is safe to feed into a real refinement step.
 _TEMPLATE = '''SUMMARY:
 Check endpoints if they are necessary.
 
@@ -57,10 +54,6 @@ def _all_endpoints(specs: list[dict]) -> list[str]:
 def find_necessary_endpoints(services: list[str], query: str, model: str) -> list[str]:
     """Reference-free: ask the LLM which endpoints in `services` are necessary to fulfill `query`.
 
-    Mirrors SOCBench's _get_necessary_endpoints() conversation pattern - one conversation per call,
-    the full services text and endpoint list sent once, then one endpoint per turn. No ground truth
-    is used, so the result is safe to use as a refinement-time signal, not just for evaluation.
-
     `services` is typically whatever (possibly already filtered, e.g. via filter.py/rag.py)
     service spec list was used to build the generation/refinement prompt - candidates are scoped
     to exactly the endpoints the model actually had available, and cost scales with that, not
@@ -99,8 +92,15 @@ def find_endpoint_issues(generated_code: str, services: list[str], query: str, m
     be fed into a refinement prompt as actionable findings, the same way Ruff/spec-conformance
     findings already are.
     """
+    # Analysis only detects requests calls reachable from a top-level compose() invocation,
+    # so code with the call stripped (e.g. the refinement prompt's "original code") would
+    # otherwise always extract as empty, making every necessary endpoint look "missing".
+    code_for_analysis = generated_code
+    if not code_for_analysis.rstrip().endswith('compose()'):
+        code_for_analysis += '\n\ncompose()'
+
     try:
-        extracted = Analysis(generated_code).perform_analysis()
+        extracted = Analysis(code_for_analysis).perform_analysis()
     except SyntaxError:
         extracted = set()
 

@@ -11,10 +11,6 @@ _EMBED_DIM = 384
 
 _model: SentenceTransformer | None = None
 
-# PyTorch/FAISS on this platform are not safe to call concurrently from multiple threads
-# (racing native OpenMP init/compute can segfault the process) - serialize all embedding
-# and index work behind one lock. LLM network calls (the actual expensive, parallelizable
-# part of the pipeline) are unaffected since they never touch this lock.
 _compute_lock = threading.Lock()
 
 
@@ -26,62 +22,61 @@ def _get_model() -> SentenceTransformer:
 
 
 def filter_services_rag(services: list[str], query: str, top_k: int = 5) -> list[str]:
-    """Return pruned OpenAPI JSON strings keeping only the top_k most query-relevant endpoints per service.
+    """Return pruned OpenAPI JSON strings keeping only the top_k most query-relevant endpoints,
+    ranked globally across all given services (not per service) - so a query touching five
+    services still gets a total budget of top_k endpoints, not top_k per service.
 
-    Endpoints are scored by cosine similarity between their embedding and the query
-    embedding (both encoded with a sentence-transformers model), using a per-service
-    FAISS flat index. The info/servers/components blocks are preserved so the model
-    still has base URLs and shared schemas. Services that cannot be parsed are
-    returned unchanged.
+    Endpoints are scored by cosine similarity between their embedding and the query embedding
+    (both encoded with a sentence-transformers model), using a single FAISS flat index over all
+    endpoints from all services. The info/servers/components blocks are preserved so the model
+    still has base URLs and shared schemas. Services that cannot be parsed, or have no paths,
+    are returned unchanged.
     """
     if not services:
         return services
 
-    pruned: list[str] = []
-
     with _compute_lock:
-        model = _get_model()
-        query_vector = model.encode([query], normalize_embeddings=True).astype("float32")
-
-        for service_json in services:
+        specs: list[dict | None] = []
+        all_endpoints: list[tuple[int, str, str, dict]] = []  # (service_index, method, path, operation)
+        for si, service_json in enumerate(services):
             try:
                 spec = json.loads(service_json)
             except (json.JSONDecodeError, ValueError):
-                pruned.append(service_json)
+                specs.append(None)
                 continue
-
-            paths = spec.get('paths', {})
-            if not paths:
-                pruned.append(service_json)
-                continue
-
-            # Flatten to (method, path, operation) triples
-            endpoints: list[tuple[str, str, dict]] = []
-            for path, methods in paths.items():
+            specs.append(spec)
+            for path, methods in spec.get('paths', {}).items():
                 for method, operation in methods.items():
                     if isinstance(operation, dict):
-                        endpoints.append((method.upper(), path, operation))
+                        all_endpoints.append((si, method.upper(), path, operation))
 
-            if len(endpoints) <= top_k:
-                # Nothing to prune
+        if len(all_endpoints) <= top_k:
+            # Nothing to prune globally
+            return services
+
+        model = _get_model()
+        query_vector = model.encode([query], normalize_embeddings=True).astype("float32")
+        texts = [_endpoint_text(m, p, op) for _, m, p, op in all_endpoints]
+        embeddings = model.encode(texts, normalize_embeddings=True).astype("float32")
+
+        index = faiss.IndexFlatIP(_EMBED_DIM)
+        index.add(embeddings)
+        _, top_indices_arr = index.search(query_vector, top_k)
+        top_indices = set(int(i) for i in top_indices_arr[0] if i != -1)
+
+        selected_paths: dict[int, dict] = {}
+        for i, (si, method, path, operation) in enumerate(all_endpoints):
+            if i in top_indices:
+                selected_paths.setdefault(si, {}).setdefault(path, {})[method.lower()] = operation
+
+        pruned: list[str] = []
+        for si, service_json in enumerate(services):
+            spec = specs[si]
+            if spec is None or not spec.get('paths'):
                 pruned.append(service_json)
                 continue
-
-            texts = [_endpoint_text(m, p, op) for m, p, op in endpoints]
-            embeddings = model.encode(texts, normalize_embeddings=True).astype("float32")
-
-            index = faiss.IndexFlatIP(_EMBED_DIM)
-            index.add(embeddings)
-            _, top_indices_arr = index.search(query_vector, top_k)
-            top_indices = set(int(i) for i in top_indices_arr[0] if i != -1)
-
-            pruned_paths: dict = {}
-            for i, (method, path, operation) in enumerate(endpoints):
-                if i in top_indices:
-                    pruned_paths.setdefault(path, {})[method.lower()] = operation
-
             pruned_spec = {k: v for k, v in spec.items() if k != 'paths'}
-            pruned_spec['paths'] = pruned_paths
+            pruned_spec['paths'] = selected_paths.get(si, {})
             pruned.append(json.dumps(pruned_spec, ensure_ascii=False))
 
     return pruned

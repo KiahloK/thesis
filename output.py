@@ -62,6 +62,8 @@ def write_query_output(output_dir: str, result: dict) -> None:
         data['refined_metrics'] = _serialize_metrics(result.get('refined_metrics'))
         if result.get('endpoint_issues'):
             data['endpoint_issues'] = result['endpoint_issues']
+        if result.get('filtered_endpoints'):
+            data['filtered_endpoints'] = result['filtered_endpoints']
 
     # Ensure everything is JSON-serializable (convert sets to lists, Paths to strings, etc.)
     serializable = _serialize_for_json(data)
