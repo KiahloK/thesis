@@ -2,7 +2,8 @@
 
 ## Setup
 
-Requires Python 3.12.
+Python 3.9 or newer is supported. Python 3.12 is recommended locally; the
+cluster environment currently provides Python 3.9.
 
 ```bash
 python3.12 -m venv .venv
@@ -22,6 +23,20 @@ Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
+
+On the cluster, first check whether the cluster provides a PyTorch/CUDA module:
+
+```bash
+module avail pytorch cuda
+```
+
+Use the documented cluster PyTorch module or wheel before installing the
+requirements. Do not install a second incompatible PyTorch build into the
+environment. Verify the GPU from inside a Slurm job, not on the login node:
+
+```bash
+python -c "import torch; print(torch.__version__, torch.cuda.is_available())"
 ```
 
 Register the Jupyter kernel so VS Code can find it:
