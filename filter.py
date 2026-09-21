@@ -75,7 +75,7 @@ def filter_services(services: list[str], query: str, top_k: int = 5) -> list[str
     pruned: list[str] = []
     for si, service_json in enumerate(services):
         spec = specs[si]
-        if spec is None or not spec.get('paths'):
+        if spec is   or not spec.get('paths'):
             pruned.append(service_json)
             continue
         pruned_spec = {k: v for k, v in spec.items() if k != 'paths'}

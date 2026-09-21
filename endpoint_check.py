@@ -54,10 +54,6 @@ def _all_endpoints(specs: list[dict]) -> list[str]:
 def find_necessary_endpoints(services: list[str], query: str, model: str) -> list[str]:
     """Reference-free: ask the LLM which endpoints in `services` are necessary to fulfill `query`.
 
-    `services` is typically whatever (possibly already filtered, e.g. via filter.py/rag.py)
-    service spec list was used to build the generation/refinement prompt - candidates are scoped
-    to exactly the endpoints the model actually had available, and cost scales with that, not
-    with the full API surface.
     """
     specs = _parse_services(services)
     candidates = _all_endpoints(specs)

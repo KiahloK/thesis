@@ -53,7 +53,7 @@ def filter_services_rag(services: list[str], query: str, top_k: int = 5) -> list
         if len(all_endpoints) <= top_k:
             # Nothing to prune globally
             return services
-
+        # TODO: pydantic model
         model = _get_model()
         query_vector = model.encode([query], normalize_embeddings=True).astype("float32")
         texts = [_endpoint_text(m, p, op) for _, m, p, op in all_endpoints]
