@@ -51,3 +51,5 @@ requests==2.31.0
 ruff==0.15.15
 sentence-transformers==5.6.0
 faiss-cpu==1.14.3
+transformers>=4.45,<5
+accelerate>=0.34,<2
