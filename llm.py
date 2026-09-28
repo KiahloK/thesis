@@ -1,4 +1,5 @@
 import os
+import re
 import threading
 from typing import Any
 
@@ -117,6 +118,17 @@ def call_llm(prompt: str, model: str, instructions: str) -> tuple[str, dict]:
         messages.append({"role": "system", "content": instructions})
     messages.append({"role": "user", "content": prompt})
     return call_llm_chat(messages, model)
+
+
+_CODE_FENCE = re.compile(r"```[\w+-]*[ \t]*\n(.*?)(?:\n```|\Z)", re.DOTALL)
+
+
+def extract_code(text: str) -> str:
+    """Return the Python source from a model response, dropping a markdown code fence (and any
+    prose around it) if the model wrapped its answer in one despite the raw-source contract.
+    An unterminated fence (output cut off at max_new_tokens) keeps everything after it."""
+    match = _CODE_FENCE.search(text)
+    return match.group(1).strip() if match else text.strip()
 
 
 def build_prompt(services: list[str], query: str, prompt_template: str) -> str:
