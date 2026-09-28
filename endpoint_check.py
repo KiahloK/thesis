@@ -26,7 +26,7 @@ Yes
 No
 
 INSTRUCTIONS:
-You are an expert judge determining if an endpoint is needed to fulfill a query. Check if an endpoint from the list of endpoints is necessary to fulfill the query, or if it is necessary to retrieve parameters for another endpoint in the list. Do not format the output as you are in an automated setting.'''
+You are an expert judge determining if an endpoint is needed to fulfill a query. Check if an endpoint from the list of endpoints is necessary to fulfill the query: answer "Yes" only if the endpoint directly performs a step the query asks for. Do not format the output as you are in an automated setting.'''
 
 
 def _parse_services(services: list[str]) -> list[dict]:
@@ -153,7 +153,9 @@ def format_issues_for_prompt(issues: dict) -> str:
     lines = []
     if issues['missing']:
         lines.append(
-            "Missing required endpoints (the query needs these but the code never calls them): "
+            "Possibly missing endpoints (an automated check suggests the query may need these, but "
+            "it is often wrong - add one only if it performs a step the Task explicitly asks for "
+            "that the code does not cover yet): "
             + ", ".join(issues['missing'])
         )
     if issues['additional']:
