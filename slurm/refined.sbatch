@@ -40,8 +40,10 @@ export BENCHMARK_TYPES="${BENCHMARK_TYPES:-socbenchd_1}"
 export QUERY_LIMIT="${QUERY_LIMIT:-10}"
 export LOAD_BASELINE="${LOAD_BASELINE:-0}"
 export FILTER_SERVICES="${FILTER_SERVICES:-1}"
-export FILTER_MODE="${FILTER_MODE:-rag}"
-export TOP_K="${TOP_K:-10}"
+# BM25 at top_k=25 keeps half the spec and drops ~1% of expected endpoints on SOCBench-D1
+# (RAG at the same top_k drops ~13%); see sweep_top_k_coverage.py.
+export FILTER_MODE="${FILTER_MODE:-bm25}"
+export TOP_K="${TOP_K:-25}"
 export ENDPOINT_CHECK="${ENDPOINT_CHECK:-1}"
 
 PYTHON="${PYTHON:-$PROJECT_ROOT/.venv/bin/python}"

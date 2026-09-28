@@ -109,7 +109,8 @@ def find_endpoint_issues(generated_code: str, services: list[str], query: str, m
     Returns {'necessary': [...], 'called': [...], 'missing': [...], 'additional': [...]}.
     `missing` (necessary but not called) and `additional` (called but not necessary) are meant to
     be fed into a refinement prompt as actionable findings, the same way Ruff/spec-conformance
-    findings already are.
+    findings already are. `additional` only covers endpoints present in `services`: a call to an
+    endpoint the retrieval filter removed was never judged, so it can't be called unnecessary.
     """
     # Analysis only detects requests calls reachable from a top-level compose() invocation,
     # so code with the call stripped (e.g. the refinement prompt's "original code") would
@@ -125,22 +126,25 @@ def find_endpoint_issues(generated_code: str, services: list[str], query: str, m
 
     necessary = find_necessary_endpoints(services, query, model)
     necessary_set = set(necessary)
-    norm_necessary = {n: _normalize_endpoint(n) for n in necessary_set}
+    candidates = {c: _normalize_endpoint(c) for c in _all_endpoints(_parse_services(services))}
 
     # Fold each extracted (possibly concrete, e.g. path params filled in) endpoint onto its
-    # matching necessary-endpoint template, so e.g. "GET /tracks/abc123" and "GET /tracks/{id}"
+    # matching candidate template, so e.g. "GET /tracks/abc123" and "GET /tracks/{id}"
     # count as the same call instead of showing up as both missing and additional.
     called = set()
+    judged_calls = set()
     for ext in extracted:
         norm_ext = _normalize_endpoint(ext)
-        match = next((n for n, norm_n in norm_necessary.items() if _matches_template(norm_ext, norm_n)), None)
+        match = next((c for c, norm_c in candidates.items() if _matches_template(norm_ext, norm_c)), None)
         called.add(match if match else ext)
+        if match:
+            judged_calls.add(match)
 
     return {
         'necessary': sorted(necessary_set),
         'called': sorted(called),
         'missing': sorted(necessary_set - called),
-        'additional': sorted(called - necessary_set),
+        'additional': sorted(judged_calls - necessary_set),
     }
 
 

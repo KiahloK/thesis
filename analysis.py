@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import ast
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -244,8 +245,18 @@ def analyze_ruff(code: str, *, filename_hint: str = "generated.py") -> list[str]
         code_path = Path(tmpdir) / filename_hint
         code_path.write_text(code, encoding="utf-8")
 
+        # One line per finding, no colour codes or source excerpts, and a fixed rule set
+        # (Ruff's documented defaults: pyflakes + syntax/statement errors) that doesn't depend
+        # on the installed Ruff version or any config file, so style suggestions don't bury
+        # real errors in the refinement prompt.
         completed = subprocess.run(
-            [ruff_bin, "check", str(code_path)],
+            [
+                ruff_bin, "check", "--isolated", "--no-cache",
+                "--output-format=concise", "--select=E4,E7,E9,F",
+                code_path.name,
+            ],
+            cwd=tmpdir,
+            env={**os.environ, "NO_COLOR": "1"},
             capture_output=True,
             text=True,
             check=False,
