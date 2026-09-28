@@ -248,7 +248,10 @@ def analyze_ruff(code: str, *, filename_hint: str = "generated.py") -> list[str]
         # One line per finding, no colour codes or source excerpts, and a fixed rule set
         # (Ruff's documented defaults: pyflakes + syntax/statement errors) that doesn't depend
         # on the installed Ruff version or any config file, so style suggestions don't bury
-        # real errors in the refinement prompt.
+        # real errors in the refinement prompt. A Jupyter kernel sets FORCE_COLOR and
+        # CLICOLOR_FORCE, which override NO_COLOR, so those are dropped from Ruff's environment.
+        env = {k: v for k, v in os.environ.items() if k not in ("FORCE_COLOR", "CLICOLOR_FORCE", "CLICOLOR")}
+        env["NO_COLOR"] = "1"
         completed = subprocess.run(
             [
                 ruff_bin, "check", "--isolated", "--no-cache",
@@ -256,7 +259,7 @@ def analyze_ruff(code: str, *, filename_hint: str = "generated.py") -> list[str]
                 code_path.name,
             ],
             cwd=tmpdir,
-            env={**os.environ, "NO_COLOR": "1"},
+            env=env,
             capture_output=True,
             text=True,
             check=False,
