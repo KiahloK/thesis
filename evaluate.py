@@ -13,8 +13,11 @@ def _matches_template(extracted_ep: str, expected_ep: str) -> bool:
     """True if extracted_ep matches expected_ep, treating {…} path segments as wildcards.
 
     This handles the case where the model correctly calls e.g. GET /items/123 but the
-    expected endpoint uses template notation GET /items/{id}. An empty segment never
-    matches a template placeholder, so /items// does not match /items/{id}.
+    expected endpoint uses template notation GET /items/{id}. An empty segment also
+    matches a template placeholder: the static Analysis writes "" for a path param whose
+    value is only known at runtime (e.g. an ID chained from a previous response), so
+    GET /items/ is how a correct chained call to GET /items/{id} gets extracted. Calls
+    that really send an empty ID are reported by analysis.analyze_openapi instead.
     """
     e_parts = extracted_ep.split(' ', 1)
     t_parts = expected_ep.split(' ', 1)
@@ -30,8 +33,6 @@ def _matches_template(extracted_ep: str, expected_ep: str) -> bool:
         return False
     for e_seg, t_seg in zip(e_segs, t_segs):
         if t_seg.startswith('{') and t_seg.endswith('}'):
-            if not e_seg:
-                return False
             continue
         if e_seg != t_seg:
             return False

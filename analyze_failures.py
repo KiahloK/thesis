@@ -119,9 +119,7 @@ def _matches_template(extracted_ep: str, expected_ep: str) -> bool:
         return False
     for e_seg, t_seg in zip(e_segs, t_segs):
         if t_seg.startswith('{') and t_seg.endswith('}'):
-            if not e_seg:
-                return False
-            continue
+            continue  # empty = runtime value; same rule as evaluate._matches_template
         if e_seg != t_seg:
             return False
     return True
