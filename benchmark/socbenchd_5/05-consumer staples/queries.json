@@ -1,0 +1,100 @@
+{
+    "queries": [
+        {
+            "query": "Compare multiple products based on their prices across various retailers and retrieve detailed pricing information for each product. Identify the locations where these products are available, analyze their current inventory levels in stores, and access historical trends to evaluate price fluctuations and consumer demand over time.",
+            "endpoints": [
+                "GET /products/compare",
+                "GET /locations",
+                "GET /products/{product_id}/prices",
+                "GET /inventory-levels",
+                "GET /historical-data/trends"
+            ]
+        },
+        {
+            "query": "Retrieve the API version for compatibility purposes, fetch all available retailer locations, analyze regional market performance based on retailer product data, retrieve a detailed list of products from specific retailers, fetch information for a particular product using its UPC, compare product prices across different retailers, check inventory levels across store locations, determine the sustainability ratings of selected products, monitor their restocking status, and finally submit feedback related to these consumer products.",
+            "endpoints": [
+                "POST /feedback/consumer",
+                "GET /version",
+                "GET /retailers/{retailerId}/products",
+                "GET /locations",
+                "GET /inventory-levels",
+                "GET /products/{productId}/rating",
+                "GET /restock-status",
+                "POST /market-analysis/region",
+                "GET /products/{upc}",
+                "GET /retailers/{retailer_id}/products",
+                "GET /products/{product_id}/prices"
+            ]
+        },
+        {
+            "query": "Analyze the market performance of a specific region over the last quarter to identify demand trends and potential growth areas. Additionally, utilize demand forecast analysis to predict the sales and inventory requirements for the upcoming quarter based on the identified trends.",
+            "endpoints": [
+                "POST /market-analysis/region",
+                "POST /forecast-demand"
+            ]
+        },
+        {
+            "query": "Analyze the current consumer behavior trends segmented by region and product category, identify the preferences of specific demographic groups such as age and location, retrieve the sustainability rating of a product identified by its UPC, fetch detailed ingredient information of the product, analyze forecasted inventory demands for regions with high demand for this product, ensure compatibility by verifying the current API version, and update the product details based on these insights and preferences.",
+            "endpoints": [
+                "GET /consumer-trends/overview",
+                "PATCH /products/{productId}",
+                "GET /inventory/demand-forecast",
+                "GET /version",
+                "GET /products/{upc}/ingredients",
+                "GET /demographics/preferences"
+            ]
+        },
+        {
+            "query": "Retrieve a comprehensive list of all product categories, including their unique identifiers and descriptions, to organize and categorize inventory effectively for an e-commerce platform.",
+            "endpoints": [
+                "GET /categories"
+            ]
+        },
+        {
+            "query": "Identify the most sustainable and top-rated products available across all categories, fetch their detailed information along with descriptions, retrieve ongoing seasonal trends predictions for these products over the next quarter to evaluate potential demand patterns, and request price updates with suggested changes for any discrepancies observed in their pricing across different retailers.",
+            "endpoints": [
+                "GET /products/{product_id}",
+                "POST /request_update",
+                "POST /seasonal-trends/predictions",
+                "GET /products/top-rated"
+            ]
+        },
+        {
+            "query": "Monitor the inventory tracking status of shipments for multiple products in transit, identify the detailed list of all available products along with their categories for cross-verification, check the current restocking progress for these products, and submit a price update request with suggested changes after validating category-specific inventory needs and discrepancies.",
+            "endpoints": [
+                "GET /restock-status",
+                "GET /products",
+                "GET /categories",
+                "POST /request_update",
+                "GET /inventory-tracking"
+            ]
+        },
+        {
+            "query": "Retrieve the top product categories currently in demand and their detailed inventory levels across all store locations, identify retailers offering products within these categories, and fetch a list of those available retailers along with their store locations. Submit feedback related to any identified gaps or discrepancies in product availability or category representation based on this analysis.",
+            "endpoints": [
+                "POST /feedback",
+                "GET /product-categories/top",
+                "GET /inventory-levels",
+                "GET /retailers/{retailer_id}/products",
+                "GET /locations"
+            ]
+        },
+        {
+            "query": "Retrieve all products within a specific category using its unique category ID and fetch the regulatory labels, such as \"Organic\" or \"Gluten-Free,\" associated with each product in that category to evaluate compliance and certifications for consumer transparency based on the provided category details.",
+            "endpoints": [
+                "GET /products/{upc}/labels",
+                "GET /categories/{categoryId}/products"
+            ]
+        },
+        {
+            "query": "Evaluate competitor performance and gain insights into their strengths and weaknesses in a specific region, track the progress of inventory shipments for overlapping product categories between competitors, compare the sustainability and pricing of multiple competitor products, retrieve detailed product lists within specific categories for comparison and analysis, and remove any irrelevant store locations from the inventory management system to refine the focus on key areas of operation.",
+            "endpoints": [
+                "DELETE /remove-location",
+                "GET /categories/{categoryId}/products",
+                "GET /products/compare",
+                "GET /inventory-tracking",
+                "GET /insights/competitor-comparison"
+            ]
+        }
+    ]
+}

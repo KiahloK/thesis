@@ -1,0 +1,90 @@
+{
+    "queries": [
+        {
+            "query": "Detect any potential leaks in the system, retrieve details of all connected distributed energy resources for further analysis, process a payment for an overdue utility bill, and configure an alert for monitoring usage thresholds.",
+            "endpoints": [
+                "GET /analytics/leak-detection",
+                "GET /distributed-resources",
+                "POST /bills/pay",
+                "POST /alert/settings"
+            ]
+        },
+        {
+            "query": "Analyze the historical data of a specific meter to understand consumption behavior patterns and assess the grid stability metrics to identify any potential mismatches in energy distribution efficiency during peak usage hours.",
+            "endpoints": [
+                "GET /grid/stability",
+                "GET /meters/{meter_id}/data"
+            ]
+        },
+        {
+            "query": "Fetch the latest announcements from the utility provider, update notification preferences to receive alerts via email only, process payment for an outstanding utility bill, modify API service settings for enhanced user experience, and retrieve an overview of renewable energy sector trends to evaluate potential energy-saving opportunities.",
+            "endpoints": [
+                "GET /announcements",
+                "PATCH /settings/notification-preferences",
+                "POST /bills/pay",
+                "PUT /api/settings",
+                "GET /renewable/overview"
+            ]
+        },
+        {
+            "query": "Analyze the current energy storage status to assess available capacity and charge levels, evaluate the real-time operational status of all monitored infrastructure components for potential issues, and review recent weather trends in a specific location to predict their impact on renewable energy storage performance.",
+            "endpoints": [
+                "GET /energy-storage/status",
+                "GET /infrastructure/status",
+                "GET /weather/trends"
+            ]
+        },
+        {
+            "query": "Evaluate the impact of recent weather trends in a specific location on grid stability, and identify any potential risks to energy distribution based on the observed patterns.",
+            "endpoints": [
+                "GET /weather/trends",
+                "GET /grid/stability"
+            ]
+        },
+        {
+            "query": "Update the configuration settings of a specific distributed energy resource with ID 123 for optimized performance, analyze the logs of past synchronization events to verify successful operations, submit performance data of the infrastructure component with ID 456 for evaluation, process the payment for an overdue bill of $50, retrieve an overview of the renewable energy sector to assess emerging trends and opportunities, and update the details of a specific smart meter with ID 789 to reflect its new location and updated metadata.",
+            "endpoints": [
+                "PUT /resource-config/{id}",
+                "GET /grid-synchronization/logs",
+                "POST /infrastructure/evaluation",
+                "POST /bills/pay",
+                "GET /renewable/overview",
+                "PUT /meters/{meter_id}"
+            ]
+        },
+        {
+            "query": "Set up an alert to monitor anomalies or significant deviations in energy stability, then analyze the current grid stability to assess potential inconsistencies or impacts on energy distribution.",
+            "endpoints": [
+                "POST /alerts/setup",
+                "GET /grid/stability"
+            ]
+        },
+        {
+            "query": "Calibrate the energy load balancing system for optimal performance, retrieve an overview of all sensor readings to assess their contributions to the energy network, analyze the real-time infrastructure status to identify any operational issues, conduct diagnostic checks on critical components for smooth operation, and submit updated power output predictions based on new calibration settings to improve energy distribution efficiency.",
+            "endpoints": [
+                "POST /power/forecast",
+                "POST /energy-balancing/calibrate",
+                "GET /sensors/overview",
+                "GET /infrastructure/status",
+                "POST /diagnostics/run-check"
+            ]
+        },
+        {
+            "query": "Analyze the operational status of all monitored infrastructure components to identify potential issues, provide energy-saving recommendations to reduce resource consumption during peak hours, adjust API settings to enhance system compatibility with external integrations, and initiate anomaly detection for components exhibiting irregular performance metrics.",
+            "endpoints": [
+                "GET /infrastructure/status",
+                "GET /energy-tips",
+                "PUT /api/settings",
+                "POST /alerts/anomaly-detection"
+            ]
+        },
+        {
+            "query": "Analyze potential leaks in the system by examining the aggregated data for anomalies, assess the operational effectiveness of all sensors to ensure accurate performance monitoring, and retrieve an overall summary of the utility dashboard to evaluate recent activities and consumption trends.",
+            "endpoints": [
+                "GET /analytics/leak-detection",
+                "GET /sensors/overview",
+                "GET /dashboard/overview"
+            ]
+        }
+    ]
+}

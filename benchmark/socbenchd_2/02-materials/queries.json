@@ -1,0 +1,90 @@
+{
+    "queries": [
+        {
+            "query": "Retrieve analytics for a specific report ID, apply updated configurations to a specified machine, and adjust the inventory levels for the material associated with the configuration changes.",
+            "endpoints": [
+                "GET /analytics/{reportId}",
+                "POST /machines/{id}/configurations",
+                "PUT /inventory/{itemID}"
+            ]
+        },
+        {
+            "query": "Update the inventory quantity for a specific chemical item by providing its unique itemID and the new quantity value.",
+            "endpoints": [
+                "PUT /inventory/{itemID}"
+            ]
+        },
+        {
+            "query": "Analyze the hazard information for a given chemical using its itemID and calculate potential forest yield impacts using the chemical's properties. Finally, add the chemical to the inventory for further analysis and tracking.",
+            "endpoints": [
+                "POST /inventory",
+                "GET /item-hazard-info/{itemID}",
+                "POST /yield-calculation"
+            ]
+        },
+        {
+            "query": "Identify and verify the compliance rules applicable to a specific location using its locationId, retrieve the storage requirements of a specified chemical item using its itemID, and subsequently delete the chemical item from the inventory to ensure compliance and safety standards are met.",
+            "endpoints": [
+                "GET /compliance/{locationId}/rules",
+                "GET /storage-requirements/{itemID}",
+                "DELETE /inventory/{itemID}"
+            ]
+        },
+        {
+            "query": "Retrieve the details of a specific location using its ID, fetch the environmental factors of the region where the location is situated, create an alert based on these environmental factors, track the progress of all ongoing excavation operations nearby, and then delete an excavation operation identified by its unique ID if it is deemed unnecessary or non-compliant.",
+            "endpoints": [
+                "GET /locations/{id}",
+                "POST /alerts",
+                "GET /environmental-factors/{region}",
+                "GET /excavation-progress",
+                "DELETE /excavation/{id}"
+            ]
+        },
+        {
+            "query": "Submit machine configuration details for a specified machine using its ID and verify if the location where the machine is deployed complies with the applicable regulatory rules.",
+            "endpoints": [
+                "POST /machines/{id}/configurations",
+                "GET /compliance/{locationId}/rules"
+            ]
+        },
+        {
+            "query": "Determine whether any delays have been detected in the supply chain and identify the deliveries affected by these delays. Provide the current overall status of the supply chain along with the detailed list of affected deliveries.",
+            "endpoints": [
+                "GET /supply-status"
+            ]
+        },
+        {
+            "query": "Identify the tree species supported for yield analysis, update the inventory levels for a specific chemical utilizing the identified tree species, verify the compliance rules of the location where the chemical is stored, retrieve detailed location information including its geographic attributes, and analyze the results through an existing analytics report based on its unique ID.",
+            "endpoints": [
+                "GET /treespecies",
+                "PUT /inventory/{itemID}",
+                "GET /compliance/{locationId}/rules",
+                "GET /locations/{id}",
+                "GET /analytics/{reportId}"
+            ]
+        },
+        {
+            "query": "Initiate a reorder process for chemicals that have reached their minimum inventory thresholds, optimize delivery routes by providing the origin as the reorder warehouse and specifying the destinations for the reordered chemicals, create a production order to process the reordered chemicals as per the current demand, analyze usage statistics to evaluate inventory turnover and future demand, and retrieve the details of a specific delivery to confirm the status and ensure accurate tracking of the reordered chemicals.",
+            "endpoints": [
+                "POST /inventory/reorder",
+                "GET /routes/optimization",
+                "POST /production/orders",
+                "GET /statistics",
+                "GET /deliveries/{id}"
+            ]
+        },
+        {
+            "query": "Retrieve the current status of a specific production order and track all associated deliveries. Analyze the details of these deliveries to identify any incomplete or unnecessary ones, delete such deliveries to optimize resources, and report any safety incidents encountered during these processes. Assess the impact of these incidents on the mineral distribution of the affected areas, calculate updated yield predictions for resources in those areas, and validate the results against the analytics of a similar historical report to ensure process improvements and accurate future forecasting.",
+            "endpoints": [
+                "GET /analytics/{reportId}",
+                "GET /deliveries/{id}",
+                "POST /yield-calculation",
+                "POST /incident-report",
+                "GET /production/orders/{id}/status",
+                "GET /deliveries",
+                "DELETE /deliveries/{id}",
+                "GET /mineral-distribution"
+            ]
+        }
+    ]
+}

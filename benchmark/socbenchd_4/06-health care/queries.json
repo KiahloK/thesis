@@ -1,0 +1,100 @@
+{
+    "queries": [
+        {
+            "query": "Generate a detailed sales report summarizing inventory levels and trends, test result notifications for patients needing follow-ups, and share the report with a specific healthcare provider. Also, fetch insights and patient health reports for a particular patient ID to include in the analysis. Finally, delete an outdated appointment after ensuring that it is no longer relevant for the patient's care or follow-up.",
+            "endpoints": [
+                "DELETE /appointments/{id}",
+                "POST /patients/{patientID}/share",
+                "POST /test-results/notify",
+                "GET /inventory",
+                "GET /reports/sales-summary",
+                "GET /patients/{patientId}/reports"
+            ]
+        },
+        {
+            "query": "Update the inventory by reconciling stock discrepancies, retrieve a list of all patients for analysis, access the test results of a specific patient using their unique ID for accurate record maintenance, and subsequently delete the record of a patient who is no longer registered in the system.",
+            "endpoints": [
+                "DELETE /patients/{patientId}",
+                "POST /inventory/adjust",
+                "GET /patients/{id}/test-results",
+                "GET /patients"
+            ]
+        },
+        {
+            "query": "Analyze historical notification trends to identify frequent alerts or patterns, retrieve sales data trends to align inventory management strategies with consumer demands, and initialize an inventory check process for ensuring current stock levels align with sales insights.",
+            "endpoints": [
+                "POST /inventory/check",
+                "GET /sales/trends",
+                "GET /notifications/history"
+            ]
+        },
+        {
+            "query": "Register a new patient with their details, fetch a summarized health data insight to provide initial analytics for their care plan, and remove an outdated notification related to their healthcare process.",
+            "endpoints": [
+                "DELETE /notifications/{id}",
+                "GET /data/summary",
+                "POST /patients/new"
+            ]
+        },
+        {
+            "query": "Identify potential health risks using predictive analytics and recommend suitable health monitoring devices that support tracking these risks efficiently.",
+            "endpoints": [
+                "GET /analytics/predictions",
+                "GET /devices"
+            ]
+        },
+        {
+            "query": "Send a notification to alert users about a newly created test result and ensure that the notification is delivered by resending it if necessary. Once confirmed, retrieve the audit logs to verify the delivery timeline and include the patient's detailed health report in the analysis. Finally, acknowledge the notification and delete outdated or incorrect notifications associated with the process to maintain a clean notification history.",
+            "endpoints": [
+                "POST /notifications/resend",
+                "GET /logs/audit",
+                "GET /patients/{patientId}/reports",
+                "POST /test-results",
+                "DELETE /notifications/{id}",
+                "POST /notifications/acknowledge"
+            ]
+        },
+        {
+            "query": "Monitor patient care efficiency by retrieving the system utilization metrics to analyze resource performance, fetching the detailed records of a specific patient to evaluate their medical history, and updating the status of an appointment to reflect any changes in their care schedule.",
+            "endpoints": [
+                "GET /metrics/utilization",
+                "GET /patients/{patientID}/records",
+                "PUT /appointments/{id}"
+            ]
+        },
+        {
+            "query": "Schedule a new appointment for a patient providing the necessary details, fetch detailed information about a specific inventory item to confirm its availability for the patient's prescriptions, delete the records of a patient who is no longer active in the system, and retrieve summarized health data insights to include in a patient care summary. Also, ensure a notification is sent for a newly available test result related to the patient.",
+            "endpoints": [
+                "POST /test-results/notify",
+                "GET /data/summary",
+                "POST /appointments",
+                "GET /inventory/{itemID}",
+                "DELETE /patients/{patientId}",
+                "DELETE /patients/{patientID}"
+            ]
+        },
+        {
+            "query": "Analyze a specific healthcare provider's performance by retrieving their appointment schedule, inspect historical healthcare reports for patterns related to patient outcomes, update a patient's health record with new clinical notes and test results, validate the availability of diagnostic test results and retrieve their details for further analysis, review a specific inventory item's details for potential reordering decisions, and remove the inventory item and outdated appointments if they are no longer needed.",
+            "endpoints": [
+                "DELETE /appointments/{id}",
+                "GET /test-results/available",
+                "GET /providers/{id}/schedule",
+                "GET /reports/history",
+                "POST /patients/{patientID}/records/update",
+                "GET /inventory/{itemID}",
+                "GET /test-results/{id}",
+                "DELETE /inventory/{itemID}"
+            ]
+        },
+        {
+            "query": "Summarize the overall health data insights to include key trends and patterns, analyze the historical notification history to identify recurring critical alerts, initiate an inventory check to verify current stock levels, retrieve notifications about stock updates or expiring items for immediate action, and place replenishment orders for inventory items that are below the threshold or nearing expiration.",
+            "endpoints": [
+                "GET /data/summary",
+                "GET /notifications/history",
+                "POST /inventory/check",
+                "GET /notifications",
+                "POST /inventory/order"
+            ]
+        }
+    ]
+}

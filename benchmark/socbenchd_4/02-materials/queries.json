@@ -1,0 +1,97 @@
+{
+    "queries": [
+        {
+            "query": "Provide an overview of current inventory categorized by material type, obtain integration guidelines for connecting my design software to the system, fetch specific mitigation recommendations based on an environmental impact assessment ID, remove outdated material specifications from the database, and update the configuration of a worker's safety device with the given device ID.",
+            "endpoints": [
+                "GET /inventory-overview",
+                "GET /integration/guidelines",
+                "GET /mitigation-recommendations/{assessmentId}",
+                "DELETE /obsoleteSpecifications",
+                "PATCH /worker/devices/{deviceId}"
+            ]
+        },
+        {
+            "query": "Generate a detailed report that includes an overview of current inventory categorized by material type, suggests optimal transport routes for logistics, lists all material specifications available in the database, and updates the status of a specific environmental impact assessment.",
+            "endpoints": [
+                "GET /materialSpecifications",
+                "PATCH /impact-assessment/{assessmentId}/status",
+                "GET /inventory-overview",
+                "GET /transport-routes"
+            ]
+        },
+        {
+            "query": "Update the quality monitoring thresholds to align with new operational standards, configure automated responses for detected anomalies in the system, fetch the properties of a specific material using its unique ID, retrieve all active alerts related to operational or safety issues, and modify the data for an ongoing environmental impact assessment using its identifier.",
+            "endpoints": [
+                "PUT /impact-assessment/{assessmentId}",
+                "POST /responses/automated",
+                "GET /materials/{id}",
+                "GET /alerts",
+                "PATCH /qualityThresholds"
+            ]
+        },
+        {
+            "query": "Retrieve the environmental impact scores for a specific assessment using its unique ID, and afterward, delete the assessment record once the scores have been reviewed and documented.",
+            "endpoints": [
+                "GET /impact-scores/{assessmentId}",
+                "DELETE /impact-assessment/{assessmentId}"
+            ]
+        },
+        {
+            "query": "Analyze the compliance status of a specific material by retrieving its compliance report, fetch detailed analysis results for a given material specification, identify potential applications for suggested materials, update the operational data of an ongoing environmental impact assessment for accuracy, retrieve a comprehensive status report of the supply chain's operational efficiency, and search the database for materials that meet specific property criteria to optimize future processes.",
+            "endpoints": [
+                "GET /complianceReports/{reportId}",
+                "GET /analysisResults/{specificationId}",
+                "GET /applications",
+                "PUT /impact-assessment/{assessmentId}",
+                "GET /supply-chain-health",
+                "POST /materials/search"
+            ]
+        },
+        {
+            "query": "I need to determine the most efficient transport route for delivering materials to minimize logistics costs, analyze the composition and thermal properties of the material selected for the shipment using its unique identifier, and upon completing the analysis, remove the associated environmental impact assessment record to declutter the database.",
+            "endpoints": [
+                "GET /transport-routes",
+                "GET /materials/{id}",
+                "DELETE /impact-assessment/{assessmentId}"
+            ]
+        },
+        {
+            "query": "Identify all active alerts currently affecting operations and compile a consolidated list of existing material specifications to evaluate which materials might be impacted by the issues raised in these alerts.",
+            "endpoints": [
+                "GET /alerts",
+                "GET /materialSpecifications"
+            ]
+        },
+        {
+            "query": "Perform a cost analysis for procurement and logistics expenses over the past six months, delete all outdated material specifications to ensure the database contains only the latest information, export the latest material datasets in CSV format for offline analysis, and retrieve a list of typical applications for the materials to identify potential use cases aligned with cost optimization strategies.",
+            "endpoints": [
+                "POST /cost-analysis",
+                "DELETE /obsoleteSpecifications",
+                "GET /datasets/export",
+                "GET /applications"
+            ]
+        },
+        {
+            "query": "Generate a report that includes consolidated operational metrics displayed on the dashboard, recommendations for integrating the system with existing design tools, an evaluation of the overall health and efficiency of the supply chain, the environmental impact scores for a specific assessment, detailed analysis results for a given material specification, resource extraction rates from mining sites, documentation of new quality metrics, configurations for automating incident responses, and updated operational details for an ongoing environmental impact assessment to ensure accuracy.",
+            "endpoints": [
+                "GET /dashboard",
+                "GET /integration/guidelines",
+                "GET /supply-chain-health",
+                "GET /impact-scores/{assessmentId}",
+                "GET /analysisResults/{specificationId}",
+                "GET /resources/extraction",
+                "POST /metrics/record",
+                "POST /responses/automated",
+                "PUT /impact-assessment/{assessmentId}"
+            ]
+        },
+        {
+            "query": "Retrieve the extraction rates of resources from mining sites, submit new material specifications for resources extracted to the database for validation, and remove outdated environmental impact assessment records to maintain database accuracy.",
+            "endpoints": [
+                "GET /resources/extraction",
+                "DELETE /impact-assessment/{assessmentId}",
+                "POST /materialSpecifications"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,98 @@
+{
+    "queries": [
+        {
+            "query": "I am looking to retrieve all notifications related to the financial events and use a specific financial report identified by its ID to analyze further details about my financial performance.",
+            "endpoints": [
+                "GET /financial-reports/{id}",
+                "GET /notifications"
+            ]
+        },
+        {
+            "query": "I want to update my budget with the latest financial performance data retrieved from a specific creditworthiness assessment ID. Additionally, I need to review the historical credit score trends, a financial summary, and get an overview of my current budget statuses to analyze if there are any discrepancies. After verifying these details, proceed to enroll in an insurance policy, cancel a financial transaction identified by its transaction ID, and review my insurance claim history to finalize any further action needed.",
+            "endpoints": [
+                "PUT /budgets/{budget_id}",
+                "GET /credit-checks/{id}",
+                "GET /insurance-policies/claims/history",
+                "GET /credit-scores/history",
+                "GET /financial-summary",
+                "DELETE /transactions/{transaction_id}",
+                "POST /insurance-policies/enroll"
+            ]
+        },
+        {
+            "query": "Analyze the volatility of a specific asset to determine its risk factor, modify an insurance policy with updated coverage details based on the risk assessment, and retrieve financial insights to evaluate the potential impact of market trends on the modified policy.",
+            "endpoints": [
+                "GET /insights",
+                "PUT /insurance-policies/{policy_id}/modify",
+                "GET /analytics/volatility-calculator"
+            ]
+        },
+        {
+            "query": "Calculate the estimated premium for an insurance policy by providing necessary details, retrieve upcoming dividend announcements for selected stocks to assess potential investment benefits, and add a new financial account for consolidating dividends and policy-related payments.",
+            "endpoints": [
+                "POST /insurance-policies/estimate-premium",
+                "GET /dividends/announcement",
+                "POST /accounts"
+            ]
+        },
+        {
+            "query": "I want to explore the performance of different market sectors to identify profitable trends, then retrieve the statuses of all my creditworthiness assessments for any potential applications or evaluations I have submitted. Following this, I plan to review announcements about upcoming dividends to consider potential investment opportunities, enroll in a relevant insurance policy to mitigate financial risks, and finally cancel a pending transaction that is no longer necessary in light of the insights gathered.",
+            "endpoints": [
+                "GET /sectors/market-insights",
+                "DELETE /transactions/{transaction_id}",
+                "GET /credit-checks",
+                "GET /dividends/announcement",
+                "POST /insurance-policies/enroll"
+            ]
+        },
+        {
+            "query": "I want to set a new financial savings goal for upcoming expenses and update the details of a linked financial account to match the savings purpose. Additionally, I need to explore available insurance policies to evaluate protection options and use one of my financial reports by its ID to analyze specific data related to my past financial activities as part of goal planning.",
+            "endpoints": [
+                "POST /goals",
+                "PATCH /accounts/{account_id}",
+                "GET /insurance-policies",
+                "GET /financial-reports/{id}"
+            ]
+        },
+        {
+            "query": "Analyze the latest stock data for a set of specified symbols to identify investment opportunities, assess the performance and risk of my portfolio by submitting detailed asset information for recommendations, cancel an unnecessary pending transaction to adjust my financial plans, and retrieve current currency exchange rates to evaluate potential international investment strategies.",
+            "endpoints": [
+                "GET /stocks/latest-data",
+                "POST /portfolio/asses",
+                "DELETE /transactions/{transaction_id}",
+                "GET /currency-rates"
+            ]
+        },
+        {
+            "query": "I need to update the details of one of my linked financial accounts, review the list of providers offering support for a specific insurance policy to ensure compatibility with my account updates, and check announcements about upcoming dividends to plan future investments accordingly.",
+            "endpoints": [
+                "PATCH /accounts/{account_id}",
+                "GET /dividends/announcement",
+                "GET /insurance-policies/{policy_id}/providers"
+            ]
+        },
+        {
+            "query": "I want to create a custom financial watchlist to monitor specific stocks and investments, set a savings goal for a major financial milestone, retrieve insights into available insurance policies to evaluate potential protection options, explore detailed market sector trends to guide investment decisions, check the list of my linked financial accounts for funding the plans, and review notifications for any updates or alerts related to my financial activities.",
+            "endpoints": [
+                "GET /insurance-policies",
+                "POST /watchlist/create",
+                "POST /goals",
+                "GET /sectors/market-insights",
+                "GET /accounts",
+                "GET /notifications"
+            ]
+        },
+        {
+            "query": "I want to retrieve detailed notifications regarding financial events, check the items covered under a specific insurance policy to compare coverage benefits, and review the list of providers associated with that policy for making an informed enrollment decision. Additionally, I need to fetch the latest financial news to identify market trends, obtain the current currency exchange rates for evaluating the financial feasibility of international investments, initiate a new creditworthiness assessment for eligibility verification, and verify the details of a recent financial transaction for reconciliation purposes.",
+            "endpoints": [
+                "POST /credit-checks",
+                "GET /transactions/{transaction_id}",
+                "GET /news/recent",
+                "GET /notifications",
+                "GET /insurance-policies/covered-items/{policy_id}",
+                "GET /currency-rates",
+                "GET /insurance-policies/{policy_id}/providers"
+            ]
+        }
+    ]
+}

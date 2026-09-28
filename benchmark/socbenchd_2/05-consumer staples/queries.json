@@ -1,0 +1,113 @@
+{
+    "queries": [
+        {
+            "query": "Submit the details of a newly designed product for regulatory compliance validation and environmental sustainability assessment, then retrieve a comprehensive compliance report for all managed products to verify its status, and finally cancel an associated order if the product is found non-compliant.",
+            "endpoints": [
+                "DELETE /orders/{orderId}",
+                "GET /reports/compliance",
+                "POST /regulation-check",
+                "POST /sustainability-assessment"
+            ]
+        },
+        {
+            "query": "Explore the latest health and wellness trends affecting consumer behavior, assess the environmental sustainability of a newly developed product, request personalized insights into shifting consumer preferences in household product categories for the last six months, update product details to meet evolving market demands, analyze retailer inventory patterns for improving stock alignment, review past evaluation results to track product performance history, and gather comprehensive consumer insights to enhance future product development strategies.",
+            "endpoints": [
+                "GET /trends",
+                "POST /sustainability-assessment",
+                "POST /consumer/trends/insights",
+                "PATCH /products/{id}",
+                "GET /retailers/inventory/overview",
+                "GET /evaluation-history",
+                "GET /consumer-insights"
+            ]
+        },
+        {
+            "query": "Retrieve the list of all available products to identify relevant items for evaluation, analyze the performance history of specific evaluated products to identify potential updates, retrieve ingredient databases to check compliance for these updates, initiate environmental sustainability assessment of updated products, fetch past consumer insights to understand market preferences, modify warehouse settings for better storage of the updated products if deemed compliant, verify compliance requirements for the targeted region, and review detailed order information before canceling non-compliant orders.",
+            "endpoints": [
+                "GET /evaluation-history",
+                "GET /products",
+                "GET /products/{id}",
+                "GET /consumer-insights",
+                "PATCH /warehouse/settings",
+                "GET /orders/{orderId}",
+                "POST /sustainability-assessment",
+                "DELETE /orders/{orderId}",
+                "GET /ingredients",
+                "PUT /products/{id}",
+                "GET /compliance/{region}"
+            ]
+        },
+        {
+            "query": "Generate a detailed custom report analyzing the popularity metrics of items within a specified category, compare the usage statistics of certain products to identify trends, update the details of an existing product to reflect market demands, check aggregated consumer habits to align strategies, and delete an order associated with outdated or less popular products based on the metrics.",
+            "endpoints": [
+                "GET /items/popularity/metrics",
+                "POST /data/custom/reports",
+                "PATCH /products/{id}",
+                "DELETE /orders/{orderId}",
+                "GET /consumers/habits",
+                "GET /product/usage/comparison"
+            ]
+        },
+        {
+            "query": "Optimize the distribution routes by defining new routes for a specific region, retrieve a compliance report to verify regulatory adherence for all current products, review the details of an active order to ensure its alignment with updated routes, and remove a product from the system if it is identified as non-compliant in the report.",
+            "endpoints": [
+                "GET /orders/{orderId}",
+                "POST /distribution-routes",
+                "GET /reports/compliance",
+                "DELETE /products/{id}"
+            ]
+        },
+        {
+            "query": "Submit customer feedback for multiple products, initiate and evaluate a new product innovation test for regulatory compliance, validate the compliance of the test outcomes against current regulations, request recommendations for inventory adjustments based on the test results, obtain popularity metrics for related product categories, analyze retailer inventory usage patterns to align with projected demands, and update user preferences for receiving alerts on future compliance updates.",
+            "endpoints": [
+                "POST /products/feedback",
+                "POST /product-tests",
+                "POST /regulations/validate",
+                "POST /recommendations/inventory",
+                "GET /items/popularity/metrics",
+                "GET /retailers/inventory/overview",
+                "PATCH /settings/preferences"
+            ]
+        },
+        {
+            "query": "Submit user feedback regarding a recent order, retrieve satisfaction rates from retailers to understand overall performance, place a new order based on the feedback, and review the details of the new order to confirm accuracy and alignment with customer expectations.",
+            "endpoints": [
+                "POST /feedback",
+                "GET /retailer/satisfaction/rate",
+                "POST /order",
+                "GET /orders/{orderId}"
+            ]
+        },
+        {
+            "query": "Evaluate the current inventory status to identify low-stock items, review retailer satisfaction rates to determine overall performance, validate the compliance of a specific ingredient list with regulatory standards, analyze inventory insights to make data-driven replenishment decisions, explore supplier details to identify reliable sources for restocking, update the quantities in an existing order to address any discrepancies, and retrieve specific product details to confirm their specifications before finalizing the restocking process.",
+            "endpoints": [
+                "GET /products/{id}",
+                "GET /analytics/inventory",
+                "GET /inventory",
+                "GET /suppliers",
+                "PUT /orders/{orderId}",
+                "GET /retailer/satisfaction/rate",
+                "POST /regulations/validate"
+            ]
+        },
+        {
+            "query": "Subscribe to receive alerts for any regulatory changes related to specific product ingredients, compare the usage statistics of various products to identify trends, fetch detailed compliance guidelines for products in the relevant category, and retrieve detailed information about a specific product to verify its regulatory and usage alignment.",
+            "endpoints": [
+                "POST /alerts/subscribe",
+                "GET /product/usage/comparison",
+                "GET /compliance-guidelines",
+                "GET /products/{id}"
+            ]
+        },
+        {
+            "query": "Analyze the current inventory to identify items with low stock levels, list all available products to determine which could be added to address market demand, conduct a market entry analysis to evaluate the feasibility of launching a new product in a specific region, retrieve inventory usage patterns and projections to optimize stock alignment, and generate analytics insights to make data-driven decisions on inventory replenishment and turnover rates.",
+            "endpoints": [
+                "POST /products",
+                "GET /products",
+                "POST /market-entry-analysis",
+                "GET /retailers/inventory/overview",
+                "GET /analytics/inventory"
+            ]
+        }
+    ]
+}

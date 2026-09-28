@@ -1,0 +1,102 @@
+{
+    "queries": [
+        {
+            "query": "Create a new real estate transaction, include a custom report based on specific criteria, gather user feedback for a specific property tour, and then finalize the transaction ensuring all necessary details are captured without fetching additional property information.",
+            "endpoints": [
+                "POST /transactions",
+                "POST /custom-reports",
+                "POST /tours/{id}/feedback",
+                "POST /transactions/{id}/finalize"
+            ]
+        },
+        {
+            "query": "Retrieve the estimated market value of a property identified by its unique ID, obtain all associated transactional documents, and delete a client record identified by their client ID.",
+            "endpoints": [
+                "GET /property-estimation",
+                "GET /documents",
+                "DELETE /clients/{clientID}"
+            ]
+        },
+        {
+            "query": "Search for available properties within a specified price range and location, then retrieve the details of a selected property and access its associated virtual tour to view the property in detail.",
+            "endpoints": [
+                "GET /tours/{id}",
+                "GET /properties/search",
+                "GET /properties/{id}"
+            ]
+        },
+        {
+            "query": "I want to estimate the market value of a property using its unique ID, create a new property listing based on similar attributes, subscribe to notifications about updates for this property, update client details who is interested in this property, and finally check the status of a related transaction to ensure its progress aligns with the property updates.",
+            "endpoints": [
+                "GET /property-estimation",
+                "POST /properties",
+                "PATCH /property-notifications",
+                "PUT /clients/{clientID}",
+                "GET /transactions/{id}/status"
+            ]
+        },
+        {
+            "query": "Update the details of an existing property listing, create a new property listing for a related property, view a list of all clients to identify interested parties, retrieve specific related documents by their ID for verification, access the list of realtors for collaboration, and check the status of a related transaction to verify progress on its completion.",
+            "endpoints": [
+                "PUT /properties/{propertyID}",
+                "POST /properties",
+                "GET /clients",
+                "GET /documents/{id}",
+                "GET /realtors",
+                "GET /transactions/{id}/status"
+            ]
+        },
+        {
+            "query": "Delete a specific image from a property listing by its unique image ID, view the virtual tour details of the property, search for available properties in a particular location within a specific price range, schedule an appointment with a client to view a property, retrieve the list of all properties, remove a document related to a property transaction, retrieve updated property listings, update the details of an existing property listing with new information, and cancel a scheduled appointment using its unique appointment ID.",
+            "endpoints": [
+                "DELETE /properties/{id}/images/{image_id}",
+                "GET /tours/{id}",
+                "GET /properties/search",
+                "POST /appointments",
+                "GET /properties",
+                "DELETE /documents/{id}",
+                "GET /properties",
+                "PUT /properties/{id}",
+                "DELETE /appointments/{appointmentID}"
+            ]
+        },
+        {
+            "query": "Delete an outdated property listing from the system, retrieve detailed information about another specific property for analysis, gather user feedback about the virtual tour experience of this property, and explore top-performing real estate investment opportunities to identify potential alternatives for the removed listing.",
+            "endpoints": [
+                "DELETE /properties/{id}",
+                "GET /properties/{id}",
+                "POST /tours/{id}/feedback",
+                "GET /real-estate-investments"
+            ]
+        },
+        {
+            "query": "Validate a specific transaction by checking all required details, update an existing document in the system to reflect accurate information, remove an outdated image from a property listing, save user preferences for receiving customized insights, delete a client record who is no longer involved in any transactions, and check the publication status of a specific property listing to ensure its current visibility on external platforms.",
+            "endpoints": [
+                "PUT /transactions/{id}/validate",
+                "DELETE /properties/{id}/images/{image_id}",
+                "PUT /documents/{id}",
+                "POST /user-preferences",
+                "DELETE /clients/{clientID}",
+                "GET /properties/{id}/status"
+            ]
+        },
+        {
+            "query": "Analyze the details of a specific property listing by retrieving its information using the unique property ID, update the listing with new accurate information, and then explore top-performing real estate investment opportunities to identify potential alternatives or complementary properties for diversification.",
+            "endpoints": [
+                "GET /real-estate-investments",
+                "PUT /properties/{id}",
+                "GET /properties/{id}"
+            ]
+        },
+        {
+            "query": "Retrieve a list of all real estate transactions currently being processed, fetch the demographic information for a specified geographic region to assess the area's potential for a new investment, analyze all scheduled appointments to identify potential client meetings for these transactions, create a new real estate transaction for an identified property, and cancel a conflicting appointment using its unique ID to align schedules efficiently.",
+            "endpoints": [
+                "POST /transactions",
+                "DELETE /appointments/{appointmentID}",
+                "GET /demographics",
+                "GET /transactions",
+                "GET /appointments"
+            ]
+        }
+    ]
+}

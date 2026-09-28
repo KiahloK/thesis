@@ -1,0 +1,100 @@
+{
+    "queries": [
+        {
+            "query": "Retrieve the list of available product categories to categorize a new sustainable household item under the \"Eco Products\" category. Register the product for monitoring, analyze sales trends within the \"Eco Products\" category to identify market patterns, forecast inventory needs based on predicted demand for the product, add a supplier to provide the product, and retrieve detailed information about the registered product using its ID.",
+            "endpoints": [
+                "POST /product/register",
+                "GET /analysis/trends",
+                "POST /analytics/forecast",
+                "GET /products/{product_id}",
+                "POST /supplier/add",
+                "GET /categories"
+            ]
+        },
+        {
+            "query": "Identify possible allergens in the current food supply chain overview to ensure that products meet allergen-free compliance requirements.",
+            "endpoints": [
+                "GET /allergens",
+                "GET /supplychain/overview"
+            ]
+        },
+        {
+            "query": "Identify inefficiencies or risks in the current supply chain by analyzing sustainability performance and retrieving detailed metrics for specific segments. Simultaneously, review historical supply chain data patterns to uncover trends in efficiency and delete outdated or irrelevant custom recipes that may no longer support optimization efforts.",
+            "endpoints": [
+                "DELETE /custom-recipes/{id}",
+                "GET /analytics/patterns",
+                "GET /supplychain/overview",
+                "GET /supplychain/{id}/metrics"
+            ]
+        },
+        {
+            "query": "Analyze the current inventory levels across all locations to identify items with insufficient stock, submit an order to restock these items based on predicted demand, retrieve detailed supply chain metrics for segments responsible for delivering the ordered items, review the overall supply chain overview for potential inefficiencies, and examine waste reports to ensure minimal loss during the restocking process.",
+            "endpoints": [
+                "GET /waste/reports",
+                "GET /supplychain/overview",
+                "POST /orders/new",
+                "GET /inventory/status",
+                "GET /supplychain/{id}/metrics"
+            ]
+        },
+        {
+            "query": "Analyze the system's overall performance metrics to evaluate the effectiveness of existing inventory management and create a new product entry for a biodegradable cleaning product to monitor its impact on sustainability performance.",
+            "endpoints": [
+                "GET /performance/metrics",
+                "POST /products"
+            ]
+        },
+        {
+            "query": "Update user dietary preferences to reflect a lactose-free and low-carb diet, retrieve detailed nutritional information about a specific food item to confirm its suitability for the updated preferences, get the list of all available suppliers to find those offering suitable items, add a new supplier providing lactose-free and low-carb food products, update the details of an existing supplier to include more accurate contact information, retrieve the list of all available consumer staple products to cross-check with the updated food preferences, and finally delete a specific consumer staple product that does not align with the dietary requirements.",
+            "endpoints": [
+                "GET /products",
+                "POST /supplier/add",
+                "PUT /supplier/{id}/update",
+                "PUT /user-preferences",
+                "GET /suppliers/list",
+                "DELETE /products/{productId}",
+                "GET /food-items/{id}"
+            ]
+        },
+        {
+            "query": "Submit feedback for a new food product regarding its nutritional value, retrieve a detailed sustainability compliance report for all products to verify environmental impact, delete a specific product from the digital platform that shows poor compliance, and gather a list of all available food items to recommend alternatives to users.",
+            "endpoints": [
+                "POST /feedback",
+                "GET /report/daily",
+                "DELETE /products/{productId}",
+                "GET /food-items"
+            ]
+        },
+        {
+            "query": "Categorize a new eco-friendly household staple under an appropriate category, submit feedback regarding its market value and usability, forecast demand for similar eco-friendly products using sales data, identify trends in product satisfaction through analytics, restock items based on predicted demand, and generate a comprehensive report on the impact of these products in the associated market category.",
+            "endpoints": [
+                "POST /feedback",
+                "POST /orders",
+                "POST /analytics",
+                "GET /categories",
+                "POST /analytics/forecast",
+                "POST /inventory/restock"
+            ]
+        },
+        {
+            "query": "Evaluate the impact of removing a specific non-performing product from the system, update the sustainable product details with improved ecological attributes, remove items with excess or obsolete inventory to optimize storage, analyze key performance metrics to measure the improvement in ecological impact after changes, forecast inventory demand for sustainable products using historical data, retrieve the available categories to categorize new items, and fetch a list of available food categories to align with sustainable product offerings.",
+            "endpoints": [
+                "DELETE /products/{productId}",
+                "PUT /product/update",
+                "DELETE /inventory/remove",
+                "GET /performance/metrics",
+                "POST /analytics/forecast",
+                "GET /categories",
+                "GET /food-categories"
+            ]
+        },
+        {
+            "query": "Identify recommended products based on sales data trends, retrieve a list of all available food categories to understand the nutritional scope of these products, and gather a list of suppliers to find those offering the identified recommended products.",
+            "endpoints": [
+                "GET /recommendations",
+                "GET /food-categories",
+                "GET /suppliers"
+            ]
+        }
+    ]
+}

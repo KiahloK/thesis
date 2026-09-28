@@ -51,29 +51,52 @@ def _all_endpoints(specs: list[dict]) -> list[str]:
     return labels
 
 
+def _operation_description(operation: dict) -> str:
+    text = operation.get('summary') or operation.get('description') or ''
+    return ' '.join(str(text).split())
+
+
+def _all_endpoints_described(specs: list[dict]) -> list[tuple[str, str]]:
+    """Like _all_endpoints, but pairs each label with a display string that appends the
+    operation's summary/description, so the LLM sees what an endpoint does, not just its path.
+    The bare label stays the key for matching against extracted calls."""
+    endpoints = []
+    for spec in specs:
+        for path, methods in spec.get('paths', {}).items():
+            if not isinstance(methods, dict):
+                continue
+            for method, operation in methods.items():
+                if isinstance(operation, dict):
+                    label = f"{method.upper()} {path}"
+                    desc = _operation_description(operation)
+                    endpoints.append((label, f"{label} - {desc}" if desc else label))
+    return endpoints
+
+
 def find_necessary_endpoints(services: list[str], query: str, model: str) -> list[str]:
     """Reference-free: ask the LLM which endpoints in `services` are necessary to fulfill `query`.
 
     """
     specs = _parse_services(services)
-    candidates = _all_endpoints(specs)
+    candidates = _all_endpoints_described(specs)
     if not candidates:
         return []
 
     services_block = "\n---\n".join(services)
-    instance = _TEMPLATE.format(services=services_block, query=query, endpoints="\n".join(candidates))
+    endpoints_block = "\n".join(display for _, display in candidates)
+    instance = _TEMPLATE.format(services=services_block, query=query, endpoints=endpoints_block)
     messages = [
         {"role": "user", "content": instance},
         {"role": "assistant", "content": "Ok, please provide me the first endpoint."},
     ]
 
     necessary = []
-    for endpoint in candidates:
-        messages.append({"role": "user", "content": endpoint})
+    for label, display in candidates:
+        messages.append({"role": "user", "content": display})
         response, _usage = call_llm_chat(messages, model)
         messages.append({"role": "assistant", "content": response})
         if response.strip().startswith("Yes") or response.strip().startswith("**Yes**"):
-            necessary.append(endpoint)
+            necessary.append(label)
 
     return necessary
 

@@ -1,0 +1,104 @@
+{
+    "queries": [
+        {
+            "query": "Generate a detailed monthly energy report for the most recent month, including wind energy forecast data for the report's time period and statistics on renewable energy generation across the network.",
+            "endpoints": [
+                "GET /reports/monthly",
+                "GET /energy/forecast/wind",
+                "GET /energy-generation/renewable"
+            ]
+        },
+        {
+            "query": "Design a process to assess and simulate the impact of adding a new utility asset on network performance. Begin by retrieving all existing utility assets, and add a new asset with relevant specifications. Retrieve the status of this newly added asset to ensure proper configuration. Then, obtain solar energy availability data for the location of the assets and create a simulation scenario incorporating this data. Retrieve all utility grids to identify where the new asset can be integrated, initiate a simulation drill for network testing, and review the incident history to evaluate past disruptions involving similar assets.",
+            "endpoints": [
+                "GET /assets",
+                "POST /assets",
+                "GET /solar-availability",
+                "POST /scenarios",
+                "POST /simulation/drill",
+                "GET /grids",
+                "GET /assets/{assetId}/status",
+                "GET /incident-history"
+            ]
+        },
+        {
+            "query": "Analyze the impact of a specific incident on the network by first retrieving the incident history to locate disruptions involving a particular sensor, fetching the status of that sensor to verify its functionality, and outlining energy consumption trends for affected customers during the disruption. Finally, set up a peak usage alert for these customers to avoid similar issues in the future and delete an outdated simulation scenario related to incident management.",
+            "endpoints": [
+                "POST /peak-alert",
+                "GET /status/{sensor_id}",
+                "DELETE /scenarios/{scenarioId}",
+                "GET /consumption/summary",
+                "GET /incident-history"
+            ]
+        },
+        {
+            "query": "Identify solar energy production forecasts for the upcoming week, review the current ongoing network outages to assess potential disruptions, and remove an outdated simulation scenario that is no longer relevant. Additionally, configure a peak usage alert for customers in the most affected areas and examine the history of past incidents to understand similar cases and their resolutions.",
+            "endpoints": [
+                "GET /energy/forecast/solar",
+                "GET /outages",
+                "DELETE /scenarios/{scenarioId}",
+                "POST /peak-alert",
+                "GET /incident-history"
+            ]
+        },
+        {
+            "query": "Retrieve historical solar and hydroelectric energy production data to analyze patterns and trends. Update the status of an asset to reflect its operational condition and calibrate IoT sensors for monitoring performance. Configure a custom alert to track sudden changes in energy production and set up weekly notifications to stay informed. Simulate the impact of these changes on grid performance, and finally, provide feedback on the system's ability to support effective monitoring and decision-making.",
+            "endpoints": [
+                "POST /feedback",
+                "POST /grids/{gridId}/simulate",
+                "PUT /sensor-calibration",
+                "PUT /assets/{assetId}/status",
+                "GET /energy/history/solar",
+                "PUT /user/settings/alert",
+                "GET /energy/history/hydro",
+                "POST /alerts",
+                "POST /alerts"
+            ]
+        },
+        {
+            "query": "Update notification settings to enable weekly alerts for simulation results, retrieve the status of a specific IoT sensor to ensure it is functioning correctly for grid monitoring, and initiate a simulation drill to evaluate the network\u2019s response to a hypothetical power outage scenario.",
+            "endpoints": [
+                "PUT /user/settings/alert",
+                "GET /status/{sensor_id}",
+                "POST /simulation/drill"
+            ]
+        },
+        {
+            "query": "Add a new substation asset to the system with specified location and specifications, retrieve the history of past incidents to analyze any issues related to substations, submit feedback on how incident data could improve asset management, get a list of available utility grids to determine where the substation can be integrated, and update the status of the newly added asset to ensure it reflects accurate operational details.",
+            "endpoints": [
+                "POST /assets",
+                "GET /incident-history",
+                "POST /feedback",
+                "GET /grids",
+                "PUT /assets/{assetId}/status"
+            ]
+        },
+        {
+            "query": "Optimize the load balancing for a utility grid by submitting a request for a load optimization process with specific parameters. Retrieve the operational status of a particular asset that will be directly affected by the optimization to ensure it is prepared for the process. Additionally, request a custom energy production forecast to provide accurate data input for the optimization strategy.",
+            "endpoints": [
+                "POST /optimizations",
+                "GET /assets/{assetId}/status",
+                "POST /energy/forecast/request"
+            ]
+        },
+        {
+            "query": "Create a weekly alert system that monitors energy tariffs and weather projections while updating the operational status of a specific asset to ensure its reliability. Additionally, configure condition-based notifications to alert users about sudden changes in tariffs or energy conditions.",
+            "endpoints": [
+                "PUT /assets/{assetId}/status",
+                "GET /weather/projection",
+                "GET /tariff-analysis",
+                "POST /alerts"
+            ]
+        },
+        {
+            "query": "Create a comprehensive energy usage report for a customer by first retrieving their historical usage patterns and submitting a custom forecast request to predict energy production. Include current weather data to analyze potential influences on energy production. Check for any ongoing network outages that may affect the customer's area and account for current maintenance schedules to anticipate possible service interruptions.",
+            "endpoints": [
+                "GET /usage-patterns",
+                "POST /energy/forecast/request",
+                "GET /outages",
+                "GET /weather/current",
+                "GET /maintenance/schedules"
+            ]
+        }
+    ]
+}

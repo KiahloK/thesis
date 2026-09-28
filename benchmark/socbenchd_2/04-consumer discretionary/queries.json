@@ -1,0 +1,100 @@
+{
+    "queries": [
+        {
+            "query": "I want to plan a trip with a rented device for a recreational activity. First, fetch detailed information about the activity by its ID to understand the schedule and pricing. Then, place an order for meals at a restaurant to enjoy during the trip. After the activity, return the rented device by providing its rental ID. Submit reviews for both the rented device and the activity. Check the amenities available at the activity location. Retrieve tickets for all booked activities. Additionally, check reviews for a nearby hotel for potential accommodation. Finally, update an existing restaurant order if there are any required changes.",
+            "endpoints": [
+                "POST /returns/{rentalId}",
+                "PUT /orders/{orderId}",
+                "POST /orders",
+                "GET /amenities",
+                "GET /activities/{id}",
+                "POST /reviews",
+                "POST /orders",
+                "GET /reviews/{hotelId}",
+                "GET /tickets"
+            ]
+        },
+        {
+            "query": "I have rented a household electronic device for a project, but I misplaced the rental details such as the cost and end date. Retrieve the information for the rental using its ID. After completing the project, I want to submit feedback for the rented device with a rating and comment. Additionally, fetch the list of all available rentable devices to explore options for my next project.",
+            "endpoints": [
+                "GET /devices",
+                "GET /rentals/{rentalId}",
+                "POST /reviews"
+            ]
+        },
+        {
+            "query": "I am responsible for managing the supply chain operations for my business and need to ensure efficiency. First, I want to check the supply chain's operational status to identify any potential disruptions. Then, I will coordinate the return of a rented device using its rental ID. To keep track of critical inventory needs, I want to retrieve stock alerts for products that are low or out-of-stock and address them promptly. Additionally, I need to make a reservation for a product to secure it for future use. Lastly, I want to apply a promotion to the reservation to take advantage of any current discounts and optimize costs.",
+            "endpoints": [
+                "GET /supply-chain/status",
+                "POST /returns/{rentalId}",
+                "GET /stock/alerts",
+                "POST /reservations",
+                "POST /promotions/apply"
+            ]
+        },
+        {
+            "query": "I want to organize a recreational day for my team, starting with booking an activity to suit everyone's preferences. Fetch the details of a specific activity by its ID to review its schedule and pricing. Next, I need to prepare a meal plan that complements the event, so retrieve the restaurant menus to decide on the food for the team. To ensure the team is informed and prepared, check for stock alerts to identify any items that may need restocking for the event, such as snacks or beverages. Finally, process a payment to confirm all the bookings and purchases for the day.",
+            "endpoints": [
+                "GET /menus",
+                "GET /activities/{id}",
+                "GET /stock/alerts",
+                "POST /payments"
+            ]
+        },
+        {
+            "query": "Coordinate the return process for a previously rented device using its rental ID, and submit feedback about the experience, highlighting the ease of the return process. Identify and remove a restaurant order that is no longer required. Retrieve supplier details to contact vendors for additional supplies if needed. If any clarifications are required about existing reservations, update the relevant reservation details and ensure they reflect the latest information accurately. Finally, explore recycling options for electronic devices to promote eco-friendly usage and sustainable practices.",
+            "endpoints": [
+                "GET /recycling-options",
+                "POST /returns/{rentalId}",
+                "POST /feedback",
+                "DELETE /orders/{orderId}",
+                "GET /suppliers",
+                "PUT /reservations/{id}"
+            ]
+        },
+        {
+            "query": "I am planning a staycation and want to manage my preferences for a seamless experience. First, customize the service settings to align with my needs regarding notifications and preferences. Then, explore the restaurant menus nearby to pick suitable options for meals during my stay. Next, extend the rental period of an electronic device I am using, to ensure it covers the entire staycation duration. Additionally, check the reviews for a specific hotel where I have already made a reservation to confirm its quality and suitability. Finally, initiate the return process for a previously rented device that I no longer need.",
+            "endpoints": [
+                "PATCH /settings",
+                "GET /menus",
+                "PUT /rentals/{rentalId}/extend",
+                "GET /reviews/{hotelId}",
+                "POST /returns/{rentalId}"
+            ]
+        },
+        {
+            "query": "I recently rented an electronic device for a project but underestimated the duration, so I need to extend the rental period to avoid penalties and continue using the device. During this extension, I plan to declutter my inventory by identifying items to remove, such as an outdated product from the catalog to make room for a new release. Additionally, I want to fine-tune my notification preferences to ensure I receive updates only relevant to my ongoing rentals and inventory changes.",
+            "endpoints": [
+                "DELETE /products/{productId}",
+                "PUT /rentals/{rentalId}/extend",
+                "PATCH /settings"
+            ]
+        },
+        {
+            "query": "Retrieve a list of current reservations to check seating availability for last-minute customer inquiries.",
+            "endpoints": [
+                "GET /reservations"
+            ]
+        },
+        {
+            "query": "I want to plan an eco-friendly leisure trip. First, retrieve the rental history to review previous rentals and decide on the best device for reuse. Then, validate the details of a booked ticket to confirm the schedule and location of the planned activity. Afterward, check the available amenities at the activity site to ensure comfort and convenience. Finally, explore recycling options for disposing of or repurposing old electronic devices in a sustainable manner after completing the trip.",
+            "endpoints": [
+                "GET /rental-history",
+                "GET /tickets/{ticket_id}",
+                "GET /amenities",
+                "GET /recycling-options"
+            ]
+        },
+        {
+            "query": "I am planning a charity event that involves sustainable practices. First, retrieve the details of a specific rental to ensure availability and pricing aligns with the budget. Then, obtain contact information for support in case there are issues during the event preparation. Check the inventory for required items like decorations or reusable materials for the event. Cancel any duplicate reservations that may have been made mistakenly. Explore promotional offers to reduce costs for bulk rentals or purchases. Finally, browse for available electronic devices suitable for the event to minimize waste and support eco-friendly initiatives.",
+            "endpoints": [
+                "GET /rentals/{rentalId}",
+                "GET /support/contact",
+                "GET /inventory",
+                "DELETE /reservations/{reservation_id}",
+                "GET /promotions",
+                "GET /devices"
+            ]
+        }
+    ]
+}

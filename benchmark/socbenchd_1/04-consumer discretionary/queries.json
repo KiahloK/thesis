@@ -1,0 +1,96 @@
+{
+    "queries": [
+        {
+            "query": "Update the details of an existing reservation with ID 123 to shift the check-in date to \"2023-11-22\" and the check-out date to \"2023-11-27\". Then, optimize the vehicle inventory by submitting the current stock of models and their quantities, ensuring the inventory aligns with market demand. Analyze the performance metrics of product categories to see which ones are driving the most sales and engagement. Finally, process the payment for the updated reservation using a provided payment method to complete the booking.",
+            "endpoints": [
+                "PUT /reservations/{id}",
+                "POST /inventory/optimize",
+                "GET /categories/performance",
+                "POST /payment/checkout"
+            ]
+        },
+        {
+            "query": "Retrieve a detailed sales report for the dealership with ID \"567\" for the past 6 months to assess its performance and identify key trends. Book a specific event with ID \"Expo123\" to organize a promotional activity for the dealership, ensuring all necessary user and payment details are provided. Finally, update the details of room with ID \"301\" to change its nightly rate to $200 due to increased market demand.",
+            "endpoints": [
+                "GET /dealerships/sales-report",
+                "POST /events/book",
+                "PUT /rooms/{id}"
+            ]
+        },
+        {
+            "query": "Create a comprehensive marketing campaign by analyzing the effectiveness of previous campaigns to refine strategies and improve ROI. Remove outdated menus by deleting specific menu entries and ensure that selected menus align with the campaign goals by retrieving and reviewing menu details. Simultaneously, adjust the nightly rate for room ID \"301\" to reflect updated market demand and pricing strategies. Explore available tours to incorporate cross-promotional opportunities into the campaign. Update an existing reservation to ensure it aligns with the campaign timeline and special offers.",
+            "endpoints": [
+                "POST /marketing/campaign-effectiveness",
+                "PUT /rooms/{id}",
+                "GET /tours/list",
+                "GET /menus/{id}",
+                "PUT /reservations/{id}",
+                "DELETE /menus/{id}"
+            ]
+        },
+        {
+            "query": "Develop a targeted marketing plan by analyzing regional sales comparisons to identify high-performing areas and evaluate category performance metrics to determine which product categories contribute the most to sales and engagement. Submit a new room listing with its details to create promotional packages for high-demand areas, and propose new marketing tasks focused on these regions to maximize outreach. Simultaneously, refine the marketing approach by evaluating the past campaign effectiveness to improve ROI and remove outdated or irrelevant alerts from the system to streamline campaign monitoring.",
+            "endpoints": [
+                "POST /marketing/campaign-effectiveness",
+                "GET /regional/sales-comparisons",
+                "GET /categories/performance",
+                "DELETE /alerts/unwanted",
+                "POST /rooms",
+                "POST /marketing/tasks"
+            ]
+        },
+        {
+            "query": "To prepare for an upcoming promotional campaign, analyze the sales performance across various regions to identify areas of high potential and determine the top trending products to feature in the campaign. After finalizing the campaign's focus, complete the payment process for previously selected bookings and partnerships necessary for the promotional activities.",
+            "endpoints": [
+                "GET /regional/sales-comparisons",
+                "GET /trends/top-products",
+                "POST /payment/checkout"
+            ]
+        },
+        {
+            "query": "Remove an ingredient with ID \"xyz123\" that is no longer available for menu creation to streamline ingredient management, and retrieve the preferences of a guest with ID \"456\" to ensure updated preferences are applied to their next reservation.",
+            "endpoints": [
+                "DELETE /ingredients/{id}",
+                "GET /guest-preferences/{id}"
+            ]
+        },
+        {
+            "query": "Create a preview of a new campaign showcasing the highlighted destinations for an upcoming travel season. Simultaneously, retrieve the personalized itinerary of a user to identify any conflicting activities and remove unwanted events from their itinerary as needed. Finally, evaluate the effectiveness of the simulated campaign to ensure it aligns with the marketing objectives before proceeding with its rollout.",
+            "endpoints": [
+                "GET /itinerary/view",
+                "GET /destinations/highlights",
+                "DELETE /itinerary/cancel",
+                "POST /simulate-preview",
+                "POST /marketing/campaign-effectiveness"
+            ]
+        },
+        {
+            "query": "Create a new room listing with its details, such as type and price, to meet market demand and help maximize revenue potential. Simultaneously, cancel a conflicting item from a user's itinerary to ensure smooth scheduling. Update the preferences of a guest to reflect their latest request for improved personalization during their next booking. Evaluate the engagement statistics of a loyalty program to determine its effectiveness in retaining customers and boosting revenue. Access predictive analytics for market demand to align future strategies and refine planning. Analyze the performance of various product categories to identify top performers and strategize offerings based on their success metrics.",
+            "endpoints": [
+                "POST /rooms",
+                "DELETE /itinerary/cancel",
+                "POST /guest-preferences/{id}",
+                "GET /loyalty/engagement-stats",
+                "GET /market-demand/forecasts",
+                "GET /categories/performance"
+            ]
+        },
+        {
+            "query": "Set sales goals for a manufacturer with the ID \"manu123\" to achieve a target of selling 10,000 units within the next quarter while ensuring strategies align with market demands. Simultaneously, remove an outdated ingredient with the ID \"ingredient789\" from the system to optimize menu management. Analyze geographic consumer trends to identify regions with the highest demand for similar products, and retrieve the detailed sales performance report for a dealership with ID \"dealership456\" over the past year to evaluate its impact within the targeted region.",
+            "endpoints": [
+                "POST /manufacturer/goals",
+                "DELETE /ingredients/{id}",
+                "GET /geographic/trends",
+                "GET /dealerships/sales-report"
+            ]
+        },
+        {
+            "query": "Create a new marketing strategy by submitting tasks designed to drive customer engagement for an upcoming promotional campaign and evaluate the performance of a previous campaign to identify areas for improvement and maximize ROI. Additionally, remove outdated menu entries that no longer align with the campaign objectives to ensure streamlined and relevant offerings.",
+            "endpoints": [
+                "DELETE /menus/{id}",
+                "POST /marketing/tasks",
+                "POST /marketing/campaign-effectiveness"
+            ]
+        }
+    ]
+}

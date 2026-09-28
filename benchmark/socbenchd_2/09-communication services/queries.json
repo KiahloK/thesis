@@ -1,0 +1,107 @@
+{
+    "queries": [
+        {
+            "query": "Fetch the engagement analytics for the content with ID 123, update its details with new information, and delete the message associated with this content from the system.",
+            "endpoints": [
+                "DELETE /messages/{messageID}",
+                "GET /analytics/content/{id}",
+                "PUT /content/{id}"
+            ]
+        },
+        {
+            "query": "Modify the details of existing content with updated information, create a new campaign based on the revised content, and generate a visualization using network performance data to support the campaign, ensuring all details are included without directly retrieving network performance metrics.",
+            "endpoints": [
+                "PUT /content/{id}",
+                "POST /campaigns",
+                "POST /network/visualization"
+            ]
+        },
+        {
+            "query": "Generate a report of the most popular content on the platform, retrieve the details of an advertising campaign related to this content, monitor the status of the associated live stream, analyze the campaign\u2019s performance during the selected timeframe, and fetch a list of all active campaigns to compare their engagement metrics.",
+            "endpoints": [
+                "GET /popular-content",
+                "GET /campaigns/{campaign_id}",
+                "GET /streams/status",
+                "GET /analytics/performance",
+                "GET /campaigns"
+            ]
+        },
+        {
+            "query": "Retrieve the details of a specific piece of content to ensure it aligns with campaign objectives, analyze its video quality for necessary improvements, update the video settings for better performance, configure a specific network node to support the campaign's requirements, create a new advertising campaign based on the enhanced content, fetch the list of network nodes to ensure compatibility, delete the content after its utility is fulfilled, and remove the record of a specific message associated with the previous marketing campaigns.",
+            "endpoints": [
+                "PUT /network/node-configuration",
+                "POST /campaigns",
+                "DELETE /messages/{messageID}",
+                "GET /network/nodes",
+                "DELETE /content/{id}",
+                "GET /content/{id}",
+                "POST /videos/analyze",
+                "POST /settings/video"
+            ]
+        },
+        {
+            "query": "Retrieve an overview of all current network alerts to identify critical issues, fetch the global engagement analytics to understand overall performance across all campaigns, obtain the details of a specific advertising campaign to ensure alignment with objectives, generate a detailed analytics report to evaluate trends, collect network performance metrics to identify potential optimizations, access a list of available content categories for better organization, update the metadata of a specific content piece to ensure relevance, terminate a live stream linked to outdated content to free resources, and update the notification settings for real-time engagement tracking of the campaigns.",
+            "endpoints": [
+                "GET /analytics/global",
+                "GET /alerts/overview",
+                "GET /campaigns/{campaign_id}",
+                "GET /analytics/report",
+                "GET /network/performance-metrics",
+                "GET /categories",
+                "PUT /content/{id}",
+                "DELETE /streams/{id}",
+                "PUT /settings/notification-config"
+            ]
+        },
+        {
+            "query": "Send a personalized notification to users about updating their subscription preferences, ensure the notification settings are configured for real-time tracking, generate an analytics report to assess the effectiveness of the notifications, and retrieve the list of critical alerts to identify any potential delivery issues during the notification campaign.",
+            "endpoints": [
+                "GET /alerts/overview",
+                "PUT /settings/notification-config",
+                "GET /analytics/report",
+                "POST /messages/send"
+            ]
+        },
+        {
+            "query": "Generate predictive network performance trends for the next 7 days to anticipate potential bottlenecks, configure a specific network node to address these predictions, and delete a previously sent message related to past network performance alerts.",
+            "endpoints": [
+                "POST /trends/predictive-model",
+                "PUT /network/node-configuration",
+                "DELETE /messages/{messageID}"
+            ]
+        },
+        {
+            "query": "Retrieve the list of videos available on the platform and analyze their quality, fetch the list of all contacts to notify them about video enhancements, send personalized notifications to users regarding these improvements, configure a specific network node to optimize performance for the updated videos, retrieve network performance metrics to ensure optimization aligns with system capabilities, and delete outdated live stream data related to prior content.",
+            "endpoints": [
+                "POST /messages/send",
+                "DELETE /streams/{id}",
+                "GET /network/performance-metrics",
+                "GET /contacts",
+                "PUT /network/node-configuration",
+                "GET /videos"
+            ]
+        },
+        {
+            "query": "Enable real-time notification tracking for a campaign by updating the settings, retrieve the current details of the campaign to ensure alignment with objectives, optimize a live stream linked to the campaign to improve engagement, configure a network node to support the stream optimization, import a new list of contacts to expand the campaign's reach, retrieve the campaign's inventory to verify resource allocation, and fetch an overview of network alerts to identify any critical issues impacting the campaign's progress.",
+            "endpoints": [
+                "PUT /campaigns/{campaign_id}",
+                "POST /contacts/import",
+                "GET /inventory",
+                "PUT /settings/notification-config",
+                "GET /campaigns/{campaign_id}",
+                "GET /alerts/overview",
+                "PUT /network/node-configuration",
+                "POST /streams/optimize"
+            ]
+        },
+        {
+            "query": "Generate a detailed analytics report on user engagement trends, upload new promotional content tailored for a specific audience, retrieve the details of a particular campaign using its unique identifier to align with the insights from the report, and import a fresh list of customer contacts to reach the targeted audience effectively.",
+            "endpoints": [
+                "POST /contacts/import",
+                "GET /campaigns/{campaign_id}",
+                "POST /content/upload",
+                "GET /analytics/report"
+            ]
+        }
+    ]
+}

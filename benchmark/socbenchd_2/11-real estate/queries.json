@@ -1,0 +1,95 @@
+{
+    "queries": [
+        {
+            "query": "Upload high-resolution photos for a specific property and later verify the status of a tenant's identity verification process to ensure tenant eligibility for renting that property.",
+            "endpoints": [
+                "POST /properties/{property_id}/photos",
+                "GET /tenant/identity-verification/status/{tenantId}"
+            ]
+        },
+        {
+            "query": "Analyze the property price trends in a specific location to identify the top investment opportunities in that area based on growth and demand.",
+            "endpoints": [
+                "GET /properties/trends",
+                "GET /investment-opportunities"
+            ]
+        },
+        {
+            "query": "Check the credit check status of a tenant and validate their identity verification status to assess their eligibility for renting a property. Next, schedule a maintenance task for the property, generate a customized document related to the task, analyze the market demand for investment opportunities, and identify the top-performing properties for potential investment.",
+            "endpoints": [
+                "GET /market/demand",
+                "GET /tenant/identity-verification/status/{tenantId}",
+                "POST /properties/{propertyId}/maintenance-tasks",
+                "GET /tenant/credit-check/status/{tenantId}",
+                "POST /documents",
+                "GET /investment-opportunities"
+            ]
+        },
+        {
+            "query": "Compare multiple neighborhoods based on growth and demand metrics to identify the most suitable one for a new property investment. Afterward, add a new property listing to the system and attach rental history data for a specific tenant to the listing. Finally, delete an unwanted document related to the property listing.",
+            "endpoints": [
+                "POST /properties",
+                "GET /tenant/rental-history/{tenantId}",
+                "POST /neighborhood/comparison",
+                "DELETE /properties/{property_id}/documents/{document_id}"
+            ]
+        },
+        {
+            "query": "Create a new real estate property listing in the system, verify the identity of a prospective tenant to ensure eligibility for renting the property, retrieve available contract templates for creating a rental agreement, and access the API documentation for further details about these processes.",
+            "endpoints": [
+                "GET /documentation",
+                "GET /templates",
+                "POST /tenant/identity-verification",
+                "POST /properties"
+            ]
+        },
+        {
+            "query": "Update an existing document with new content, configure notification preferences for updates related to document changes via email, retrieve the updated API documentation for reference on using the document service efficiently, and then analyze top investment opportunities to finalize property management decisions. Finally, delete all stored data for a specific tenant to comply with privacy regulations.",
+            "endpoints": [
+                "DELETE /tenant/data/{tenantId}",
+                "GET /investment-opportunities",
+                "GET /documentation",
+                "PUT /settings/notifications",
+                "PUT /documents/{document_id}"
+            ]
+        },
+        {
+            "query": "Create a new real estate contract template for rental agreements, delete an existing maintenance task for a property that is no longer needed, retrieve details about a specific property listing to validate the contract's applicability, and compare neighborhoods to ensure the property is in a high-growth area.",
+            "endpoints": [
+                "POST /templates",
+                "DELETE /maintenance-tasks/{taskId}",
+                "GET /properties/{property_id}",
+                "POST /neighborhood/comparison"
+            ]
+        },
+        {
+            "query": "Assign a maintenance task to a service provider for a specific property, delete an underperforming property listing from the system, update the status of a specific document to \"finalized,\" check the credit check status of a tenant to evaluate their eligibility for renting the property, compare two contracts to identify differences for final review, submit a tenant's rental history request for verification, and add a new service provider to handle the maintenance task efficiently.",
+            "endpoints": [
+                "POST /maintenance-tasks/{taskId}/assign",
+                "DELETE /properties/{property_id}",
+                "PATCH /documents/{document_id}/status",
+                "GET /tenant/credit-check/status/{tenantId}",
+                "GET /contracts/comparison",
+                "POST /tenant/rental-history",
+                "POST /service-providers"
+            ]
+        },
+        {
+            "query": "Check the maintenance status of a specific task for a managed property, retrieve the current identity verification status of a tenant to assess their rental eligibility, analyze the rental market trends for a city to determine pricing strategies, and fetch the list of all managed properties in the system for assigning potential rental opportunities.",
+            "endpoints": [
+                "GET /rental-analysis",
+                "GET /tenant/identity-verification/status/{tenantId}",
+                "GET /maintenance-tasks/{taskId}/status",
+                "GET /properties"
+            ]
+        },
+        {
+            "query": "Remove a completed maintenance task from the system, retrieve the list of all managed properties to identify potential candidates for future tasks, and add a new service provider to handle maintenance operations efficiently.",
+            "endpoints": [
+                "DELETE /maintenance-tasks/{taskId}",
+                "GET /properties",
+                "POST /service-providers"
+            ]
+        }
+    ]
+}

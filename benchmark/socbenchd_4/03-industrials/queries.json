@@ -1,0 +1,103 @@
+{
+    "queries": [
+        {
+            "query": "Retrieve a summary of insights for specific industrial categories, gather safety compliance certificates for all sites, analyze market trends in industrial sectors, update configurations for ongoing projects, configure alert notifications for tracking late shipment deviations, delete records of completed shipments, and compare performance across industrial sectors to identify areas for improvement.",
+            "endpoints": [
+                "GET /insights-summary",
+                "GET /safety-certificates",
+                "GET /market-trends",
+                "PUT /projects/{id}",
+                "PUT /alerts/notifications",
+                "GET /sector-comparison",
+                "DELETE /shipments/{shipment_id}"
+            ]
+        },
+        {
+            "query": "Register a new machine for tracking, configure alert notifications for maintenance temperature thresholds, update the shipment route details for better delivery optimization, and delete the record of a shipment that has been successfully delivered.",
+            "endpoints": [
+                "POST /alerts",
+                "DELETE /shipments/{shipment_id}",
+                "PATCH /shipments/{shipment_id}/update",
+                "POST /machines/register"
+            ]
+        },
+        {
+            "query": "Retrieve historical shipment data analytics to analyze past trends, schedule a maintenance activity for a specific machine, update the metrics of an ongoing industrial project to reflect improved energy efficiency, and generate a comprehensive report summarizing the performance and results of these updates.",
+            "endpoints": [
+                "GET /analytics/historical-reports",
+                "PUT /projects/{id}",
+                "POST /reports",
+                "POST /maintenance/schedule"
+            ]
+        },
+        {
+            "query": "Optimize the allocation of available resources across industrial projects based on updated energy efficiency metrics, retrieve supporting documentation to ensure best practices are implemented effectively during this process, generate a summary report reflecting the overall performance improvements after optimization, remove outdated records of machines no longer in use, and update key project configurations to comply with the latest efficiency standards.",
+            "endpoints": [
+                "GET /support-documents",
+                "POST /resource-optimization",
+                "DELETE /machines/{id}",
+                "GET /report/summary",
+                "PUT /projects/{id}"
+            ]
+        },
+        {
+            "query": "Generate a comprehensive safety compliance and operational analysis by retrieving all existing safety alerts and compliance reports, accessing the detailed compliance status of a specific industrial project, reviewing insights into industrial safety trends, and identifying the list of all monitored machines for evaluation. Additionally, ensure to remove the record of a completed shipment to maintain an updated database. Include actionable recommendations for enhancing compliance standards and optimizing operational workflows.",
+            "endpoints": [
+                "GET /reports",
+                "GET /projects/{id}",
+                "GET /alerts",
+                "DELETE /shipments/{shipment_id}",
+                "GET /insights-summary",
+                "GET /machines"
+            ]
+        },
+        {
+            "query": "Analyze the market performance of a specific industrial sub-sector by gathering its historical trends and conducting a scenario analysis for future impacts. Retrieve supporting documentation for better understanding of the data methodologies, log all generated alerts for monitored machines, update the shipment details for optimized delivery, and access detailed location information of a relevant geo-system linked to tracked machines. Additionally, ensure to add a new machine to the system and fetch its detailed specifications to enhance operational insights.",
+            "endpoints": [
+                "POST /scenario-analysis",
+                "GET /support-documents",
+                "PATCH /shipments/{shipment_id}/update",
+                "GET /market-trends",
+                "GET /geo/locations/{location_id}",
+                "POST /machines/register",
+                "GET /machines/{id}/details",
+                "GET /alerts/log"
+            ]
+        },
+        {
+            "query": "Retrieve all active alerts to identify critical operational issues, analyze the performance of machines to evaluate overall efficiency, optimize the allocation of available resources based on the analyzed performance data, and fetch real-time traffic conditions to plan efficient navigation routes for resource transportation.",
+            "endpoints": [
+                "GET /alerts",
+                "GET /analytics/performance",
+                "POST /resource-optimization",
+                "GET /traffic/conditions"
+            ]
+        },
+        {
+            "query": "Analyze the investment potential for a specific region by identifying upcoming maintenance activities that could impact availability, understanding historical shipment trends for resource allocation, exploring regional distribution data for resource spread, and submitting investment parameters to generate optimal opportunities. Additionally, ensure to retrieve a list of submitted industrial projects to align with maintenance and investment strategies effectively.",
+            "endpoints": [
+                "GET /projects",
+                "GET /regional-distribution",
+                "POST /investment-opportunities",
+                "GET /maintenance/reminders",
+                "GET /analytics/historical-reports"
+            ]
+        },
+        {
+            "query": "Analyze the market trends for a specific industrial sub-sector to identify the regions with potential resource distribution challenges based on historical and forecasted data. Update the delivery route of a shipment accordingly to incorporate optimal navigation strategies for addressing these challenges effectively.",
+            "endpoints": [
+                "GET /market-trends",
+                "GET /regional-distribution",
+                "PATCH /shipments/{shipment_id}/update"
+            ]
+        },
+        {
+            "query": "Generate a safety improvement certificate for a site by analyzing the detailed operational insights of a specific machine and utilizing trend visualizations to identify areas of improvement in safety protocols.",
+            "endpoints": [
+                "POST /safety-certificates",
+                "GET /machines/{id}/details",
+                "GET /trend-visualizations"
+            ]
+        }
+    ]
+}

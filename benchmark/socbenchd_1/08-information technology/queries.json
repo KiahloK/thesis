@@ -1,0 +1,104 @@
+{
+    "queries": [
+        {
+            "query": "Log a new cybersecurity threat with details such as type, severity, and description. Then, retrieve the updated list of all logged threats. Use compliance reports to evaluate whether newly logged or existing threats are tied to non-compliant IT assets. Finally, fetch real-time tracking data of assets to identify any potential association with logged threats.",
+            "endpoints": [
+                "GET /threats",
+                "POST /threats",
+                "GET /compliance/reports",
+                "GET /tracking/assets"
+            ]
+        },
+        {
+            "query": "Enable a hook to trigger automatic alerts for cybersecurity threats. Retrieve all threats to ensure the hook action has triggered relevant alerts, identify any associated software vulnerabilities tied to the listed threats, update specific alert rules based on identified conditions and delete those no longer necessary. Finally, generate compliance reports to ensure regulatory measures are satisfied for the updated alerts and software associations.",
+            "endpoints": [
+                "POST /trigger-hook",
+                "GET /threats",
+                "GET /software",
+                "DELETE /alerts/{alert_id}",
+                "PUT /alerts/{alert_id}",
+                "GET /compliance/reports"
+            ]
+        },
+        {
+            "query": "Retrieve the optimization strategies available for scaling operations and fetch the detailed configuration of a specific resource identified by its ID. Validate the deployment configuration details to ensure accuracy before proceeding. Validate the backup integrity of this resource by analyzing its logs, then trigger an automatic scaling hook and validate its operations. Finally, monitor the logs for any anomalies observed during the scaling process.",
+            "endpoints": [
+                "GET /optimization-strategies",
+                "GET /resources/{id}",
+                "POST /data/validate",
+                "POST /trigger-hook",
+                "POST /validate",
+                "GET /logs"
+            ]
+        },
+        {
+            "query": "Update an existing alert rule to align with the latest security requirements, validate the operational status of the data backup system to ensure it is functioning correctly, and retrieve the list of all current cloud resources. Finally, initiate a scaling operation for a specific resource to enhance its performance under the updated conditions.",
+            "endpoints": [
+                "PUT /alerts/{alert_id}",
+                "GET /data/status",
+                "GET /resources",
+                "POST /resources/{id}/scale"
+            ]
+        },
+        {
+            "query": "Update the details of a specific IT equipment to include its latest operational status, then modify the integration settings for associated external systems to enhance its functionality. Proceed to adjust the configuration of a specific cloud resource to optimize its performance. Retrieve the updated details of the IT equipment to confirm the changes, enable an automated deployment hook to streamline future processes, update the operational status of a monitored system to reflect its active state, and finally, fetch the audit logs to ensure all actions are properly recorded.",
+            "endpoints": [
+                "PUT /equipment/{id}",
+                "PUT /integration",
+                "PUT /resources/{id}",
+                "GET /equipment/{id}",
+                "POST /trigger-hook",
+                "PUT /systems/{system_id}/status",
+                "GET /data/auditlogs"
+            ]
+        },
+        {
+            "query": "Find optimization strategies for scaling cloud resources effectively, retrieve detailed information about a specific IT equipment using its ID to evaluate compatibility with selected strategies, and analyze existing backups to assess the feasibility of implementing the chosen strategy without risking data security.",
+            "endpoints": [
+                "GET /optimization-strategies",
+                "GET /equipment/{id}",
+                "GET /data/backups"
+            ]
+        },
+        {
+            "query": "Identify all IT equipment in the inventory that might be susceptible to cybersecurity threats. Review the list of current threats to determine potential vulnerabilities or risks linked to these equipment. If new vulnerabilities are identified, add corresponding software patches or updates to mitigate risks. Retrieve the updated list of installed software to ensure all necessary patches are applied. Analyze all cloud resources to confirm their compatibility with the updated software and equipment. Use optimization strategies to enhance resource scaling, ensuring effective performance under the updated conditions. Finally, use real-time tracking data to verify that all equipment, software, and resources are operating correctly without any anomalies.",
+            "endpoints": [
+                "GET /tracking/assets",
+                "GET /software",
+                "GET /resources",
+                "GET /optimization-strategies",
+                "POST /software",
+                "GET /threats",
+                "GET /equipment"
+            ]
+        },
+        {
+            "query": "Retrieve the details of a specific IT equipment by its ID, then add new software to the inventory that can integrate with the equipment to improve its capabilities. Finally, generate a report to evaluate the overall inventory performance and ensure compliance after these changes.",
+            "endpoints": [
+                "GET /reports",
+                "POST /software",
+                "GET /equipment/{id}"
+            ]
+        },
+        {
+            "query": "Validate the configuration details of an upcoming backup to ensure integrity and avoid issues. Update the configuration settings to optimize the backup process based on the validation results. Delete any outdated IT equipment records no longer needed to maintain an accurate inventory. Remove unnecessary alerts linked to the deleted equipment to streamline monitoring. Finally, fetch the deployment system settings for ensuring alignment with updated configurations and operations.",
+            "endpoints": [
+                "GET /settings",
+                "POST /data/validate",
+                "DELETE /equipment/{id}",
+                "POST /data/configure",
+                "DELETE /alerts/{alert_id}"
+            ]
+        },
+        {
+            "query": "Update the integration settings of a system to improve its compatibility with deployment processes. Retrieve the current deployment system settings to align configurations accordingly. Identify any unnecessary rollback processes and delete them to streamline operations. Verify the updated integrations by fetching the current list of installed software. Finally, review active alerts to ensure none are linked to outdated configurations or systems.",
+            "endpoints": [
+                "DELETE /rollback",
+                "GET /settings",
+                "PUT /integration",
+                "GET /software",
+                "GET /alerts"
+            ]
+        }
+    ]
+}

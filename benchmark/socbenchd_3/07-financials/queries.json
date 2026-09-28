@@ -1,0 +1,99 @@
+{
+    "queries": [
+        {
+            "query": "Retrieve historical forex rates for a specified currency pair within a particular date range, configure an alert to notify of significant changes in the forex rates, fetch all insurance policies linked to a specific customer ID, delete a specified insurance policy by its unique ID, check the current status of a loan application, create a customized workflow for processing loan applications, and delete a loan application upon completion of its review.",
+            "endpoints": [
+                "GET /customers/{customerId}/policies",
+                "GET /forex/historical",
+                "DELETE /policies/{policyId}",
+                "POST /alerts/configure",
+                "POST /applications/workflows/customize",
+                "GET /applications/status",
+                "DELETE /applications"
+            ]
+        },
+        {
+            "query": "Provide the real-time stock price of a specified company ticker, along with its latest derivatives data for analysis. Submit a new loan application including the applicant's details and retrieve historical forex exchange rates for a particular currency pair within a defined date range to evaluate potential impacts. Lastly, retrieve detailed information about an insurance policy by its unique identifier.",
+            "endpoints": [
+                "GET /stocks/realtime",
+                "GET /derivatives/data",
+                "POST /applications",
+                "GET /forex/historical",
+                "GET /policies/{policyId}"
+            ]
+        },
+        {
+            "query": "Retrieve detailed information about all the assets listed in a user's portfolio, retrieve the profile data of a specific client using their client ID, remove a completed loan application from the system, and update details or the status of an existing claim identified by its unique claim ID.",
+            "endpoints": [
+                "GET /assets",
+                "GET /client-profile/{clientId}",
+                "DELETE /applications",
+                "PATCH /claims/{claimId}"
+            ]
+        },
+        {
+            "query": "Check the operational status of the service to ensure it is functioning properly, and update the details of an existing loan application with new applicant contact information and a revised loan amount.",
+            "endpoints": [
+                "PATCH /applications",
+                "GET /services/healthcheck"
+            ]
+        },
+        {
+            "query": "Evaluate the credit risk for a client by submitting their financial data, retrieve compliance validation status for an ongoing loan application, fetch a user's detailed portfolio data by specifying its ID, customize a new loan application workflow using specific steps, submit a new claim for an insurance policy, retrieve recommended lending terms for a client using their client ID, and check the real-time forex exchange rates for a specific currency pair.",
+            "endpoints": [
+                "GET /portfolios/{id}",
+                "POST /evaluate-credit-risk",
+                "GET /compliance-status",
+                "GET /suggested-lending-terms/{clientId}",
+                "POST /applications/workflows/customize",
+                "POST /claims",
+                "GET /forex/realtime"
+            ]
+        },
+        {
+            "query": "Evaluate the credit risk for a client by providing their financial details, submit a claim under an existing insurance policy, retrieve detailed information about a specific investment portfolio by its unique ID, analyze the performance metrics of the user's entire portfolio, and finally delete a client profile from the system using their unique client ID.",
+            "endpoints": [
+                "POST /evaluate-credit-risk",
+                "POST /claims",
+                "GET /portfolios/{id}",
+                "GET /performance",
+                "DELETE /delete-client-profile/{clientId}"
+            ]
+        },
+        {
+            "query": "Retrieve the profile details of a specific client using their unique client ID, fetch historical stock data for a specified ticker within a given date range, delete a loan application once its status has been finalized, submit a new loan application with the applicant's information and loan requirements, obtain insights into the performance and reliability of the algorithm used for credit evaluation, upload required documents for a specific loan application, and update the details of an existing client profile using new data such as updated address or financial details.",
+            "endpoints": [
+                "GET /client-profile/{clientId}",
+                "GET /stocks/historical",
+                "DELETE /applications",
+                "POST /applications",
+                "GET /algorithm-insights",
+                "POST /applications/documents/upload",
+                "PUT /update-client-profile"
+            ]
+        },
+        {
+            "query": "Create a new investment portfolio for managing assets with a specific allocation strategy, and retrieve the complete list of all portfolios to verify the newly added one.",
+            "endpoints": [
+                "POST /portfolios",
+                "GET /portfolios"
+            ]
+        },
+        {
+            "query": "Remove an existing market alert configuration by its unique ID and update an existing loan application's details to include modifications in the applicant's financial information and the requested loan amount.",
+            "endpoints": [
+                "DELETE /alerts/remove",
+                "PATCH /applications"
+            ]
+        },
+        {
+            "query": "Analyze the trading data of a specified derivative by providing its contract type and symbol to understand its current market performance, update the premium and coverage details of an existing insurance policy using its unique identifier, retrieve insights into the performance metrics and reliability of the credit risk evaluation algorithm, and fetch the credit score of a specific applicant using their unique applicant ID for loan assessment.",
+            "endpoints": [
+                "GET /derivatives/data",
+                "PUT /policies/{policyId}",
+                "GET /algorithm-insights",
+                "GET /credit-scores"
+            ]
+        }
+    ]
+}

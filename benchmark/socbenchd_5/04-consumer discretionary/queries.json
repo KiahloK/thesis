@@ -1,0 +1,104 @@
+{
+    "queries": [
+        {
+            "query": "Retrieve all my active notifications, update the menu template for my restaurant with additional items, fetch a list of my registered vehicles, get details of available hotel rooms under $200, and submit feedback about the booking experience.",
+            "endpoints": [
+                "GET /notifications",
+                "PUT /menu/template/{id}",
+                "GET /vehicles",
+                "GET /rooms",
+                "POST /feedback"
+            ]
+        },
+        {
+            "query": "Increase the popularity score of the dish with ID 12345 to reflect its updated sales trend, and retrieve the latest details of the menu template with ID 56789 to verify the changes in the offerings.",
+            "endpoints": [
+                "PUT /dishes/{id}/popularity",
+                "GET /menu/template/{id}"
+            ]
+        },
+        {
+            "query": "Retrieve all my past activity history for vehicle maintenance and interactions, compare ticket prices between selected venues for an event, retrieve all my past alerts for threshold violations that were triggered due to low stock, check availability of tickets at my chosen venue, place a new booking for a confirmed date, retrieve the booking details after confirmation, and delete a restock alert that is no longer needed.",
+            "endpoints": [
+                "GET /history",
+                "POST /bookings",
+                "GET /bookings/{id}",
+                "POST /compare-prices",
+                "GET /threshold-violations",
+                "DELETE /restock-alerts/{id}",
+                "GET /availability"
+            ]
+        },
+        {
+            "query": "Create a detailed allergens analysis for a custom dish by checking its ingredients against my defined allergens, update my email notification preferences for stock updates, retrieve a comprehensive catalog of all available products, and fetch the list of my registered vehicles to review maintenance compatibility.",
+            "endpoints": [
+                "PUT /preferences",
+                "POST /allergens/check",
+                "GET /vehicles",
+                "GET /product-catalog"
+            ]
+        },
+        {
+            "query": "I am planning an event and need to identify suitable venues by retrieving all available options with their details. Simultaneously, I want to fetch the menu of a specific restaurant to consider catering options. Once I finalize the venue and date, I need to place a booking for the event at the selected venue. Since I am also managing a maintenance center, I would like to update its details with new contact information and operational hours. Additionally, I want to update my stock notification preferences to prioritize important alerts. After making these changes, I need to delete a specific notification that is no longer relevant and then retrieve all remaining active notifications to stay updated. For the event's menu, I need to create a new, customized menu template based on the event's theme. Lastly, I want to place a restock order for specific items that are running low to ensure smooth operations during the event.",
+            "endpoints": [
+                "GET /venues",
+                "GET /restaurants/{id}/menu",
+                "POST /bookings",
+                "PUT /maintenancecenter/{id}/details",
+                "PUT /preferences",
+                "DELETE /notification/{id}",
+                "GET /notifications",
+                "POST /menu/template",
+                "POST /order-restock"
+            ]
+        },
+        {
+            "query": "I am organizing a promotional campaign and want to explore all current hotel booking promotions to create attractive offers. Additionally, I need to delete a notification related to an outdated promotion that is no longer relevant. To ensure our dishes remain competitive, I want to enhance the popularity score of a top-performing dish based on recent customer feedback. I am also looking for personalized booking recommendations for users to include in the campaign. Simultaneously, I need to analyze past stock threshold violations to avoid supply issues during the campaign. Finally, I want to gather detailed customer feedback to improve the booking process and tailor future promotions effectively.",
+            "endpoints": [
+                "GET /promotions",
+                "DELETE /notification/{id}",
+                "PUT /dishes/{id}/popularity",
+                "GET /recommendations",
+                "GET /threshold-violations",
+                "POST /feedback"
+            ]
+        },
+        {
+            "query": "I am planning to book a venue for a conference and need to retrieve the details of a specific venue that I am considering. Additionally, I want to fetch the list of all my registered vehicles to assess which vehicle can be used for transportation. For the selected vehicle, I need to view its complete maintenance records to ensure reliability before the event. I would also like to verify ticket availability for the chosen venue on the desired date to confirm event scheduling. Once these details are finalized, I want to create a booking for the conference at the venue and submit feedback about my overall booking experience.",
+            "endpoints": [
+                "POST /bookings",
+                "GET /venues/{id}",
+                "GET /vehicles",
+                "GET /vehicle/{id}/maintenancerecords",
+                "POST /feedback",
+                "GET /availability/{date}"
+            ]
+        },
+        {
+            "query": "I am managing stock levels for my retail store and need to check the current inventory for a specific product to determine its availability. Additionally, I would like to retrieve a list of all vehicles in my fleet to identify which one can be used for transporting additional inventory if needed. To improve the menu offerings in the store, I want to submit detailed feedback on the menu layout and customer experience. Lastly, I need to review the upcoming delivery schedules for all inventory to plan restocking efficiently.",
+            "endpoints": [
+                "GET /stock-levels",
+                "GET /vehicles",
+                "POST /feedback/menu",
+                "GET /inventory-schedules"
+            ]
+        },
+        {
+            "query": "I want to create a booking for a hotel stay by specifying the customer details, room types, and stay dates. After confirming the booking, I need to update the menu template for my restaurant to include new seasonal dishes. Additionally, I want to check the current stock levels for a specific product in my inventory to prepare for the upcoming restaurant promotions.",
+            "endpoints": [
+                "POST /bookings",
+                "PUT /menu/template/{id}",
+                "GET /stock-levels"
+            ]
+        },
+        {
+            "query": "I am managing a restaurant and want to optimize my operations. First, I need to gather a list of all distribution centers and their current stockholding summaries to identify where I can source supplies more effectively. Additionally, I would like to review the details of the current menu template used in my restaurant to ensure it aligns with customer preferences. I also need to cancel a booking for a customer who changed their plans and no longer needs the reserved table. Lastly, I want to fetch recommendations for maintenance services for a specific vehicle in my fleet to ensure it remains operational for catering deliveries.",
+            "endpoints": [
+                "GET /distribution-centers",
+                "GET /menu/template/{id}",
+                "DELETE /bookings/{id}",
+                "GET /vehicle/{id}/recommendations"
+            ]
+        }
+    ]
+}

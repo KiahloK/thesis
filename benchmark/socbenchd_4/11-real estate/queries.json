@@ -1,0 +1,95 @@
+{
+    "queries": [
+        {
+            "query": "Create a system to compare rental property investment opportunities by first retrieving a property list, selecting specific properties by their IDs for further analysis, submitting these IDs to generate an investment report, and creating new records for any potential properties identified during the process with maintenance requests logged for existing properties as needed.",
+            "endpoints": [
+                "GET /properties",
+                "POST /maintenance-requests",
+                "POST /investment/reports",
+                "GET /properties/{id}",
+                "POST /properties"
+            ]
+        },
+        {
+            "query": "Retrieve the ownership history of a property using its unique ID, submit an inquiry for clarifications or additional information about the property, and generate a custom report containing detailed insights from the ownership history and the inquiry response.",
+            "endpoints": [
+                "GET /ownership-history/{id}",
+                "POST /inquiries",
+                "POST /reports/custom"
+            ]
+        },
+        {
+            "query": "Retrieve detailed information about a specific property using its unique ID, fetch the list of developers involved in the property, and gather information about tenants residing in the property for further analysis.",
+            "endpoints": [
+                "GET /properties/{id}",
+                "GET /developers",
+                "GET /tenants"
+            ]
+        },
+        {
+            "query": "Find a rental property available in the system, retrieve information about its current tenants using their ID, and create a new rental agreement between the landlord and one of the tenants. Then, fetch detailed information about a specific property for potential ownership transfer, submit a transfer request for the new owner, and finally generate an investment report for selected properties.",
+            "endpoints": [
+                "GET /properties",
+                "GET /tenants/{id}",
+                "POST /rental-agreements",
+                "GET /property/{id}",
+                "POST /ownership-transfer",
+                "POST /investment/reports"
+            ]
+        },
+        {
+            "query": "Retrieve a list of all properties in the system, update the information of a specific property with new details, fetch the details of a tenant associated with the updated property using their unique ID, and submit a new property record to the system for registration.",
+            "endpoints": [
+                "GET /tenants/{id}",
+                "GET /properties",
+                "PUT /properties/{id}",
+                "POST /property"
+            ]
+        },
+        {
+            "query": "Retrieve multimedia resources such as images and videos for a specific property using its unique ID, identify potential investment hotspots based on high potential regions, and submit a new property record to register it in the system with its address, owner details, and registration number.",
+            "endpoints": [
+                "GET /multimedia/{id}",
+                "GET /investment-opportunities/hotspots",
+                "POST /property"
+            ]
+        },
+        {
+            "query": "Compare market analytics across multiple regions by retrieving the list of all available locations, selecting specific regions for analysis, and updating user preferences with custom filters to focus on specific metrics. Then, update the details of a specific property and retrieve aggregated valuation statistics for the adjusted property's area to gain insights into its market potential.",
+            "endpoints": [
+                "PUT /preferences/user-settings",
+                "GET /analytics/market-comparisons",
+                "PUT /property/{id}",
+                "GET /locations",
+                "GET /area/valuation-statistics"
+            ]
+        },
+        {
+            "query": "Delete a specific property record using its unique ID and then retrieve the list of all inquiries made by users for clarity or additional details about properties in the system.",
+            "endpoints": [
+                "DELETE /property/{id}",
+                "GET /inquiries"
+            ]
+        },
+        {
+            "query": "Generate a detailed report about a property by retrieving its features, submitting an inquiry for further details, fetching the main property information, updating the property information with additional data if needed, and retrieving information about the developers associated with the property.",
+            "endpoints": [
+                "GET /property/features/{id}",
+                "POST /inquiries",
+                "GET /properties/{id}",
+                "PUT /properties/{id}",
+                "GET /developers"
+            ]
+        },
+        {
+            "query": "Save a specific property to the user\u2019s favorite list, retrieve a list of all available properties in the system, fetch detailed information about a particular property using its unique ID, retrieve all properties within a specified region for comparison, and create a rental agreement for one of the properties based on its details.",
+            "endpoints": [
+                "POST /favorites",
+                "GET /properties",
+                "GET /properties/{id}",
+                "GET /region/{region_id}/properties",
+                "POST /rental-agreements"
+            ]
+        }
+    ]
+}

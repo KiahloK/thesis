@@ -1,0 +1,102 @@
+{
+    "queries": [
+        {
+            "query": "Create a new software license for a financial application, set its license type as perpetual, and trigger an alert notifying the team about the configuration. Validate its configuration by running a transformation action to ensure compliance with organizational rules, and upon success, test the integration of the alert notification system to confirm real-time monitoring capabilities for software usage incidents. Delete an outdated transformation rule no longer required for license validation, retrieve the current automated workflows available for handling software-related alerts, and fetch a list of existing transformation and analytical rules for review.",
+            "endpoints": [
+                "GET /settings/workflows",
+                "POST /data/transform",
+                "POST /integration/test",
+                "POST /alert",
+                "POST /software/licenses",
+                "DELETE /config/rules/{ruleID}"
+            ]
+        },
+        {
+            "query": "Retrieve a list of supported cloud vendor platforms, and then delete a specific IT asset from the system using its unique ID, ensuring it aligns with organizational vendor-related policies.",
+            "endpoints": [
+                "GET /vendors",
+                "DELETE /assets/{assetId}"
+            ]
+        },
+        {
+            "query": "Configure multi-factor authentication (MFA) for a specific user using their ID and phone number. Update the user's assigned role to grant additional permissions required for accessing a specific module. Retrieve all log activity for the user's account during the past week to review actions performed. Delete the user's account after reviewing the logs and ensuring compliance with security protocols. Modify an existing alert with updated severity and details to notify the team of potential unauthorized access related to the account. Finally, fetch the details of all the organization's IT assets to ensure there are no dependencies left related to the deleted user.",
+            "endpoints": [
+                "POST /auth/mfa",
+                "PUT /roles/{roleId}",
+                "GET /logs/activities",
+                "DELETE /users/{userId}",
+                "PUT /alert/{alertId}",
+                "GET /assets"
+            ]
+        },
+        {
+            "query": "Assess the current resource usage metrics to evaluate system performance and identify potential bottlenecks. Retrieve the list of supported cloud vendor platforms to identify options for deploying resources dynamically. Create a new resource with specific configurations to address identified inefficiencies. Update the progress of an ongoing incident by providing new information and changing its priority to critical. Modify the configuration of an existing transformation rule to meet updated compliance requirements and ensure resource optimization.",
+            "endpoints": [
+                "GET /metrics/resource-usage",
+                "GET /vendors",
+                "POST /resources",
+                "PATCH /incident/{incidentId}",
+                "PUT /config/rules/{ruleID}"
+            ]
+        },
+        {
+            "query": "Assign a new role to a department manager with relevant permissions, create a new user for the department manager with their details and initial role assignment, remove an outdated resource configuration identified by its unique ID to free up system resources, and update an alert to enhance the severity level and include detailed information about a critical system performance issue.",
+            "endpoints": [
+                "POST /roles",
+                "POST /users",
+                "DELETE /resources/{id}",
+                "PUT /alert/{alertId}"
+            ]
+        },
+        {
+            "query": "Retrieve detailed information about a specific cloud resource using its unique ID, update the resource configuration to optimize performance parameters, fetch a complete list of all IT assets to assess dependencies or related metadata, and list all available cloud resources to compare current configurations and identify opportunities for further optimization.",
+            "endpoints": [
+                "GET /resources/{id}",
+                "PUT /resources/{id}",
+                "GET /assets",
+                "GET /resources"
+            ]
+        },
+        {
+            "query": "Analyze the performance metrics of configured resources to identify any underperforming systems and create an alert to notify the relevant team about systems exhibiting degraded performance levels.",
+            "endpoints": [
+                "POST /alerts",
+                "GET /performance"
+            ]
+        },
+        {
+            "query": "Perform a system health check to ensure all services are operational. Retrieve a list of users in the system and update the details of a specific user to assign additional roles and permissions. Delete a user account that is no longer active after reviewing compliance and logs. Fetch a complete list of available cloud resources to evaluate current resource usage and optimize configurations. Create a new incident to address a detected issue and update its priority and details as new information becomes available. Generate an audit report to review organizational compliance, analyze system performance metrics for bottlenecks, and retrieve activity logs for detailed monitoring. Lastly, list all automated workflows in place for managing incidents effectively.",
+            "endpoints": [
+                "GET /healthcheck",
+                "DELETE /users/{userId}",
+                "GET /resources",
+                "GET /settings/workflows",
+                "POST /incident",
+                "PATCH /incident/{incidentId}",
+                "GET /logs/activities",
+                "GET /performance",
+                "GET /audit/reports",
+                "GET /users",
+                "PUT /users/{userId}"
+            ]
+        },
+        {
+            "query": "Delete an outdated cloud resource identified by its unique ID to free up space for new configurations, remove a specific IT asset related to the resource to ensure compliance with organizational policies, and test the integration of the monitoring system to verify seamless notifications for resource-related alerts.",
+            "endpoints": [
+                "DELETE /resources/{id}",
+                "DELETE /assets/{assetId}",
+                "POST /integration/test"
+            ]
+        },
+        {
+            "query": "Retrieve the details of a specific user's account by their ID to ensure accurate information, update the configuration of a specific IT asset to align with new compliance standards, modify the details of an existing alert to reflect updated severity and reasons for the alert, generate a comprehensive audit report for organizational compliance inspection, and apply a specific transformation rule to a dataset to optimize processing and meet compliance requirements.",
+            "endpoints": [
+                "GET /users/{userId}",
+                "PUT /assets/{assetId}",
+                "PUT /alert/{alertId}",
+                "GET /audit/reports",
+                "POST /data/transform"
+            ]
+        }
+    ]
+}

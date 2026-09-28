@@ -1,0 +1,109 @@
+{
+    "queries": [
+        {
+            "query": "Update an existing customer feedback entry by modifying its content and metadata, customize the feedback analysis process by focusing on specific criteria, upload a new video with its title and description, submit a manual recommendation for testing a specific scenario, and verify the platform's health status to ensure all processes are functioning correctly.",
+            "endpoints": [
+                "PUT /feedbacks/{feedbackId}",
+                "GET /platform/health",
+                "POST /manual/recommendation",
+                "POST /video/upload",
+                "POST /analysis/customize"
+            ]
+        },
+        {
+            "query": "Retrieve the history of all recent calls, update the user's alert settings to enable notifications for usage changes, fetch the details of a specific customer feedback entry, submit a new feedback entry for analysis, log a user's recent viewing activity, and conclude an active live session by providing the session ID.",
+            "endpoints": [
+                "GET /calls/history",
+                "PUT /alerts/settings",
+                "GET /feedbacks/{feedbackId}",
+                "POST /feedbacks",
+                "POST /history/view",
+                "POST /live/{sessionID}/end"
+            ]
+        },
+        {
+            "query": "Retrieve the streaming URL for a specific video by providing its ID, search for feedback entries based on specific keywords and date range, fetch the user's current preferences for recommendations, initiate a payment for a pending invoice, send a new encrypted message to a specified recipient, reply to an existing encrypted message using its message ID, and request the deletion of the user's account data including all associated history.",
+            "endpoints": [
+                "GET /video/{videoID}/streamingUrl",
+                "GET /feedbacks/search",
+                "GET /user/preferences",
+                "POST /payments",
+                "POST /messages/reply",
+                "POST /messages/send",
+                "DELETE /account/data"
+            ]
+        },
+        {
+            "query": "Start a live video session to showcase a product launch, upload a promotional video with the necessary metadata, analyze viewer engagement during the live session, retrieve customer trends in feedback related to the product category, customize the analysis process to focus specifically on this product line, retrieve user preferences to tailor live announcements effectively, initiate a secure call for feedback with key customers, and download a comprehensive report on feedback insights for post-event analysis.",
+            "endpoints": [
+                "POST /analysis/customize",
+                "POST /live/start",
+                "POST /video/upload",
+                "GET /export/reports",
+                "GET /user/preferences",
+                "GET /insights/trends",
+                "POST /calls/start",
+                "GET /analytics/engagement"
+            ]
+        },
+        {
+            "query": "Initiate a secure call with a customer to discuss billing queries, check the user's current preference settings to tailor the call effectively, submit the query details regarding discrepancies in the billing statement, and retrieve the customer support contact information for further assistance if needed.",
+            "endpoints": [
+                "POST /calls/start",
+                "GET /user/preferences",
+                "POST /communication/queries",
+                "GET /support/contacts"
+            ]
+        },
+        {
+            "query": "Generate a detailed report containing metadata of all available videos, retrieve the streaming URL for a specific video to verify its accessibility, find similar content based on a given video ID to identify related topics, initiate a secure call with a client to discuss the video recommendations, retrieve contact details of customer support for further assistance if needed, and finally download a comprehensive report summarizing all the findings.",
+            "endpoints": [
+                "GET /content/similar/{id}",
+                "GET /video/{videoID}/streamingUrl",
+                "GET /support/contacts",
+                "POST /calls/start",
+                "GET /export/reports",
+                "GET /video/metadata"
+            ]
+        },
+        {
+            "query": "Retrieve the list of encrypted messages received by the user, check the user's current privacy and app settings to ensure compliance, get an overview of the account including billing and usage summary, update the feedback content from a particular customer based on their feedback ID, fetch metadata about all available videos in the system, customize the feedback analysis process to emphasize sentiment toward newly launched video content, and submit new feedback regarding the user experience with viewing these videos.",
+            "endpoints": [
+                "GET /messages/received",
+                "GET /user/settings",
+                "GET /overview",
+                "PUT /feedbacks/{feedbackId}",
+                "GET /video/metadata",
+                "POST /analysis/customize",
+                "POST /feedbacks"
+            ]
+        },
+        {
+            "query": "Initiate a payment for an outstanding invoice, retrieve the user's current preferences to tailor a payment notification, verify the platform's operational health before proceeding, conclude a live session after handling payment-related queries, and download a comprehensive report summarizing the transaction and session details for record-keeping.",
+            "endpoints": [
+                "POST /live/{sessionID}/end",
+                "GET /export/reports",
+                "GET /platform/health",
+                "POST /payments",
+                "GET /user/preferences"
+            ]
+        },
+        {
+            "query": "Update the alert settings to enable notifications for billing changes, retrieve an overview of the user's account including usage and billing summary, generate new encryption keys for secure communications, and fetch the user\u2019s current privacy and application settings to ensure proper configuration for seamless service usage.",
+            "endpoints": [
+                "GET /user/settings",
+                "PUT /alerts/settings",
+                "POST /user/encrypt-keys",
+                "GET /overview"
+            ]
+        },
+        {
+            "query": "Submit a new video along with its title and description, initiate a payment for a recently issued invoice, and log the video viewing activity of a user to track their engagement.",
+            "endpoints": [
+                "POST /video/upload",
+                "POST /payments",
+                "POST /history/view"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,96 @@
+{
+    "queries": [
+        {
+            "query": "I want to schedule a retrended energy analysis for the past week for a specific facility, update its energy monitoring settings threshold to 100 kWh weekly, and ensure a delivery notification alert is set up for any maintenance delays on aerospace components tracked within this region. Additionally, I\u2019d like to add a new aerospace component for tracking and retrieve all delay reports for tracked components.",
+            "endpoints": [
+                "POST /alerts/notifications",
+                "PUT /facilities/{facility_id}/settings",
+                "POST /components",
+                "GET /reports/delay",
+                "POST /analysis/retrend"
+            ]
+        },
+        {
+            "query": "I need to update an existing logistics route to modify its schedule and stops. Following this, I must schedule a maintenance task for machinery that coincides with the updated route's timeframe. Additionally, retrieve a list of all construction facilities along the route to verify if any require updates based on the new logistics plan, and post a status or location update for a specific tracked aerospace component that intersects with the logistics route changes.",
+            "endpoints": [
+                "PUT /logistics/routes/update",
+                "POST /maintenance/schedule",
+                "GET /facilities",
+                "POST /tracking/{id}/update"
+            ]
+        },
+        {
+            "query": "Generate a detailed analytics report for the supply chain system, retrieve the complete list of all tracked aerospace components to identify components requiring removal, and delete a specific aerospace component after confirming it is no longer needed based on analytics insights.",
+            "endpoints": [
+                "POST /analytics/generate",
+                "GET /components",
+                "DELETE /components/{id}"
+            ]
+        },
+        {
+            "query": "Integrate a new third-party logistics provider to enhance route optimization capabilities, update the energy monitoring settings of a specific construction facility to reduce its threshold to 80 kWh daily, add a new aerospace component for supply chain tracking, and delete an outdated alert based on its unique identifier.",
+            "endpoints": [
+                "POST /components",
+                "DELETE /alerts/{alert_id}",
+                "POST /integrations/third-party",
+                "PUT /facilities/{facility_id}/settings"
+            ]
+        },
+        {
+            "query": "Retrieve failure reports of machinery within the last month, analyze regional energy efficiency trends to determine areas for improvement, and update the tracking status and location of a specific aerospace component reflecting recent supply chain changes.",
+            "endpoints": [
+                "GET /reports/failures",
+                "GET /regions/reports",
+                "POST /tracking/{id}/update"
+            ]
+        },
+        {
+            "query": "I need to retrieve the real-time status of all monitored machinery, verify the list of construction facilities for any overlapping operations with the machinery's locations, and update the environmental impact details of an industrial site near the identified machinery for accuracy.",
+            "endpoints": [
+                "GET /machinery/status",
+                "GET /facilities",
+                "PATCH /sites/{site_id}/update"
+            ]
+        },
+        {
+            "query": "Submit an environmental impact report for a specific industrial site after verifying its details, integrate a third-party logistics provider to enhance operational efficiency, retrieve the list of all monitored construction facilities for cross-verification, analyze regional energy efficiency trends to identify areas for improvement, and provide detailed information for a specific tracked aerospace component.",
+            "endpoints": [
+                "GET /components/{id}",
+                "GET /regions/reports",
+                "GET /facilities",
+                "POST /sites/{site_id}/report",
+                "POST /integrations/third-party"
+            ]
+        },
+        {
+            "query": "Retrieve the list of all industrial sites and their details, fetch the complete list of all tracked aerospace components, analyze the energy sensor data for a specific facility, retrieve detailed information for a specific aerospace component using its unique ID, and delete an industrial site after confirming it has no associated components or active sensor data dependencies.",
+            "endpoints": [
+                "GET /sites",
+                "DELETE /sites/{site_id}",
+                "GET /components/{id}",
+                "GET /sensors/data",
+                "GET /components"
+            ]
+        },
+        {
+            "query": "Generate a weekly summary of logistics operations, including delivery time performance statistics and compliance with regulatory standards. Retrieve environmental data for a specified industrial site, identify needed improvements, and update its details accordingly. Cross-check all tracked aerospace components within the supply chain, register any missing components, and ensure compliance with applicable regulations.",
+            "endpoints": [
+                "GET /reports/weekly-summary",
+                "GET /components",
+                "GET /analytics/delivery-times",
+                "PATCH /sites/{site_id}/update",
+                "GET /regulations/standards",
+                "GET /sites/{site_id}/environmental_data",
+                "POST /sites/add"
+            ]
+        },
+        {
+            "query": "Generate a comprehensive logistics optimization plan by analyzing delivery time statistics to identify bottlenecks, retrieving all supply chain stages to map operational flow, and initiating a retrended analysis for the last two weeks to improve delivery performance efficiency.",
+            "endpoints": [
+                "GET /analytics/delivery-times",
+                "POST /analysis/retrend",
+                "GET /supplychain/stages"
+            ]
+        }
+    ]
+}

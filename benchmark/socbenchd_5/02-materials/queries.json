@@ -1,0 +1,98 @@
+{
+    "queries": [
+        {
+            "query": "Retrieve the current inventory details of materials for all mining sites, update the material stock levels reflecting recent changes, initiate sustainability compliance audits for specific resource batches identified as critical, create custom alerts for monitoring inventory levels and triggering notifications when thresholds are reached, allocate additional personnel to sites experiencing high workloads, and delete an outdated efficiency report that is no longer required.",
+            "endpoints": [
+                "GET /inventory/materials",
+                "POST /sustainability/audit",
+                "POST /alerts/create",
+                "POST /personnel/allocate",
+                "POST /inventory/materials/update",
+                "DELETE /report/{id}"
+            ]
+        },
+        {
+            "query": "Remove a specific chemical from the inventory based on its unique identifier and update the allocation of machinery to compensate for the removal in order to prepare for the introduction of a replacement chemical.",
+            "endpoints": [
+                "DELETE /chemicals/{id}",
+                "POST /machinery/allocate"
+            ]
+        },
+        {
+            "query": "Optimize the allocation of machinery at various sites by analyzing the current deployment, evaluate the energy consumption levels across production units to identify inefficiencies, and generate an overall production analytics report to prioritize resources effectively.",
+            "endpoints": [
+                "GET /machinery/allocate",
+                "GET /energy-consumption/overview",
+                "GET /analytics/production"
+            ]
+        },
+        {
+            "query": "Submit the current details of newly added construction materials to the repository, update the inventory stock levels to reflect changes in material availability, validate the health status of the production monitoring system for seamless updates, monitor the ongoing operational status of mining sites to ensure materials are effectively utilized, and define new standards for material specifications to maintain compliance and quality assurance.",
+            "endpoints": [
+                "POST /standards",
+                "GET /system-health/status",
+                "POST /materials",
+                "GET /operations/status",
+                "POST /inventory/materials/update"
+            ]
+        },
+        {
+            "query": "Identify potential compliant materials for the construction of a new mining facility based on specific criteria, update the monitoring status of critical resource batches to ensure operational consistency, validate the overall health of production monitoring systems to avoid disruptions, review the current allocation of machinery to ensure effective utilization, and initiate a sustainability compliance audit for key resource batches to maintain environmental standards.",
+            "endpoints": [
+                "GET /materials/search",
+                "PUT /product/{id}/status",
+                "GET /system-health/status",
+                "GET /machinery/allocate",
+                "POST /sustainability/audit"
+            ]
+        },
+        {
+            "query": "Retrieve a list of all materials currently available to ensure updated records before applying changes, update inventory stock levels to reflect recent adjustments in material availability, delete a specific chemical that violates compliance or is no longer required, validate the operational health of monitoring systems to avoid interruptions during updates, update the delivery schedule for a specific product batch to align with current operational changes, fetch the latest recommended actions to improve processes related to material management, examine detailed site locations to understand operational storage needs, delete an outdated alert that no longer aligns with the current conditions, and update the storage settings to meet the revised compliance and operational standards.",
+            "endpoints": [
+                "GET /materials",
+                "POST /inventory/materials/update",
+                "DELETE /chemicals/{id}",
+                "GET /system-health/status",
+                "PATCH /product/{id}/delivery",
+                "GET /recommended-actions/latest",
+                "GET /sites/details",
+                "DELETE /alerts/{id}",
+                "PUT /settings/storage"
+            ]
+        },
+        {
+            "query": "Analyze the operational health of the system to ensure continuous monitoring, retrieve a detailed list of all inventory materials currently tracked to confirm their availability, submit updates for the machinery allocation to optimize resource deployment across various sites, review energy consumption data to identify areas with high inefficiencies, retrieve detailed information for a specific chemical by its unique identifier, and access the specifications and details of a particular material for validation of compliance and storage requirements.",
+            "endpoints": [
+                "GET /system-health/status",
+                "GET /inventory/materials",
+                "POST /machinery/allocate",
+                "GET /energy-consumption/overview",
+                "GET /chemicals/{id}",
+                "GET /materials/{id}"
+            ]
+        },
+        {
+            "query": "Verify the current status of all forest product batches in the system, retrieve detailed information about a specific chemical by its unique identifier, and make necessary updates to the chemical's information to align with new operational or compliance requirements.",
+            "endpoints": [
+                "GET /forest-products/status",
+                "GET /chemicals/{id}",
+                "PUT /chemicals/{id}"
+            ]
+        },
+        {
+            "query": "Remove a discontinued chemical from the inventory by its unique identifier to free up space for storing a newly procured batch.",
+            "endpoints": [
+                "DELETE /chemicals/{id}"
+            ]
+        },
+        {
+            "query": "Submit feedback for a newly added construction material regarding its specifications and storage requirements, validate the detailed specifications of another material for comparison, update the storage settings to ensure compliance with the new material's requirements, and upload details of an additional construction material for future reference.",
+            "endpoints": [
+                "POST /materials/{id}/feedback",
+                "GET /materials/{id}",
+                "POST /materials",
+                "PUT /settings/storage"
+            ]
+        }
+    ]
+}

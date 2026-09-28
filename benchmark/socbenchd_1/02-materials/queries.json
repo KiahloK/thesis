@@ -1,0 +1,102 @@
+{
+    "queries": [
+        {
+            "query": "Provide the materials used in a specific project identified by its project ID, along with recommendations for improving the recyclability of those materials. Additionally, suggest a new recycler that can process the improved materials, including their name, location, and the materials they accept.",
+            "endpoints": [
+                "POST /recyclers/suggestions",
+                "GET /projects/{id}/materials",
+                "GET /suggestions/material-improvements"
+            ]
+        },
+        {
+            "query": "Add a new mining site, schedule maintenance for its operational equipment, and generate a custom report that includes regulatory updates and the current operational status of the machinery. Retrieve the materials associated with a project at the site and remove any obsolete materials identified in the inventory.",
+            "endpoints": [
+                "POST /equipment/maintenance-schedule",
+                "GET /equipment-status",
+                "GET /regulatory-updates",
+                "POST /sites/add",
+                "GET /projects/{id}/materials",
+                "DELETE /inventory/material/{material_id}",
+                "POST /custom-report"
+            ]
+        },
+        {
+            "query": "Analyze the recyclability of all available materials and suggest improvements for each material. After identifying obsolete materials in inventory, remove them from the system. Additionally, start a performance analysis for the machinery related to processing these materials.",
+            "endpoints": [
+                "DELETE /inventory/material/{material_id}",
+                "GET /suggestions/material-improvements",
+                "POST /analysis/start",
+                "GET /materials"
+            ]
+        },
+        {
+            "query": "Retrieve the various resource types available at different sites and analyze their associated market trends based on product categories or regions. Access the materials used in a specific project and align them with the updated material categories for proper classification. Subscribe to notifications for market trends and necessary updates. Finally, update a specific material's properties to ensure it aligns with the latest classifications and trends.",
+            "endpoints": [
+                "GET /sites/resources-overview",
+                "GET /market-trends",
+                "GET /projects/{id}/materials",
+                "POST /subscribe-updates",
+                "GET /materials/categories",
+                "PUT /materials/{id}"
+            ]
+        },
+        {
+            "query": "Analyze the market trends for specific product categories and retrieve the updated list of material categories for classification. Based on this analysis, procure new quantities for the required materials, validate their compliance by retrieving the calculation results for compliance checks, and remove any outdated materials identified in the inventory database during the procurement review process.",
+            "endpoints": [
+                "GET /market-trends",
+                "GET /materials/categories",
+                "DELETE /inventory/material/{material_id}",
+                "GET /calculations/{id}/result",
+                "POST /procurement/request"
+            ]
+        },
+        {
+            "query": "Configure notification settings to receive daily updates about improvements for enhancing the recyclability of specific materials and ensure notifications are enabled for all types.",
+            "endpoints": [
+                "GET /suggestions/material-improvements",
+                "PUT /settings/notifications"
+            ]
+        },
+        {
+            "query": "Create a shipment tracking strategy for a project. First, retrieve the materials used in the project to identify relevant items. Then, subscribe to notifications for updates related to the shipment status and strategic recommendations. Finally, generate strategy recommendations for improving shipment efficiency based on the material data and real-time shipment tracking updates.",
+            "endpoints": [
+                "POST /subscribe-updates",
+                "GET /projects/{id}/materials",
+                "POST /strategy-recommendations",
+                "GET /logistics/tracking/{shipment_id}"
+            ]
+        },
+        {
+            "query": "Analyze the compliance of specific materials against defined standards and update their properties to align with compliance requirements. Initiate a detailed performance analysis for the machinery used to process these materials. Enable notifications to receive updates on material compliance and machinery performance. Retrieve the real-time metrics of the machinery involved and analyze the resource types available at various sites to identify and optimize material usage for compliance and operational efficiency.",
+            "endpoints": [
+                "GET /materials/{id}/compliance",
+                "PUT /materials/{id}",
+                "POST /analysis/start",
+                "PUT /settings/notifications",
+                "GET /equipment/{id}/metrics",
+                "GET /sites/resources-overview"
+            ]
+        },
+        {
+            "query": "Retrieve a list of all available materials and classify each material to determine their recyclability. For materials requiring compliance checks, retrieve their detailed compliance calculation results. Update shipment routes based on the classification and compliance analysis. Check the current inventory status to verify the availability of these materials and schedule a maintenance update for the machinery used to process them. Finally, analyze resource usage statistics to optimize the material handling process.",
+            "endpoints": [
+                "POST /equipment/maintenance-schedule",
+                "GET /resource-usage-statistics",
+                "PATCH /logistics/route",
+                "GET /materials",
+                "GET /calculations/{id}/result",
+                "GET /inventory/status",
+                "POST /materials/classify"
+            ]
+        },
+        {
+            "query": "Generate a detailed historical report containing data logs for equipment and site production metrics within a specific date range. Additionally, retrieve resource usage statistics to analyze operational efficiency trends and remove outdated materials from the system to optimize inventory management. Finally, request a custom report summarizing historical data insights and future recommendations for improving resource utilization and inventory handling strategies.",
+            "endpoints": [
+                "DELETE /materials/{id}",
+                "POST /custom-report",
+                "GET /resource-usage-statistics",
+                "GET /data/historical"
+            ]
+        }
+    ]
+}

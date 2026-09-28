@@ -1,0 +1,94 @@
+{
+    "queries": [
+        {
+            "query": "Please provide insights regarding the currently scheduled financial events, assess the risk profile of my portfolio with ID 98765, and also remove the insurance policy with ID 54321 from my account.",
+            "endpoints": [
+                "DELETE /policies/{policyId}",
+                "POST /risk/assessment",
+                "GET /financial-calendar"
+            ]
+        },
+        {
+            "query": "Submit my mortgage application with ID 12345 for review, analyze the stock prices for symbols AAPL and TSLA, provide a summarized report of my portfolio performance for ID 98765, retrieve any scheduled financial events, check the status of my mortgage application with ID 12345, and list the alert thresholds for portfolio ID 98765.",
+            "endpoints": [
+                "POST /applications/{id}/submit",
+                "GET /financial-calendar",
+                "GET /applications/{id}/status",
+                "GET /alerts/thresholds",
+                "GET /stock-prices",
+                "GET /reports/summary"
+            ]
+        },
+        {
+            "query": "Provide the latest foreign exchange rates alongside any upcoming important financial events or dates.",
+            "endpoints": [
+                "GET /financial-calendar",
+                "GET /exchange-rates"
+            ]
+        },
+        {
+            "query": "I want to assess the risks related to my portfolio, provide feedback regarding the portfolio management experience, access the latest market indices, review the transaction history of a specific bank account within a certain date range, and delete an unused bank account from my profile.",
+            "endpoints": [
+                "GET /indices",
+                "POST /feedback",
+                "GET /account/transactions",
+                "DELETE /account/remove",
+                "POST /risk/assessment"
+            ]
+        },
+        {
+            "query": "I want to subscribe to stock price alerts for a specific threshold increase, deposit funds into my savings account, delete my mortgage application with ID 56789, and fetch the latest foreign exchange rates.",
+            "endpoints": [
+                "POST /alerts/subscribe",
+                "POST /savings/deposit",
+                "DELETE /applications/{id}",
+                "GET /exchange/rates"
+            ]
+        },
+        {
+            "query": "I recently deposited funds into my savings account and would like to share feedback regarding the user experience with the deposit process. Additionally, I request the deletion of an outdated mortgage application and a detailed review of my current insurance coverage across all active policies. Please ensure the deposit transaction is successfully processed before proceeding.",
+            "endpoints": [
+                "POST /feedback",
+                "GET /coverage",
+                "DELETE /applications/{id}",
+                "POST /savings/deposit"
+            ]
+        },
+        {
+            "query": "Please provide a detailed summary of my current insurance coverage, and also inform me about the available balance in my primary bank account.",
+            "endpoints": [
+                "GET /coverage",
+                "GET /account/balance"
+            ]
+        },
+        {
+            "query": "Compare my portfolio with multiple benchmarks to evaluate its relative performance, update the details of a specific mortgage application using its ID, retrieve the latest prices for key traded commodities, delete an outdated mortgage application by its unique ID, and analyze the trends in the current market for potential investment opportunities.",
+            "endpoints": [
+                "GET /benchmarks/compare",
+                "PUT /applications/{id}",
+                "GET /commodities-prices",
+                "DELETE /applications/{id}",
+                "GET /market-trends"
+            ]
+        },
+        {
+            "query": "I would like to upload the necessary documents for my loan application process, submit a new mortgage application with my financial details, remove an outdated application from the system using its ID, set a stock price alert for a specific threshold, review the details of a particular insurance policy, initiate a transfer of funds between my accounts with the required details, and review the coverage details of all my active insurance policies.",
+            "endpoints": [
+                "GET /users/{id}/documents",
+                "POST /applications",
+                "DELETE /applications/{id}",
+                "POST /alerts/subscribe",
+                "GET /policies/{policyId}",
+                "POST /account/transfer",
+                "GET /coverage"
+            ]
+        },
+        {
+            "query": "Compare my portfolio performance with multiple benchmarks for a detailed relative analysis and configure alerts for specific metrics like volatility and return thresholds to monitor the portfolio effectively.",
+            "endpoints": [
+                "GET /benchmarks/compare",
+                "POST /alerts/configure"
+            ]
+        }
+    ]
+}

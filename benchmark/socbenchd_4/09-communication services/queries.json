@@ -1,0 +1,95 @@
+{
+    "queries": [
+        {
+            "query": "Update the licensing agreement with licenseId \"12345\" to include new terms, then retrieve the latest quality settings for a specific streaming session. Configure regional caching settings for improved content delivery, and analyze current trends in popularity for games or content. Finally, fetch the licensing agreement details for licenseId \"12345\", generate a revenue distribution report, and provide an overview of system analytics with total users and active sessions.",
+            "endpoints": [
+                "PUT /licenses/{licenseId}",
+                "GET /stream/quality",
+                "POST /cache/region/settings",
+                "GET /revenue-distribution",
+                "GET /trends/popularity",
+                "GET /licenses/{licenseId}",
+                "GET /analytics/overview"
+            ]
+        },
+        {
+            "query": "Initiate a new streaming session for a user with predefined settings and retrieve the metadata for a specific digital content item allocated to that session. Then, execute a workflow to analyze the performance of the allocated content item in real time.",
+            "endpoints": [
+                "POST /stream/initiate",
+                "GET /content/{contentId}",
+                "POST /workflow/run"
+            ]
+        },
+        {
+            "query": "Retrieve the bitrate, resolution, and frame rate details of an ongoing streaming session by specifying the session ID.",
+            "endpoints": [
+                "GET /stream/quality"
+            ]
+        },
+        {
+            "query": "Create a new game session for a specified user and configure the preferences for an audience segment to target specific demographics. Finally, establish a new licensing agreement for digital content, specifying the license terms and royalty percentage.",
+            "endpoints": [
+                "POST /games/session/start",
+                "PUT /audiences/{id}",
+                "POST /licenses"
+            ]
+        },
+        {
+            "query": "Report a high-severity network outage in the central region, then generate a usage report summarizing content interaction statistics for the past month. Remove an outdated audience segment identified by its unique ID, and finally, initiate a game session for a user to track the beginning of their gameplay.",
+            "endpoints": [
+                "POST /outage/report",
+                "GET /reports/usage",
+                "DELETE /audiences/{id}",
+                "POST /games/session/start"
+            ]
+        },
+        {
+            "query": "Log a user's activity in the gaming platform by specifying their user ID, activity type, and timestamp. Then, update the licensing terms and royalty percentage for an existing licensing agreement identified by its license ID. Afterward, retrieve the current operational status of the telecom network to ensure no issues are present. Finally, delete an outdated audience segment using its unique identifier from the advertisement integration system.",
+            "endpoints": [
+                "DELETE /audiences/{id}",
+                "POST /users/activity",
+                "PUT /licenses/{licenseId}",
+                "GET /network/status"
+            ]
+        },
+        {
+            "query": "Analyze the usage statistics for the past month using the usage report endpoint. Retrieve the details of a specific licensing agreement identified by its license ID and allocate the associated digital content to a specific distribution channel. Update the configuration details of a specified network device, and finally, generate a comprehensive system analytics summary to review key performance metrics and trends.",
+            "endpoints": [
+                "GET /reports/usage",
+                "GET /licenses/{licenseId}",
+                "POST /content/{contentId}/allocate",
+                "PUT /infrastructure/device/{id}",
+                "GET /analytics/summary"
+            ]
+        },
+        {
+            "query": "Compare the performance of multiple ads based on metrics such as clicks and conversions, then retrieve detailed viewer engagement analytics for a specific content item. Evaluate the current trends in popularity for games or content topics, and fetch user engagement metrics over a specified time period. Update an audience segment with revised criteria to target a new demographic, retrieve the detailed performance analytics of all advertisements, and finally, generate an overview of system analytics to review platform-wide engagement and activity.",
+            "endpoints": [
+                "POST /ads-performance/compare",
+                "GET /analytics/viewer",
+                "GET /trends/popularity",
+                "GET /users/engagement",
+                "PUT /audiences/{id}",
+                "GET /ads-performance",
+                "GET /analytics/overview"
+            ]
+        },
+        {
+            "query": "Check the operational health status of the service, then retrieve the quality settings, including bitrate and resolution, for an ongoing streaming session. Finally, analyze the monetization strategies and revenue metrics associated with a specific game.",
+            "endpoints": [
+                "GET /health",
+                "GET /stream/quality",
+                "GET /games/{game_id}/monetization"
+            ]
+        },
+        {
+            "query": "Identify currently active critical alerts in the system, initiate a new gaming session for a specific user, and analyze the monetization strategies associated with a game by providing its unique identifier. Finally, retrieve a detailed report on the distribution of revenue generated through various advertisements.",
+            "endpoints": [
+                "GET /games/{game_id}/monetization",
+                "GET /revenue-distribution",
+                "POST /games/session/start",
+                "GET /alerts/active"
+            ]
+        }
+    ]
+}

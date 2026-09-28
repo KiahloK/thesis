@@ -1,0 +1,93 @@
+{
+    "queries": [
+        {
+            "query": "Delete a specific infrastructure resource by its unique ID and retrieve the updated list of all available infrastructure resources. Additionally, create a new version control repository to manage related resource data.",
+            "endpoints": [
+                "DELETE /infrastructure/resources/{resource_id}",
+                "GET /infrastructure/resources",
+                "POST /repositories"
+            ]
+        },
+        {
+            "query": "Create a visualization for a processed dataset using a specific template and retrieve the complete merge history of two branches in a repository for comparison. Additionally, view the user profile details and fetch the results of a specific network scan by its unique scan ID for further analysis.",
+            "endpoints": [
+                "POST /visualizations/create",
+                "POST /repositories/{id}/merge",
+                "GET /profile",
+                "GET /scan/{scan_id}/results"
+            ]
+        },
+        {
+            "query": "Initiate a network scan to detect vulnerabilities across the system. Update the configuration parameters of a cloud infrastructure resource to address the detected vulnerabilities. Adjust the properties of a specific infrastructure resource by patching its configuration to optimize performance in response to the scan findings. Define new scaling policies to dynamically manage cloud resources based on scan outcomes. Create branches in a version control repository to keep track of changes related to vulnerability fixes, and register a new application to manage access control for the identified vulnerabilities and resource updates.",
+            "endpoints": [
+                "PATCH /infrastructure/resources/{resource_id}",
+                "PUT /configurations/{config_id}",
+                "POST /scan/network",
+                "POST /scaling/policies",
+                "POST /repositories/{id}/branches",
+                "POST /application/register"
+            ]
+        },
+        {
+            "query": "Upload a dataset containing recent security event logs for analysis and retrieve a list of all registered repositories to store analysis outputs. Configure permissions for a repository to allow specific team members access and delete any outdated or incorrect repository entries no longer needed. Set access control policies to restrict unauthorized users and retrieve a consolidated report of security issues for review. Additionally, retrieve the updated list of all infrastructure resources to assess any affected systems and fetch the latest security events for cross-referencing with the uploaded data logs.",
+            "endpoints": [
+                "POST /access-control",
+                "DELETE /repositories/{id}",
+                "GET /infrastructure/resources",
+                "POST /data/upload",
+                "GET /repositories",
+                "GET /reports",
+                "POST /repositories/{id}/permissions",
+                "GET /security/events"
+            ]
+        },
+        {
+            "query": "Retrieve the latest performance metrics for the cloud infrastructure and delete an obsolete scaling policy that no longer aligns with the performance requirements. Access the available visualization templates to plan for displaying these metrics and create a new branch in a specified repository to save related templates and configuration changes.",
+            "endpoints": [
+                "GET /visualizations/templates",
+                "POST /repositories/{id}/branches",
+                "DELETE /scaling/policies/{policy_id}",
+                "GET /performance/metrics"
+            ]
+        },
+        {
+            "query": "I need to upload a new dataset containing operational data for analysis and merge existing branches in a version control repository to reflect the changes made during the analysis. Then, retrieve the complete list of repositories to ensure the dataset is aligned with the appropriate repository and fetch the details of a specific application to confirm its compatibility with the dataset integration.",
+            "endpoints": [
+                "POST /data/upload",
+                "POST /repositories/{id}/merge",
+                "GET /repositories",
+                "GET /application/{id}/details"
+            ]
+        },
+        {
+            "query": "Log in as an authenticated user to merge changes from one branch to another within a specific repository, and review the list of available branches in the repository to determine which branches should be merged.",
+            "endpoints": [
+                "GET /repositories/{id}/branches",
+                "POST /login",
+                "POST /repositories/{id}/merge"
+            ]
+        },
+        {
+            "query": "Retrieve the available data schemas for mapping uploaded datasets, update an existing scaling policy to ensure infrastructure adapts dynamically to data processing demands, and fetch the current access control settings to review permissions for accessing the processed datasets.",
+            "endpoints": [
+                "GET /data/schemas",
+                "PATCH /scaling/policies/{policy_id}",
+                "GET /access-control"
+            ]
+        },
+        {
+            "query": "Securely change the user's current password to enhance account security, update the user profile's email address to a new one, and retrieve a list of mitigation recommendations to address potential system vulnerabilities.",
+            "endpoints": [
+                "GET /mitigation/recommendations",
+                "POST /password/change",
+                "PUT /profile"
+            ]
+        },
+        {
+            "query": "Delete a scaling policy that is no longer required to ensure the cloud infrastructure adheres to the updated resource management strategy and performance optimization requirements.",
+            "endpoints": [
+                "DELETE /scaling/policies/{policy_id}"
+            ]
+        }
+    ]
+}

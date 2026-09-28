@@ -1,0 +1,95 @@
+{
+    "queries": [
+        {
+            "query": "I want to update the contact information of the inventory manager to ensure accurate communication and then submit responses to a questionnaire for evaluating the efficiency of the inventory system. After that, I need to check for low-stock medications and create a new order to replenish them while ensuring to delete any medications marked for removal from the inventory. Can you guide me on how to proceed with all these steps effectively?",
+            "endpoints": [
+                "PATCH /update_contact_info",
+                "POST /responses",
+                "GET /inventory/low-stock",
+                "POST /orders/new",
+                "DELETE /inventory/remove/{medicationId}"
+            ]
+        },
+        {
+            "query": "I need to evaluate the condition of all medical devices in the system, ensure they are functioning correctly, and identify any devices nearing maintenance. After that, I want to securely add a new patient's record and share their medical history with authorized entities for collaborative care. Finally, I also want to gather early insights into medications nearing expiration within the inventory to take appropriate action.",
+            "endpoints": [
+                "GET /inventory/expiration-soon",
+                "POST /patients",
+                "POST /sharing/{patient_id}",
+                "GET /devices"
+            ]
+        },
+        {
+            "query": "I need to update the maintenance schedule for all monitored devices and retrieve it to ensure the data is accurate. Then, I want to modify specific patient details such as name and medical history and submit updated contact information for a clinical trial coordinator. Afterward, I aim to enhance a questionnaire by adding new questions, provide structured feedback on the new version, and fetch details of medications nearing expiration in the inventory to take preventive actions.",
+            "endpoints": [
+                "GET /inventory/expiration-soon",
+                "PUT /patients/{patient_id}",
+                "PATCH /update_contact_info",
+                "PUT /questionnaires/{id}",
+                "POST /feedback",
+                "GET /maintenance/schedule"
+            ]
+        },
+        {
+            "query": "I want to submit an anonymized patient profile for clinical trial matching, review the qualification criteria for a specific clinical trial to ensure eligibility, and then check the current operational status and metrics of a medical device by its ID.",
+            "endpoints": [
+                "POST /patient_profiles",
+                "GET /trial_criteria/{trial_id}",
+                "GET /device/{id}/status"
+            ]
+        },
+        {
+            "query": "I want to review the audit trail for actions within the system to identify recent events, retrieve the current stock levels of medications to assess availability, update the status of a specific clinical trial based on recent participation information, and check for medications that are below the low-stock threshold to prioritize restocking.",
+            "endpoints": [
+                "GET /inventory/stock",
+                "GET /audit",
+                "PUT /update_trial_status/{trial_id}",
+                "GET /inventory/low-stock"
+            ]
+        },
+        {
+            "query": "I want to securely delete a malfunctioning medical device from the system, fetch a list of all healthcare providers who are using the service, retrieve clinical trial recommendations for a patient based on their ID, and place a new order to replenish stock for medications running low.",
+            "endpoints": [
+                "GET /recommended_trials/{patient_id}",
+                "POST /orders/new",
+                "GET /providers",
+                "DELETE /device/{id}"
+            ]
+        },
+        {
+            "query": "Analyze the current inventory to determine the availability of medications and review detailed inventory reports for insights. Next, update the status of a specific clinical trial to reflect recent enrollment progress, identify clinical trials relevant to certain therapeutic areas, and remove expired or irrelevant medications from the inventory.",
+            "endpoints": [
+                "GET /inventory/stock",
+                "PUT /update_trial_status/{trial_id}",
+                "GET /inventory/reports",
+                "GET /clinical_trials",
+                "DELETE /inventory/remove/{medicationId}"
+            ]
+        },
+        {
+            "query": "I want to modify the contact information of a clinical trial coordinator to ensure updated communication channels and track the status of an existing order to confirm its progress for urgent medication replenishment.",
+            "endpoints": [
+                "PATCH /update_contact_info",
+                "GET /orders/status/{orderId}"
+            ]
+        },
+        {
+            "query": "I want to securely share a patient\u2019s medical record with authorized entities to enable seamless collaborative care, analyze clinical trial participation statistics to understand ongoing trends and results, retrieve monitoring data for a specific patient to track their progress effectively, update the enrollment status of a clinical trial to reflect recent changes, enhance an existing questionnaire by modifying its content and structure for better assessments, verify the updated questionnaire details to ensure accuracy after modifications, and create a new patient record in the system to initiate their care management process.",
+            "endpoints": [
+                "POST /sharing/{patient_id}",
+                "GET /trial_statistics",
+                "GET /monitoring/{id}",
+                "PUT /update_trial_status/{trial_id}",
+                "PUT /questionnaires/{id}",
+                "POST /patients"
+            ]
+        },
+        {
+            "query": "I want to generate analytical reports to gather insights into the performance of the system and then securely share the medical record of a specific patient with authorized entities to ensure effective collaboration in their ongoing care.",
+            "endpoints": [
+                "GET /analytics/reports",
+                "POST /sharing/{patient_id}"
+            ]
+        }
+    ]
+}

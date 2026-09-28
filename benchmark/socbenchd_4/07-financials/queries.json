@@ -1,0 +1,104 @@
+{
+    "queries": [
+        {
+            "query": "I want to request detailed investment advice customized to my portfolio and preferred strategies, renew an existing insurance policy, set up a custom alert for a financial instrument, retrieve the list of active markets to evaluate trading opportunities, place a trade order based on market conditions, cancel the order if it doesn't meet my criteria, and analyze the scoring metrics to assess potential financial risks without needing real-time price evaluation of an instrument.",
+            "endpoints": [
+                "POST /advice/consultation",
+                "POST /policies/renewals",
+                "PUT /orders/{orderId}/cancel",
+                "GET /scoringMetrics",
+                "POST /alerts/set",
+                "GET /markets"
+            ]
+        },
+        {
+            "query": "I want to evaluate the current allocation of my trading portfolio, calculate a new credit score based on updated financial data, and review the list of active markets to decide where to make my next investments.",
+            "endpoints": [
+                "POST /accounts/portfolio",
+                "POST /creditScore",
+                "GET /markets"
+            ]
+        },
+        {
+            "query": "I want to set up a price alert for a specific currency pair based on real-time exchange rates, pay for a service using my policy details, review the present status of my financial goals, determine the weight of different asset categories to update my investment strategy, and remove outdated criteria from my credit scoring system while adding a new one to match current financial trends.",
+            "endpoints": [
+                "POST /criteria",
+                "DELETE /criteria/{criteriaId}",
+                "GET /assets/overview",
+                "GET /financial-goals/status",
+                "POST /alerts/set",
+                "POST /payments",
+                "GET /currencies/rates"
+            ]
+        },
+        {
+            "query": "I want to place a trade order in the market and receive feedback on the experience, evaluate the potential performance metrics of selected assets to decide future investments, get notified about any updates regarding my activities, fetch a comprehensive list of financial exchanges for informed trading, and analyze credit scoring metrics to gauge financial risks effectively. Additionally, I need to update the details of an existing insurance claim in the system and submit detailed feedback about my overall experience.",
+            "endpoints": [
+                "POST /feedback",
+                "PUT /claims/{claim_id}",
+                "POST /assets/evaluation",
+                "GET /exchanges/list",
+                "GET /scoringMetrics",
+                "GET /notifications",
+                "POST /orders"
+            ]
+        },
+        {
+            "query": "I want to simulate potential investment returns for a specific strategy over a 5-year period and review the various types of businesses supported for credit score evaluation to determine the best approach for future financial planning.",
+            "endpoints": [
+                "GET /investment/simulation",
+                "GET /businessTypes"
+            ]
+        },
+        {
+            "query": "I want to configure a price alert for a specific stock when it reaches a particular threshold, request tailored investment recommendations based on my risk preferences, and fetch the latest market news to stay updated on current financial trends.",
+            "endpoints": [
+                "POST /alerts/set",
+                "POST /recommendations/request",
+                "GET /news/latest"
+            ]
+        },
+        {
+            "query": "I want to retrieve information about all available financial instruments, simulate the returns of a specific investment strategy over a 5-year period, cancel an existing trade order if it no longer aligns with my investment criteria, and remove outdated scoring criteria to streamline my financial decision-making process.",
+            "endpoints": [
+                "GET /investment/simulation",
+                "PUT /orders/{orderId}/cancel",
+                "DELETE /criteria/{criteriaId}",
+                "GET /instruments"
+            ]
+        },
+        {
+            "query": "I want to customize and optimize my investment portfolio by adjusting its parameters, evaluate the performance of specific assets based on given criteria, retrieve an overview of all available asset categories, review the currency exchange rates for potential international investments, and get a snapshot of my trading account portfolio to align my strategies effectively.",
+            "endpoints": [
+                "POST /portfolio/customize",
+                "GET /currencies/rates",
+                "POST /accounts/portfolio",
+                "GET /assets/overview",
+                "POST /assets/evaluation"
+            ]
+        },
+        {
+            "query": "I want to calculate my updated credit score using my financial data, check the latest exchange rates for specific currencies to assess international market opportunities, explore the list of active trading markets to find potential investment options, request tailored investment advice based on my preferences and risk tolerance, make a payment for one of my policies or claims, and analyze recent trading trends to identify patterns for making informed decisions.",
+            "endpoints": [
+                "POST /creditScore",
+                "GET /currencies/rates",
+                "GET /markets",
+                "POST /recommendations/request",
+                "POST /payments",
+                "GET /analytics/trends"
+            ]
+        },
+        {
+            "query": "I want to review the types of businesses that can be evaluated for credit scoring, analyze the overview of asset categories to identify diversification options, check the credit score of a specific user identified by their unique ID, perform a comprehensive risk evaluation with additional contextual data, fetch detailed information about a specific insurance policy, place a new trade order in the market, and retrieve the list of all available financial exchanges to understand my trading opportunities.",
+            "endpoints": [
+                "GET /businessTypes",
+                "GET /assets/overview",
+                "GET /userScore/{userId}",
+                "POST /riskEvaluation",
+                "GET /policies/{policy_id}",
+                "POST /orders",
+                "GET /exchanges/list"
+            ]
+        }
+    ]
+}

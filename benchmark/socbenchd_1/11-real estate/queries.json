@@ -1,0 +1,102 @@
+{
+    "queries": [
+        {
+            "query": "Find the estimated valuation of a property located in San Francisco with three bedrooms and two bathrooms, retrieve all reviews for an agent with ID \"agent123\", and check the outstanding payments of a tenant with ID \"tenant456\".",
+            "endpoints": [
+                "GET /properties/valuation",
+                "GET /reviews/{agentId}",
+                "GET /payments/outstanding/{tenantId}"
+            ]
+        },
+        {
+            "query": "Add a new property listing in Seattle, retrieve its estimated valuation, find properties similar to it, update its details to include additional amenities, save a search for similar properties, and finally remove the listing from the platform without retrieving unrelated property listings.",
+            "endpoints": [
+                "GET /properties/similar",
+                "POST /properties/add",
+                "PUT /properties/update",
+                "DELETE /properties/remove",
+                "POST /search-saved",
+                "GET /properties/valuation"
+            ]
+        },
+        {
+            "query": "Update the information of a real estate agent with ID \"agent789\", calculate the amortization schedule for a loan amount of $500,000 with an interest rate of 4.5% over a tenure of 30 years, and remove a property listing with the ID \"property123\".",
+            "endpoints": [
+                "DELETE /properties/{propertyId}",
+                "PUT /agents/{agentId}",
+                "GET /amortization-schedule"
+            ]
+        },
+        {
+            "query": "Develop a loan repayment plan tailored to a $300,000 loan, analyze the affordability of a property valued at $350,000 for a user with an annual income of $90,000, estimate the value of a property in Los Angeles, identify properties similar to it, and schedule a maintenance task for one of the similar properties.",
+            "endpoints": [
+                "POST /loan-plan-builder",
+                "POST /evaluate-affordability",
+                "POST /scheduling/confirm",
+                "GET /property-value-estimate",
+                "GET /properties/similar"
+            ]
+        },
+        {
+            "query": "Compare the attributes and features of three properties located in Miami, identify agents specializing in luxury homes in the area, add a new property listing in the same location, update its description and price after initial submission, save the search criteria for similar luxury properties in Miami, and display a list of all properties available in the city for potential buyers.",
+            "endpoints": [
+                "GET /properties/comparison",
+                "GET /agents",
+                "POST /properties",
+                "PUT /properties/update",
+                "POST /search-saved",
+                "GET /properties"
+            ]
+        },
+        {
+            "query": "Analyze the most common property features in New York City and generate a detailed amortization schedule for a $750,000 loan with a 3.8% interest rate over a period of 20 years.",
+            "endpoints": [
+                "GET /amortization-schedule",
+                "GET /properties/features"
+            ]
+        },
+        {
+            "query": "Calculate the minimum and recommended down payment for purchasing a property and then delete an obsolete property listing with the specific ID provided.",
+            "endpoints": [
+                "DELETE /properties/{propertyId}",
+                "GET /down-payment-summary"
+            ]
+        },
+        {
+            "query": "Evaluate whether a user with an annual income of $120,000 and monthly expenses of $3,000 can afford a property in Chicago, check the availability of maintenance scheduling for this property, retrieve all reviews for an identified agent managing it, add a new listing for a similar property in the same city, and save the search criteria for future reference.",
+            "endpoints": [
+                "POST /evaluate-affordability",
+                "GET /scheduling/availability",
+                "GET /reviews/{agentId}",
+                "POST /properties/add",
+                "POST /search-saved"
+            ]
+        },
+        {
+            "query": "Find the most suitable agents recommended for a newly added property in Chicago with a focus on residential real estate, save the search criteria for similar properties in the area, calculate the monthly payment for a loan to finance the property purchase, evaluate the impact of interest rate changes on the loan terms, and retrieve the recommended down payment details.",
+            "endpoints": [
+                "GET /down-payment-summary",
+                "POST /calculate-payment",
+                "POST /properties",
+                "POST /search-saved",
+                "POST /rate-sensitivity-analysis",
+                "GET /recommendations"
+            ]
+        },
+        {
+            "query": "Create a new property listing for a luxury condominium in Manhattan, calculate its estimated valuation based on key features, retrieve a list of agents specializing in luxury properties, retrieve all listed properties in Manhattan, calculate the monthly payment required to finance the property purchase, retrieve the estimated value of a property in Manhattan using its location and details, identify the most common property features in the area, update the details of a specific real estate agent overseeing the property, confirm a maintenance schedule for one of the luxury properties, and finally delete an outdated property listing from the platform.",
+            "endpoints": [
+                "POST /calculate-payment",
+                "GET /agents",
+                "GET /properties",
+                "POST /scheduling/confirm",
+                "GET /property-value-estimate",
+                "GET /properties/features",
+                "PUT /agents/{agentId}",
+                "POST /properties",
+                "GET /properties/valuation",
+                "DELETE /properties/{propertyId}"
+            ]
+        }
+    ]
+}

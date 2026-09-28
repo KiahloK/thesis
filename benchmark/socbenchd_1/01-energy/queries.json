@@ -1,0 +1,101 @@
+{
+    "queries": [
+        {
+            "query": "Retrieve the status and performance metrics of all monitored energy equipment, access active alerts for any system performance issues, analyze the impact of weather conditions on electricity demand between specific dates, configure new alert thresholds for unusual energy generation patterns in specific sectors, and submit the integration status of renewable energy sources such as solar or wind into the energy grid.",
+            "endpoints": [
+                "POST /renewable/integration/status",
+                "POST /alert-settings",
+                "GET /weather-impact-analysis",
+                "GET /alerts",
+                "GET /equipment-status"
+            ]
+        },
+        {
+            "query": "Submit data from smart meters installed in the facility to monitor energy usage trends, retrieve predictive maintenance analysis summaries for identifying potential issues or inefficiencies, access carbon emissions data specific to the industry to compare with targeted goals, check the operational status of monitored resources within the facility for any performance issues, and provide feedback on inaccuracies or improvements for a previously generated environmental report.",
+            "endpoints": [
+                "POST /smart-meters/data",
+                "GET /prediction-summary",
+                "GET /carbon-emissions",
+                "GET /resources/status",
+                "POST /report-feedback"
+            ]
+        },
+        {
+            "query": "Assess the energy efficiency of specific industrial equipment by retrieving detailed energy consumption patterns, calibrating sensors for accurate data collection, collecting real-time energy data, predicting future electricity demand using historical trends, uploading smart meter data for enhanced monitoring, configuring alerts for abnormal energy usage scenarios, and generating a monthly energy performance report for comprehensive insights.",
+            "endpoints": [
+                "POST /equipment-efficiency-check",
+                "PUT /sensors/calibration",
+                "GET /real-time-data",
+                "GET /energy-patterns",
+                "POST /electricity-demand/prediction",
+                "POST /smart-meters/data",
+                "POST /alerts/configuration",
+                "GET /reports/monthly"
+            ]
+        },
+        {
+            "query": "Evaluate and plan a maintenance schedule for all facilities, analyze the energy efficiency of industrial equipment by submitting relevant usage details, and provide feedback on the accuracy of generated maintenance reports or suggest improvements where applicable.",
+            "endpoints": [
+                "GET /maintenance-schedule",
+                "POST /equipment-efficiency-check",
+                "POST /report-feedback"
+            ]
+        },
+        {
+            "query": "Analyze the financial incentives available for a specific industry, download a daily energy report for operational insights, evaluate how weather conditions impacted energy demand within a selected date range, submit recent sensor data for precise monitoring, and retrieve the current grid balance status to assess stability in real-time.",
+            "endpoints": [
+                "GET /grid/balance/status",
+                "GET /reports/daily",
+                "GET /financial-incentives",
+                "GET /weather-impact-analysis",
+                "POST /sensor-data"
+            ]
+        },
+        {
+            "query": "Optimize energy usage in a manufacturing facility by submitting historical energy consumption patterns for analysis, forecast future energy requirements for the manufacturing sector, configure alerts for exceeding predefined energy usage thresholds via email, and enroll the facility's staff in a training program focused on sustainable energy practices.",
+            "endpoints": [
+                "POST /optimize-usage",
+                "GET /forecast-usage",
+                "POST /alerts/configuration",
+                "POST /team-training"
+            ]
+        },
+        {
+            "query": "Monitor the performance and operational status of all energy equipment within the facility and evaluate the grid's current balance to ensure system stability and identify potential issues.",
+            "endpoints": [
+                "GET /equipment-monitoring",
+                "GET /grid/balance/status"
+            ]
+        },
+        {
+            "query": "Ensure compliance with energy usage policies by deleting outdated alert configurations for a set threshold and uploading recent data from smart meters to better monitor and optimize energy consumption.",
+            "endpoints": [
+                "DELETE /alert-settings/{id}",
+                "POST /smart-meters/data"
+            ]
+        },
+        {
+            "query": "Optimize the facility's energy consumption by analyzing past electricity demand for trend identification, reviewing the overall maintenance schedule to ensure operational efficiency, and assessing the cost analysis breakdown to identify areas of potential savings. Additionally, submit the integration status of renewable energy sources, update the current energy usage database with the latest available data, and evaluate the grid's balance to ensure real-time stability. Retrieve real-time wind energy generation data for supplementary insights and configure alerts to track and respond to unusual energy usage or thresholds effectively.",
+            "endpoints": [
+                "GET /electricity-demand",
+                "GET /maintenance-schedule",
+                "GET /cost-analysis",
+                "POST /renewable/integration/status",
+                "PUT /update-data",
+                "GET /grid/balance/status",
+                "GET /generation/wind",
+                "POST /alert-settings"
+            ]
+        },
+        {
+            "query": "Create a comprehensive analysis combining future energy generation forecasts, energy usage predictions for specific sectors, and wind energy generation data. Incorporate renewable offset project submissions and review the list of all monitored resources to ensure alignment with the predicted energy requirements.",
+            "endpoints": [
+                "GET /generation/forecast",
+                "GET /forecast-usage",
+                "GET /resources/list",
+                "GET /generation/wind",
+                "POST /offset-projects"
+            ]
+        }
+    ]
+}

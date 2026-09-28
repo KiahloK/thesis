@@ -1,6 +1,5 @@
 .env
 .venv*/
-benchmark/
 pycache/
 *.py[cod]
 output/

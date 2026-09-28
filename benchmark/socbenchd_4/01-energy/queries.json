@@ -1,0 +1,91 @@
+{
+    "queries": [
+        {
+            "query": "Update the details of a specific transaction to reflect recent changes in commodity pricing or quantities, analyze the efficiency of energy systems for better optimization, retrieve energy demand data for historical and real-time analysis, check the system's usage statistics to assess service performance, ensure outdated datasets are cleared for improved functionality, fetch transaction details to review the trade records, and confirm accuracy by reviewing the machine learning model's insights for future energy demand predictions.",
+            "endpoints": [
+                "PUT /transactions/{transaction_id}/update",
+                "GET /analytics/efficiency-reports",
+                "GET /usage-statistics",
+                "GET /energy-demand",
+                "DELETE /clear-dataset",
+                "GET /transactions/{transaction_id}",
+                "GET /model-info"
+            ]
+        },
+        {
+            "query": "Analyze the overall energy system performance by calibrating monitoring sensors for accuracy, retrieving efficiency metrics to identify optimization opportunities, gathering energy usage statistics to evaluate system demand trends, aggregating emission data for insights on its impact, and conducting a market price analysis for cost-efficient energy solutions.",
+            "endpoints": [
+                "GET /efficiency-metrics",
+                "POST /sensor-calibration",
+                "GET /usage-statistics",
+                "POST /aggregation",
+                "POST /marketpricerequests"
+            ]
+        },
+        {
+            "query": "Validate the accuracy of the machine learning model's recent energy demand predictions by submitting feedback on a specific forecast, update the system's threshold settings for emission compliance, upload the latest sensor data to improve energy monitoring, and analyze market price fluctuations of a specific energy commodity over the past 30 days to optimize cost-effectiveness.",
+            "endpoints": [
+                "POST /forecast-validation",
+                "PUT /thresholds",
+                "POST /sensors-data",
+                "POST /marketpricerequests"
+            ]
+        },
+        {
+            "query": "Provide a list of all registered distributors actively participating in energy commodity trades and retrieve the complete trading history of a specific distributor to analyze their transaction patterns and performance in the market.",
+            "endpoints": [
+                "GET /distributors",
+                "GET /tradehistory"
+            ]
+        },
+        {
+            "query": "Optimize the energy efficiency of the system by accessing current efficiency metrics, updating a specific emission record to reflect recent adjustments in carbon offsets, and fine-tuning the demand prediction thresholds to improve grid performance.",
+            "endpoints": [
+                "GET /efficiency-metrics",
+                "PUT /emission-records/{record_id}",
+                "POST /threshold-settings"
+            ]
+        },
+        {
+            "query": "Fetch the real-time energy generation details for all installations and provide the trading history of a specific distributor involved in energy commodity transactions to analyze their market activity and operational performance.",
+            "endpoints": [
+                "GET /real-time-data",
+                "GET /tradehistory"
+            ]
+        },
+        {
+            "query": "Share actionable analytical insights with specific stakeholders after analyzing alert triggers for anomalies in energy production, and subsequently delete a specific transaction that no longer aligns with the updated analytics.",
+            "endpoints": [
+                "DELETE /transactions/{transaction_id}",
+                "POST /insights/data-share",
+                "GET /alerts"
+            ]
+        },
+        {
+            "query": "Analyze the trading patterns and performance of a specific distributor by retrieving their complete trade history, identify outdated performance data that needs to be removed for improved system efficiency, update an existing transaction to reflect changes in market conditions, and gather detailed market analytics to assess the overall trade dynamics and strategies.",
+            "endpoints": [
+                "GET /tradehistory",
+                "DELETE /data/obsolete-records",
+                "PUT /transactions/{transaction_id}/update",
+                "GET /market-analytics"
+            ]
+        },
+        {
+            "query": "Share detailed analytical insights on emission trends with stakeholders, while reviewing the recorded carbon emissions data for accuracy, listing all available energy commodities for potential trade opportunities, and accessing the usage statistics to evaluate the overall performance and reliability of the system.",
+            "endpoints": [
+                "POST /insights/data-share",
+                "GET /emission-records",
+                "GET /commodities",
+                "GET /usage-statistics"
+            ]
+        },
+        {
+            "query": "Analyze the current market prices of energy commodities along with detailed insights on trade dynamics, and review the machine learning model information to understand the features and methodology used for trade predictions.",
+            "endpoints": [
+                "GET /market-prices",
+                "GET /market-analytics",
+                "GET /model-info"
+            ]
+        }
+    ]
+}

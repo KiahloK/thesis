@@ -1,0 +1,96 @@
+{
+    "queries": [
+        {
+            "query": "Configure an alert for a specific software license to trigger an SMS notification if its usage exceeds a defined threshold, and also update the threat status with new details once the alert configuration is completed.",
+            "endpoints": [
+                "PATCH /threats/{id}",
+                "POST /alerts/set"
+            ]
+        },
+        {
+            "query": "Retrieve the categories of organizational assets and optimize the resource allocation settings to improve operational efficiency. Then, fetch detailed information about a specific threat using its unique identifier, retrieve the list of all active cloud resources, and obtain details for a specific software license along with its current usage status.",
+            "endpoints": [
+                "GET /license/{licenseId}",
+                "GET /resources",
+                "GET /threats/{id}",
+                "GET /assets/categories",
+                "PATCH /optimization-settings"
+            ]
+        },
+        {
+            "query": "Deactivate a specific sensor by its ID, retrieve alerts to verify if any issues require attention, monitor energy consumption metrics to assess operational efficiency, update the configuration of a specified cloud resource to enhance performance, register a new asset to manage additional resources, and fetch detailed information about a specific asset to confirm its current state and readiness for reallocation.",
+            "endpoints": [
+                "PUT /resources/{resource_id}",
+                "GET /alerts",
+                "DELETE /sensors/{sensorId}",
+                "POST /assets/register",
+                "GET /assets/{assetId}",
+                "GET /energy-consumption"
+            ]
+        },
+        {
+            "query": "Assign a specific software license to a user within the organization, list all current cloud resources to identify allocation opportunities, retrieve all active alerts to check for potential system issues, and verify the list of configured alerts to ensure relevant notifications are active.",
+            "endpoints": [
+                "GET /resources",
+                "GET /alerts",
+                "POST /user/license/assign",
+                "GET /alerts"
+            ]
+        },
+        {
+            "query": "Update the details of a specific software license to reflect its updated expiration date and increased user count, register a new asset for departmental utilization, and fetch detailed information about an identified threat to assess its current status and potential impact on the system.",
+            "endpoints": [
+                "PUT /license/update/{licenseId}",
+                "POST /assets/register",
+                "GET /threats"
+            ]
+        },
+        {
+            "query": "Generate a comprehensive maintenance history of all organizational assets to pinpoint recurring issues, retrieve detailed usage data for all monitored software to assess compliance and operational efficiency, analyze the energy consumption behavior of the infrastructure, retrieve a list of all identified threats to evaluate potential security risks, verify the overall operational health of the system, and obtain a daily performance summary report to include in the organization's operational review.",
+            "endpoints": [
+                "GET /threats",
+                "GET /usage/data",
+                "GET /healthcheck",
+                "GET /reports/daily",
+                "GET /assets/maintenance/history"
+            ]
+        },
+        {
+            "query": "Retrieve the maintenance history of all organizational assets to identify patterns or recurring issues, review the list of datasets available for threat analysis to find any relevant resources, fetch detailed information about a specific threat to understand its impact, update the details of a specific asset to reflect its current operational status and location, and generate a compliance report to summarize adherence to the organization's policies.",
+            "endpoints": [
+                "PUT /assets/{assetId}",
+                "GET /datasets",
+                "GET /threats/{id}",
+                "GET /assets/maintenance/history",
+                "POST /compliance/report"
+            ]
+        },
+        {
+            "query": "Create a tool execution to analyze the resource efficiency of cloud operations, scale down a specific resource to reduce operational costs, upload relevant operational datasets for analysis, retrieve the current metrics of the infrastructure to evaluate system performance, fetch the list of active resources to determine underutilized systems, and get details of a specific organizational asset to assess its alignment with operational goals.",
+            "endpoints": [
+                "GET /resources",
+                "POST /tools/execution",
+                "POST /scaling/{resource_id}/down",
+                "GET /metrics",
+                "POST /data/upload",
+                "GET /assets/{assetId}"
+            ]
+        },
+        {
+            "query": "Analyze the audit report to identify any discrepancies in asset management, retrieve the current list of active alerts to ensure no immediate issues are impacting operations, update the configuration of a specific cloud resource to address performance concerns, and scale down a resource to optimize costs based on underutilization findings.",
+            "endpoints": [
+                "GET /assets/audit",
+                "GET /alerts",
+                "PUT /resources/{resource_id}",
+                "POST /scaling/{resource_id}/down"
+            ]
+        },
+        {
+            "query": "Retrieve detailed information about a specific organizational asset to verify its current status and properties, and also fetch the details of a specific software license to confirm its compliance and expiration date.",
+            "endpoints": [
+                "GET /assets/{assetId}",
+                "GET /license/{licenseId}"
+            ]
+        }
+    ]
+}

@@ -25,3 +25,5 @@ ruff>=0.8,<1
 ipykernel>=6.29,<7
 jupyter-client>=8.6,<9
 pexpect==4.9.0
+# Headless notebook execution for slurm/refined.sbatch.
+nbconvert>=7.16,<8

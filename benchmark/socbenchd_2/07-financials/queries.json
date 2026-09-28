@@ -1,0 +1,97 @@
+{
+    "queries": [
+        {
+            "query": "As an organization managing a transaction monitoring system, I need to review overall monitoring statistics, such as total anomalies detected and transactions processed, and update my monitoring preferences to set stricter thresholds for anomaly detection. Additionally, I require an evaluation of loan eligibility based on the organization's updated financial data, including income, debts, and loan parameters, to plan for infrastructure upgrades to enhance monitoring capabilities.",
+            "endpoints": [
+                "PATCH /profile/settings",
+                "POST /loan/eligibility",
+                "GET /statistics"
+            ]
+        },
+        {
+            "query": "As an organization planning to expand our financial assistance offerings, we need to collect and analyze borrower financial datasets for model compatibility, evaluate multiple borrower profiles for group credit assessments, and understand the eligibility of our management team for a loan to support infrastructure upgrades. Additionally, we require submission of an insurance claim for potential risks during upgrades and retrieval of applicable insurance policies to ensure adequate coverage. Finally, we want to monitor the status of a submitted loan application to track progress.",
+            "endpoints": [
+                "POST /claims/submit",
+                "POST /api/data-qualification",
+                "POST /loan/eligibility",
+                "GET /policies",
+                "POST /api/multi-borrower-analysis",
+                "GET /loan/application/{id}"
+            ]
+        },
+        {
+            "query": "Our financial organization is working on creating an advanced investment platform for clients. To achieve this, we need to retrieve the list of available financial indices to identify key markets for investment opportunities, submit a loan application to secure funding for platform development, update our monitoring preferences to focus on high-risk market activities for better risk management, and track recent alerts to stay informed about critical financial events that could influence platform operations or investment strategies.",
+            "endpoints": [
+                "GET /indices",
+                "POST /loan/application",
+                "PATCH /profile/settings",
+                "GET /alerts/recent"
+            ]
+        },
+        {
+            "query": "To enhance our investment strategies, we need to retrieve external financial market data for identifying global trends, check the operational status of predictive models to ensure their readiness for market analysis, and access historical stock data for specific symbols and dates to refine our forecasting models.",
+            "endpoints": [
+                "GET /api/market-data-integration",
+                "GET /api/model-status",
+                "GET /historical/{symbol}/{date}"
+            ]
+        },
+        {
+            "query": "Evaluate the creditworthiness of a borrower by submitting their financial data, fetch the predicted credit score based on the submitted profile, and submit a loan application using the obtained insights for a specific purpose.",
+            "endpoints": [
+                "GET /api/credit-score-prediction",
+                "POST /api/borrower-evaluation",
+                "POST /loan/application"
+            ]
+        },
+        {
+            "query": "Create a new set of detection rules to flag anomalies for stock trading transactions involving a specific stock symbol, and retrieve the real-time price for that stock to test the effectiveness of the rules. Additionally, fetch the latest credit score for a potential investor to assess their reliability.",
+            "endpoints": [
+                "GET /user/credit-score",
+                "POST /rules/new",
+                "GET /stocks/{symbol}/price"
+            ]
+        },
+        {
+            "query": "Create a new set of detection rules to identify anomalies in transaction data and analyze a batch of transactions for suspicious activities based on these rules. Compare the anomalies detected with historical stock price data for a specific symbol and date to evaluate their relevance. Subscribe to real-time alerts for transactions matching the detection rules, generate an analytics report summarizing the anomalies and their impact, and document the process using the API documentation for organizational compliance. Finally, clean up the system by removing outdated data entries to maintain database efficiency.",
+            "endpoints": [
+                "GET /documentation/api",
+                "POST /alerts/subscribe",
+                "POST /transactions/analyze",
+                "GET /historical/{symbol}/{date}",
+                "GET /analytics/reports",
+                "DELETE /api/old-entries",
+                "POST /rules/new"
+            ]
+        },
+        {
+            "query": "As a financial institution, we need to update the details of an existing insurance claim to reflect new incident information, submit customer feedback concerning the claims process for improving service quality, and retrieve compliance information to ensure our processes align with regulatory standards. Additionally, I require a list of available insurance policies to explore better coverage options, delete outdated detection rules no longer applicable to our monitoring system, fetch the predicted credit score for a potential borrower to evaluate their reliability, and access an overview of the current financial market to assess investment opportunities.",
+            "endpoints": [
+                "PUT /claims/update",
+                "POST /customer/feedback",
+                "GET /api/service-compliance",
+                "GET /policies",
+                "DELETE /rules/{id}",
+                "GET /api/credit-score-prediction",
+                "GET /markets/overview"
+            ]
+        },
+        {
+            "query": "Evaluate potential investment opportunities by obtaining loan product recommendations for a specific borrower, retrieve the latest mortgage interest rates to identify favorable conditions, and request a property valuation report to assess the market value of a selected property intended for investment purposes.",
+            "endpoints": [
+                "GET /api/loan-recommendations",
+                "GET /rates/current",
+                "POST /property/valuation"
+            ]
+        },
+        {
+            "query": "Retrieve the historical performance data for a specific stock symbol on a given date, access the latest trending financial news to evaluate key market influences, review the history of submitted claims to analyze past incidents, and unflag a transaction that is no longer considered suspicious to maintain accurate monitoring records.",
+            "endpoints": [
+                "DELETE /transaction/{id}/flag",
+                "GET /historical/{symbol}/{date}",
+                "GET /news/trends",
+                "GET /claim/history"
+            ]
+        }
+    ]
+}

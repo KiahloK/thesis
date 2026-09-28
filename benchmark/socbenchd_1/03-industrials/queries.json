@@ -1,0 +1,102 @@
+{
+    "queries": [
+        {
+            "query": "I need a comprehensive summary of all existing orders along with the real-time operational status of monitored machinery, future project resource and budget forecasts, and the usage analytics for workforce skill completion rates. Additionally, update the configuration settings for a specific machinery with ID 123 and create a new project with detailed parameters. Include information about any available resources utilized across these tasks.",
+            "endpoints": [
+                "GET /orders",
+                "GET /machinery_health",
+                "GET /forecast",
+                "POST /projects",
+                "GET /analytics/completion-rates",
+                "GET /resources",
+                "PUT /machinery_config/{id}"
+            ]
+        },
+        {
+            "query": "Update the emissions thresholds for a facility with ID 567 to ensure compliance with regulatory limits, retrieve the updated workforce skill and training completion rates for analytics purposes, and simultaneously fetch the emissions data for the same facility. Additionally, modify the details of an existing task identified by task ID 789 to allocate resources effectively while submitting a support ticket detailing the changes made and any technical assistance needed.",
+            "endpoints": [
+                "POST /support/tickets",
+                "GET /analytics/completion-rates",
+                "PUT /tasks/{taskId}",
+                "GET /facilities/{facility_id}/emissions"
+            ]
+        },
+        {
+            "query": "Generate predictions for future maintenance requirements of monitored machinery, create a new project with a specified budget and timeline, fetch detailed information about an inventory item using its ID, update the profile of a user with their latest information, and compile a comprehensive system report summarizing the operational health and maintenance status.",
+            "endpoints": [
+                "GET /analytics/predictions",
+                "POST /projects",
+                "GET /items/{id}",
+                "PUT /users/{userId}/profile",
+                "GET /system_report"
+            ]
+        },
+        {
+            "query": "Retrieve the detailed information for a specific construction project using its unique ID, then delete the project to free up resources, and finally fetch the upcoming maintenance schedules for all monitored machinery to plan for resource allocation.",
+            "endpoints": [
+                "GET /projects/{projectId}",
+                "DELETE /projects/{projectId}",
+                "GET /maintenance_schedule"
+            ]
+        },
+        {
+            "query": "Mark a specific skill assessment as complete and retrieve available resources for operational allocation while reviewing the real-time operational status of all monitored machinery. Simultaneously, update the details of an existing task to optimize resource distribution, and delete a construction project after confirming the resource utilization.",
+            "endpoints": [
+                "DELETE /projects/{projectId}",
+                "GET /machinery_health",
+                "PUT /tasks/{taskId}",
+                "GET /inventory/resources",
+                "POST /skill-assessments/{assessmentId}/complete"
+            ]
+        },
+        {
+            "query": "Submit feedback with suggestions for service improvement, mark a specific skill assessment as completed, retrieve the historical sensor data of machinery with a given ID, add a new inventory item with detailed parameters, and delete an existing construction project after handling the related resource allocation.",
+            "endpoints": [
+                "DELETE /projects/{projectId}",
+                "POST /feedback/suggestions",
+                "POST /skill-assessments/{assessmentId}/complete",
+                "GET /sensor_data/{id}",
+                "POST /items"
+            ]
+        },
+        {
+            "query": "Submit a support ticket to report an issue related to uploading sensor data, provide suggestions for improving the service functionality, retrieve specific details of a construction project by its unique ID to confirm accuracy before initiating updates, and upload a new sensor data file for processing and analysis.",
+            "endpoints": [
+                "POST /support/tickets",
+                "POST /feedback/suggestions",
+                "GET /projects/{projectId}",
+                "POST /sensor_data/upload"
+            ]
+        },
+        {
+            "query": "Create multiple new orders for industrial goods and retrieve a summary of all existing orders to confirm the updates. Fetch detailed information for a specific order using its unique ID, analyze predictive maintenance recommendations to allocate resources, and remove an inventory item to optimize operations effectively.",
+            "endpoints": [
+                "GET /orders",
+                "DELETE /items/{id}",
+                "GET /orders/{id}",
+                "POST /orders",
+                "GET /analytics/predictions"
+            ]
+        },
+        {
+            "query": "I need to adjust the budget allocations for a specific project by rearranging the category-specific costs and ensure the total budget aligns with the new requirements. Additionally, retrieve the real-time health status of all monitored machinery to assess their operational efficiency, and submit feedback about the improved experience with the system after using these features. Provide a detailed breakdown of a specific order using its unique ID to verify its contents and confirm the completion of a skill assessment module for better workforce analytics.",
+            "endpoints": [
+                "PUT /budgets/{projectId}",
+                "GET /machinery_health",
+                "POST /feedback",
+                "GET /orders/{id}",
+                "POST /skill-assessments/{assessmentId}/complete"
+            ]
+        },
+        {
+            "query": "Update the status and details of an existing order to refine the delivery timeline and accuracy. Simultaneously, adjust the emission thresholds for a specific facility to comply with updated environmental regulations. Apply for a user-specific certification exam to verify their expertise, retrieve detailed information about a specific inventory item to confirm the availability of necessary goods, and submit user feedback about the effectiveness of these system operations.",
+            "endpoints": [
+                "PUT /orders/{id}",
+                "PUT /facilities/{facility_id}/thresholds",
+                "POST /certifications/{certId}/apply",
+                "GET /items/{id}",
+                "POST /feedback"
+            ]
+        }
+    ]
+}

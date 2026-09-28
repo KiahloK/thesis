@@ -1,0 +1,96 @@
+{
+    "queries": [
+        {
+            "query": "Add the medication \"Xanax\" to the inventory and send a notification to all patients about the availability of the newly stocked medication.",
+            "endpoints": [
+                "POST /notifications",
+                "POST /inventory"
+            ]
+        },
+        {
+            "query": "Schedule a new appointment for a patient with the appropriate healthcare professional, update the details of an existing appointment to reflect changes in time or assigned professional, analyze interactions between \"Aspirin\" and \"Tylenol\" to generate alerts, check the current inventory of medications, submit updated interaction guidelines to ensure adherence to best practices, retrieve details of a specific interaction alert generated, explore trends from analytics data on health risks, and finally, discover the latest updates regarding preventive healthcare measures.",
+            "endpoints": [
+                "PUT /appointments/{id}",
+                "POST /appointments",
+                "POST /medication-interaction-check",
+                "GET /inventory",
+                "POST /interaction-guidelines",
+                "GET /alert/{alert_id}",
+                "GET /updates",
+                "GET /analytics"
+            ]
+        },
+        {
+            "query": "Display the inventory details of a specific pharmacy and fetch the complete history of a particular medical record associated with a patient.",
+            "endpoints": [
+                "GET /pharmacy/{pharmacy_id}/inventory",
+                "GET /records/{record_id}/history"
+            ]
+        },
+        {
+            "query": "Update the inventory details of a medication item with new quantity and expiration date, resolve an alert linked to this medication after addressing the issue, fetch personalized lifestyle tips for a patient based on their health assessment results using their ID, retrieve detailed guidelines on handling medication interactions to ensure compliance with latest medical practices, fetch the history of changes made to a specific patient's medical record for audit purposes, and finally retrieve the most recent updates regarding advancements in preventive healthcare and public health guidelines.",
+            "endpoints": [
+                "PUT /alerts/{alert_id}",
+                "GET /updates",
+                "GET /records/{record_id}/history",
+                "GET /lifestyle-tips",
+                "PUT /inventory/{item_id}",
+                "GET /interaction-guidelines"
+            ]
+        },
+        {
+            "query": "Retrieve detailed information about a specific patient using their unique ID, retrieve the complete list of available medications in the database, and fetch the historical assessment records of the specified patient.",
+            "endpoints": [
+                "GET /patients/{id}",
+                "GET /medications",
+                "GET /history"
+            ]
+        },
+        {
+            "query": "Analyze the aggregated statistical data of health risk assessments, including a breakdown of risk levels, then identify potential medication interactions for a specific high-risk patient using their ID. Finally, retrieve the methods and criteria used for health risk evaluations to better understand the assessment process and ensure alignment with evaluation standards.",
+            "endpoints": [
+                "GET /analytics",
+                "GET /patient/{patient_id}/interactions",
+                "GET /evaluation"
+            ]
+        },
+        {
+            "query": "Submit feedback on a patient's experience with recommendations provided in their recent health risk evaluation, delete a specific interaction alert after resolving the medication issue, book a new appointment with a healthcare specialist to address a flagged concern, and generate aggregated statistical data analyzing patterns and trends in health risk assessments.",
+            "endpoints": [
+                "POST /feedback",
+                "DELETE /alert/{alert_id}",
+                "POST /appointments",
+                "GET /analytics"
+            ]
+        },
+        {
+            "query": "Annotate a medical record to capture critical updates relevant to a patient's health condition, notify healthcare professionals twice to ensure immediate awareness and collaboration regarding the new annotation and critical updates, retrieve a summary report of all flagged or recently updated records to assess urgent cases, fetch tailored lifestyle recommendations for the patient based on their current health evaluations, retrieve detailed information about potential health conditions linked to the patient's symptoms for enhanced diagnosis, and gather insights about a specific alert to understand its severity and context in the ongoing case.",
+            "endpoints": [
+                "GET /conditions",
+                "POST /notifications",
+                "POST /records/{record_id}/annotate",
+                "GET /lifestyle-tips",
+                "POST /notifications",
+                "GET /reports/summary",
+                "GET /alert/{alert_id}"
+            ]
+        },
+        {
+            "query": "Notify all patients about the addition of a new inventory item, specify its critical importance in the notification message, remove an outdated medication interaction alert impacting the same item, and fetch categorized information about health conditions that may benefit from the new item's availability.",
+            "endpoints": [
+                "GET /conditions",
+                "POST /notifications",
+                "DELETE /alert/{alert_id}",
+                "POST /inventory"
+            ]
+        },
+        {
+            "query": "Notify healthcare professionals about the removal of a critical inventory item, provide a detailed explanation of its removal in the notification, delete all medical records associated with the usage of this item, and retrieve the updated inventory list to confirm the removal.",
+            "endpoints": [
+                "GET /inventory",
+                "DELETE /records/{record_id}",
+                "POST /notifications"
+            ]
+        }
+    ]
+}

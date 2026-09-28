@@ -1,0 +1,92 @@
+{
+    "queries": [
+        {
+            "query": "Generate a Gantt chart visualization for a specific construction project and analyze the performance of the fleet's delivery operations, including metrics such as total deliveries, average delivery time, and fuel consumption.",
+            "endpoints": [
+                "GET /projects/{projectId}/gantt",
+                "GET /analytics/performance"
+            ]
+        },
+        {
+            "query": "Identify all active environmental regulations to ensure compliance, verify the detailed data of a specific emission record, retrieve the historical delivery data for the fleet, and delete a maintenance schedule associated with a given schedule ID.",
+            "endpoints": [
+                "GET /regulations",
+                "GET /emissions/{id}",
+                "GET /delivery/history",
+                "DELETE /maintenance-schedule/{scheduleId}"
+            ]
+        },
+        {
+            "query": "Generate a detailed report on the current operational status of all equipment and create a Gantt chart visualization for tracking the timeline and tasks of a specific construction project.",
+            "endpoints": [
+                "GET /equipment-status",
+                "GET /projects/{projectId}/gantt"
+            ]
+        },
+        {
+            "query": "Retrieve a list of all construction projects and their statuses, fetch details of an employee by their unique ID, determine if there are any active maintenance or regulatory alerts, and remove the employee's profile.",
+            "endpoints": [
+                "GET /projects",
+                "GET /alerts",
+                "DELETE /employees/{id}",
+                "GET /employees/{id}"
+            ]
+        },
+        {
+            "query": "Register a new piece of construction equipment, assign a new task to a specific project using its unique project ID, and then remove an outdated or inactive vehicle from the system.",
+            "endpoints": [
+                "DELETE /vehicle/{id}",
+                "POST /equipment",
+                "POST /projects/{projectId}/tasks"
+            ]
+        },
+        {
+            "query": "Retrieve the workforce directory to get an overview of members and their current assignments, submit feedback on the workforce directory and its management, register a new construction project with its details including name and start date, delete an employee profile using their unique ID, and fetch detailed emission data by its unique record ID to ensure compliance with environmental regulations.",
+            "endpoints": [
+                "GET /emissions/{id}",
+                "POST /feedback",
+                "GET /workforce",
+                "POST /projects",
+                "DELETE /employees/{id}"
+            ]
+        },
+        {
+            "query": "Optimize the routes for a fleet of vehicles to minimize fuel consumption and travel time, log new emission data for each vehicle along the optimized route, update the operational parameters of a specific piece of equipment used for transportation, and mark the task of analyzing route efficiency as completed.",
+            "endpoints": [
+                "POST /route/optimize",
+                "POST /emissions",
+                "PUT /equipment/{equipmentId}",
+                "POST /tasks/completion"
+            ]
+        },
+        {
+            "query": "Assign job-specific training modules to new employees, retrieve the list of all incomplete onboarding tasks for them, optimize vehicle routes for efficient transportation during the training sessions, generate a visual Gantt chart for project timelines tied to the trainings, and submit feedback about the effectiveness of the training programs and overall onboarding process.",
+            "endpoints": [
+                "POST /feedback",
+                "POST /route/optimize",
+                "GET /projects/{projectId}/gantt",
+                "GET /onboarding/tasks",
+                "POST /onboarding/trainings"
+            ]
+        },
+        {
+            "query": "Track the onboarding status of employees across various departments, retrieve details of a specific active alert including the regulation it pertains to, assign a workforce member to manage the resolution of the alert, list all active alerts for monitoring purposes, and fetch the maintenance history of the equipment involved in the alert.",
+            "endpoints": [
+                "GET /reports/onboarding-status",
+                "GET /alerts/{id}",
+                "POST /workforce/assign",
+                "GET /alerts",
+                "GET /maintenance-history/{equipmentId}"
+            ]
+        },
+        {
+            "query": "Identify and remove an outdated vehicle from the system, update the operational parameters of a specific piece of equipment to ensure efficient functioning, analyze the historical delivery data for the fleet to track completed deliveries, and retrieve the maintenance history of equipment to assess past service records before deciding on future operations.",
+            "endpoints": [
+                "DELETE /vehicle/{id}",
+                "PUT /equipment/{equipmentId}",
+                "GET /delivery/history",
+                "GET /maintenance-history/{equipmentId}"
+            ]
+        }
+    ]
+}

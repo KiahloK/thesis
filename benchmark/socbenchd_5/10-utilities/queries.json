@@ -1,0 +1,100 @@
+{
+    "queries": [
+        {
+            "query": "Retrieve the energy consumption performance of all registered consumers, fetch active alerts related to infrastructure status, analyze overall grid efficiency statistics, access detailed performance reports of all installations, and generate a comprehensive report on energy distribution analytics. Based on the analytics and alerts, identify any specific network configurations that require deletion for optimization.",
+            "endpoints": [
+                "DELETE /networks/{id}",
+                "GET /analytics/distribution",
+                "GET /alerts",
+                "GET /grid/efficiency",
+                "GET /consumers",
+                "GET /performance-reports"
+            ]
+        },
+        {
+            "query": "Analyze my household energy consumption over the past month using detailed consumption data. Adjust user-specific preferences to reduce waste and increase efficiency. Examine load distribution to identify patterns and improve performance. Generate a tailored energy scenario based on household data for optimized energy usage. Additionally, review the performance of all registered consumers to create a comparative efficiency analysis. If necessary, modify the trade settings to align with optimization goals.",
+            "endpoints": [
+                "PUT /trade/{trade_id}",
+                "GET /consumers",
+                "POST /generate-energy-scenarios",
+                "GET /energy/load-distribution",
+                "GET /household/consumption",
+                "PATCH /user/preferences"
+            ]
+        },
+        {
+            "query": "Analyze the historical data collected by a specific sensor over the past week to identify trends and anomalies, then utilize predictive analysis to forecast potential maintenance needs based on these observations.",
+            "endpoints": [
+                "GET /sensors/{id}/data",
+                "POST /predictive-analysis"
+            ]
+        },
+        {
+            "query": "Generate a comprehensive energy usage report detailing distribution and consumption patterns. Set up alerts for critical thresholds in energy usage trends to ensure timely responses. Customize analytics to uncover actionable insights for optimizing energy performance. Create advanced energy scenarios for improved generation and distribution efficiency.",
+            "endpoints": [
+                "GET /reports",
+                "POST /alerts",
+                "POST /analytics/custom",
+                "POST /generate-energy-scenarios"
+            ]
+        },
+        {
+            "query": "Identify historical energy market trends to understand shifts in supply and demand dynamics over time, and submit predictive analysis data incorporating recent temperature metrics to forecast potential market behavior and its implications for future energy trading opportunities.",
+            "endpoints": [
+                "GET /marketpatterns",
+                "POST /predictive-analysis"
+            ]
+        },
+        {
+            "query": "Retrieve active alerts to address critical issues, monitor ongoing maintenance schedules across the grid to track component reliability, and analyze overall grid performance using efficiency statistics. Examine load distribution patterns to detect imbalances, and use predictive analysis to forecast potential maintenance needs. Submit sensor calibration data to ensure accurate readings and generate a comprehensive report summarizing energy distribution, sensor calibration status, and overall performance insights.",
+            "endpoints": [
+                "GET /alerts",
+                "GET /maintenance-schedule",
+                "GET /reports",
+                "POST /predictive-analysis",
+                "POST /sensor-calibrations",
+                "GET /grid/efficiency",
+                "GET /energy/load-distribution"
+            ]
+        },
+        {
+            "query": "Analyze historical energy market trends to identify shifts in pricing and consumption patterns over time. Set up alerts for significant changes in distribution patterns that could impact grid stability. Utilize predictive analysis to anticipate maintenance needs and ensure optimal component functionality. Retrieve active alerts to address critical issues promptly. Cancel unnecessary trade orders and remove underperforming networks to streamline operations. Examine long-term energy distribution trends and load distribution to uncover inefficiencies and propose improvements. Generate a detailed report summarizing key insights from market trends, distribution analytics, load patterns, and active alerts for informed decision-making.",
+            "endpoints": [
+                "GET /marketpatterns",
+                "POST /alerts",
+                "POST /predictive-analysis",
+                "GET /alerts",
+                "DELETE /trade/{trade_id}",
+                "DELETE /networks/{id}",
+                "GET /analytics/trend",
+                "GET /analytics/distribution",
+                "GET /energy/load-distribution"
+            ]
+        },
+        {
+            "query": "Analyze the current usage statistics of renewable energy sources across the grid and identify any active alerts that highlight inefficiencies or operational issues related to renewable energy integration.",
+            "endpoints": [
+                "GET /renewable/usage-stats",
+                "GET /alerts"
+            ]
+        },
+        {
+            "query": "Optimize the operational efficiency of the energy grid by analyzing historical energy market trends to identify impactful shifts. Schedule new sensor calibrations based on observed data accuracy needs to ensure reliable performance metrics. Modify an existing water distribution network's configuration to address identified inefficiencies and enhance integration within the grid. Finally, review and adjust ongoing maintenance schedules to align with predicted system requirements for improved reliability.",
+            "endpoints": [
+                "GET /marketpatterns",
+                "GET /maintenance-schedule",
+                "POST /sensor-calibrations",
+                "PUT /networks/{id}"
+            ]
+        },
+        {
+            "query": "Submit energy optimization parameters for a household to reduce consumption during peak hours, update system settings to enable energy-saving preferences, retrieve detailed sensor data for the past two weeks to analyze performance accuracy, and modify an existing trade order based on the adjusted household energy consumption patterns.",
+            "endpoints": [
+                "POST /optimize/household",
+                "PUT /settings",
+                "GET /sensors/{id}/data",
+                "PUT /trade/{trade_id}"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,90 @@
+{
+    "queries": [
+        {
+            "query": "Create a new permission labeled \"view_metrics\" and retrieve the current system reliability metrics, including uptime percentage and failure rates, to ensure the newly assigned permission aligns with operational monitoring requirements.",
+            "endpoints": [
+                "POST /permissions",
+                "GET /reliability/metrics"
+            ]
+        },
+        {
+            "query": "Assign the role of \"Resource Manager\" to multiple users, update the configuration of a virtual resource with ID 12345 to increase its memory allocation, and retrieve a list of all devices to ensure compatibility with the updated resource.",
+            "endpoints": [
+                "GET /devices",
+                "PUT /resources/{id}",
+                "POST /roles"
+            ]
+        },
+        {
+            "query": "Identify the available regions for deploying cloud resources and update the configuration of a cloud resource with ID \"resource789\" to change its deployment region to a more optimal location.",
+            "endpoints": [
+                "GET /regions",
+                "PUT /resources/{id}"
+            ]
+        },
+        {
+            "query": "Create a new IT device labeled \"LogAnalyzer\" in the system, assign the \"Diagnostics Viewer\" permission to users for accessing system logs, configure the dashboard to display critical diagnostic logs, verify the system's health status to ensure stability, optimize the system for better log analysis performance, and retrieve the diagnostic logs to populate the newly configured dashboard.",
+            "endpoints": [
+                "POST /permissions",
+                "POST /dashboard/configure",
+                "GET /system/health",
+                "POST /system/optimization",
+                "POST /devices",
+                "GET /diagnostics/logs"
+            ]
+        },
+        {
+            "query": "Acknowledge an active alert with ID \"alert123\", retrieve system-wide performance metrics to compare with previous values, create a new permission for \"Manage Alerts\", update the configuration of a resource with ID \"resource456\" to improve its processing power, delete a resource with ID \"resource789\" for resource optimization, check the system's overall health status before proceeding with further changes, and finally cancel a notification subscription with ID \"sub987\" as it is no longer required.",
+            "endpoints": [
+                "PUT /alerts/{id}/acknowledge",
+                "GET /metrics",
+                "POST /permissions",
+                "PUT /resources/{id}",
+                "DELETE /resources/{id}",
+                "GET /system/health",
+                "DELETE /notifications/subscription/{id}"
+            ]
+        },
+        {
+            "query": "Initiate a comprehensive inventory audit to detect discrepancies in asset records, verify the validity and permissions of a provided session token to ensure the requester's access rights, and set up an alert for identifying critical discrepancies during the audit process with a threshold of three mismatches.",
+            "endpoints": [
+                "POST /inventory/audit",
+                "POST /tokens/verify",
+                "POST /alerts/set"
+            ]
+        },
+        {
+            "query": "Initiate the analysis process on a dataset with the ID \"dataset12345\" to generate insights and prepare it for advanced data modeling tasks.",
+            "endpoints": [
+                "POST /analysis/start"
+            ]
+        },
+        {
+            "query": "Check the list of roles assigned to a user with a specified ID to ensure they have permissions to manage resources, retrieve detailed information about a specific resource to verify its current status and configuration, evaluate the overall health of the system to confirm stability for resource operations, identify the available deployment regions for optimizing resource placement, and set up an alert to monitor any critical changes to the specified resource's configuration.",
+            "endpoints": [
+                "GET /users/{userId}/roles",
+                "GET /resources/{id}",
+                "GET /system/health",
+                "GET /regions",
+                "POST /alerts/set"
+            ]
+        },
+        {
+            "query": "Provide a detailed analysis of diagnostic issues by initiating a system diagnostics analysis, configure a new IT device in the system with the name \"PerformanceAnalyzer\" to aid in tracking issues, optimize the system for enhanced performance analysis, retrieve visualizations for better interpretation of diagnostics data, and update the details of an existing device with ID \"device123\" to reflect its new status and operational role within the diagnostics framework.",
+            "endpoints": [
+                "POST /system/optimization",
+                "POST /diagnostics/analysis",
+                "PUT /devices/{deviceId}",
+                "GET /visualizations",
+                "POST /devices"
+            ]
+        },
+        {
+            "query": "Update the details of an existing IT device with ID \"deviceID12345\" to reflect its current operational status and ensure it is aligned with organizational requirements by authenticating the admin user credentials to secure and validate the operation.",
+            "endpoints": [
+                "PUT /devices/{deviceId}",
+                "POST /users/authenticate"
+            ]
+        }
+    ]
+}

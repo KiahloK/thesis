@@ -1,0 +1,97 @@
+{
+    "queries": [
+        {
+            "query": "Identify optimization suggestions for energy efficiency in my smart grid devices, generate tailored energy-saving recommendations based on my current settings, remove a specific inactive device from the system, submit feedback on the provided insights, update the maintenance schedule for associated devices, and provide a list of all connected devices for reference.",
+            "endpoints": [
+                "GET /optimization-suggestions",
+                "POST /user/recommendations",
+                "DELETE /devices/{device_id}",
+                "POST /feedback/insights",
+                "PATCH /maintenance/schedule",
+                "GET /devices"
+            ]
+        },
+        {
+            "query": "Analyze future energy generation projections for renewable sources, provide a summary dashboard of my total energy consumption and alert records, and update maintenance schedules for a specific pipeline to optimize operational performance.",
+            "endpoints": [
+                "GET /analytics/projections",
+                "GET /dashboard/summary",
+                "PATCH /pipelines/{id}/maintenance"
+            ]
+        },
+        {
+            "query": "Analyze the overall performance metrics of my grid system and retrieve real-time energy generation data from renewable sources to evaluate current energy production efficiency.",
+            "endpoints": [
+                "GET /grid-performance",
+                "GET /generation/real-time-data"
+            ]
+        },
+        {
+            "query": "I want to review detailed power consumption statistics for analysis, fetch the latest readings from a specific sensor by its ID to monitor functionality, examine all current system alerts for potential issues, delete a resolved alert using its ID, set up customized alert settings to receive specific notifications, and submit feedback on the usefulness of the insights provided.",
+            "endpoints": [
+                "GET /usage-statistics",
+                "GET /sensors/{id}/readings",
+                "GET /alerts",
+                "DELETE /alert/{id}",
+                "POST /alert/settings",
+                "POST /feedback/insights"
+            ]
+        },
+        {
+            "query": "Monitor the operational health of all sensors in the system, check the detailed status of a specific pipeline by its ID for condition updates, retrieve a list of all active devices within the network, analyze the current power quality within the smart grid, validate recent energy-saving actions taken for effectiveness, review comprehensive water consumption statistics for efficiency analysis, examine the distribution of energy sources being utilized to assess renewable contributions, and schedule maintenance operations for ongoing system optimization.",
+            "endpoints": [
+                "GET /sensor-health",
+                "GET /pipelines/{id}/status",
+                "GET /devices",
+                "GET /power-quality",
+                "POST /actions/validate",
+                "GET /water-consumption",
+                "GET /energy-sources/distribution",
+                "POST /maintenance/scheduling"
+            ]
+        },
+        {
+            "query": "Analyze the power quality parameters of the smart grid to assess voltage stability, retrieve historical fault data to identify trends in grid failures, compare my energy usage with the community average to evaluate relative consumption patterns, and schedule a maintenance operation for devices showing signs of decreased efficiency.",
+            "endpoints": [
+                "GET /power-quality",
+                "POST /maintenance/scheduling",
+                "GET /faults",
+                "GET /community/averages"
+            ]
+        },
+        {
+            "query": "I want to calibrate a specific sensor to maintain its accuracy, review the list of monitored pipelines for detailed information, check the current alert settings configuration to ensure I receive relevant notifications, generate a comprehensive efficiency report based on water usage data, and track the progress of my energy-saving goals against the set targets.",
+            "endpoints": [
+                "POST /sensors/{id}/calibrate",
+                "GET /pipelines",
+                "GET /alert/settings",
+                "POST /usage-reports",
+                "GET /user/goal-progress"
+            ]
+        },
+        {
+            "query": "Generate tailored energy-saving recommendations based on my current usage patterns, analyze historical fault trends in my systems, provide an overview of water consumption statistics for efficiency tracking, evaluate system performance metrics to optimize energy distribution, and adjust operational thresholds for renewable energy production to improve generation efficiency.",
+            "endpoints": [
+                "GET /statistics/overview",
+                "GET /faults",
+                "GET /water-consumption",
+                "PUT /generation/thresholds",
+                "POST /user/recommendations"
+            ]
+        },
+        {
+            "query": "Generate a detailed monthly efficiency report on water usage trends and compare my energy consumption patterns with the average usage within my community to identify areas for improvement and potential savings opportunities.",
+            "endpoints": [
+                "POST /usage-reports",
+                "GET /community/averages"
+            ]
+        },
+        {
+            "query": "Predict my energy bill for the next month based on my historical usage and provide the current status of a specific pipeline, including its operational condition and any ongoing issues.",
+            "endpoints": [
+                "GET /billing/predictions",
+                "GET /pipelines/{id}/status"
+            ]
+        }
+    ]
+}

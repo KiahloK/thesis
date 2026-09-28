@@ -1,0 +1,101 @@
+{
+    "queries": [
+        {
+            "query": "Add a new property listing with features such as \"Swimming Pool\" and \"Gym\".",
+            "endpoints": [
+                "POST /listings",
+                "POST /features"
+            ]
+        },
+        {
+            "query": "Update the status of a specific property to \"Sold\", log the respective sale transaction in the system, and remove the property from the inventory. Additionally, cancel any pending verifications tied to the property and retrieve regional statistics to reflect the impact of this transaction on the market.",
+            "endpoints": [
+                "DELETE /properties/{propertyId}",
+                "POST /transaction-history",
+                "DELETE /verifications/{verification_id}",
+                "PUT /properties/{propertyId}",
+                "GET /regions/statistics"
+            ]
+        },
+        {
+            "query": "Retrieve a list of available locations to help an applicant select a preferred property region, update the details of an applicant by their ID to correct their contact information, retrieve real estate market insights and trends in specific regions to provide guidance to the applicant, access real estate trends and forecasts to identify market movements, adjust the details of an investment portfolio to align with updated preferences, replace features or attributes of an active property listing, post feedback about the user experience, delete a specific property from the inventory, and add a new inquiry related to the applicant\u2019s preferred property.",
+            "endpoints": [
+                "POST /inquiries",
+                "GET /market-insights",
+                "POST /feedback",
+                "GET /locations",
+                "PUT /applicants/{applicant_id}",
+                "PUT /investment-portfolio/{portfolioId}",
+                "PUT /listings/{id}",
+                "GET /real-estate-trends",
+                "DELETE /properties/{propertyId}"
+            ]
+        },
+        {
+            "query": "Submit a new rental applicant with their details, retrieve a list of available property locations to help the applicant decide on a preferred region, and review the rental and payment history of the applicant using their unique identifier.",
+            "endpoints": [
+                "POST /applicants",
+                "GET /locations",
+                "GET /history/{applicant_id}"
+            ]
+        },
+        {
+            "query": "Log a new transaction tied to an investment portfolio for tracking its growth, retrieve the current status of a specific verification linked to it, access the help documentation to understand the features of portfolio management, and fetch an overview summary of the investment portfolio to evaluate its performance.",
+            "endpoints": [
+                "POST /transaction-history",
+                "GET /status/{verification_id}",
+                "GET /help",
+                "GET /investment-portfolio"
+            ]
+        },
+        {
+            "query": "Register a new agent to manage property listings, retrieve a list of all inquiries submitted for properties, remove a specific property listing from the database, and update the status and details of a property to accurately reflect its current condition and availability.",
+            "endpoints": [
+                "POST /agents",
+                "GET /inquiries",
+                "DELETE /listings/{id}",
+                "PUT /properties/{propertyId}"
+            ]
+        },
+        {
+            "query": "Generate a detailed performance report for a specific investment portfolio by its unique ID, retrieve the portfolio's summary to understand its composition, fetch details of specific properties within the portfolio using their unique IDs, compare these details with all currently available properties in the system to identify potential additions, search for property listings that match specific criteria such as price range and features, submit the selected properties for analysis to evaluate their investment potential, and update the information of an existing property listing to better align it with the portfolio's strategy.",
+            "endpoints": [
+                "GET /performance-reports/{portfolioId}",
+                "GET /investment-portfolio/{portfolioId}",
+                "GET /properties/{propertyId}",
+                "GET /properties",
+                "GET /listings/search",
+                "POST /real-estate-analyzer",
+                "PUT /listings/{id}"
+            ]
+        },
+        {
+            "query": "Retrieve the verification status of a process using its unique ID, provide feedback about the verification process interface, access the details of all stakeholders associated with ongoing properties, visit the help documentation to better understand API capabilities, obtain real-time price insights for a specific property, and analyze the latest market insights to stay updated on real estate trends.",
+            "endpoints": [
+                "GET /status/{verification_id}",
+                "POST /feedback",
+                "GET /stakeholders",
+                "GET /help",
+                "GET /properties/price-insights",
+                "GET /market-insights"
+            ]
+        },
+        {
+            "query": "Provide feedback about the clarity and usefulness of the help documentation after reviewing it, create a new property listing to test system functionality, and check the status of a specific verification process to ensure it's progressing as expected.",
+            "endpoints": [
+                "GET /status/{verification_id}",
+                "POST /listings",
+                "GET /help"
+            ]
+        },
+        {
+            "query": "Identify and list all stakeholders currently associated with the properties managed by the system, retrieve details of all properties available in the inventory, and analyze the market trends to assist in making informed decisions about adding new stakeholders to support property management. Afterward, create a record for a new stakeholder to enhance the property management strategy.",
+            "endpoints": [
+                "GET /market-trends",
+                "POST /stakeholders",
+                "GET /properties",
+                "GET /stakeholders"
+            ]
+        }
+    ]
+}

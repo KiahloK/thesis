@@ -1,0 +1,89 @@
+{
+    "queries": [
+        {
+            "query": "List all product categories, retrieve detailed information about all products within a specific category using its ID, analyze customer feedback specific to products within that category, and identify active alerts related to the category or its associated products. Additionally, update an existing alert by providing its ID and new details.",
+            "endpoints": [
+                "GET /feedback",
+                "GET /alerts",
+                "PUT /alerts/{alert_id}",
+                "GET /categories",
+                "GET /categories/{id}/products"
+            ]
+        },
+        {
+            "query": "Create a new product entry and verify its addition by listing all products. Retrieve ingredient sources to gather additional relevant data, then set up an alert for low stock of this product. Retrieve detailed information about the product by its ID. Compare environmental footprints of manufacturing practices using multiple sources. Retrieve the shipping status of a previously placed order related to the product, and finally, remove the newly created product by deleting it from the database.",
+            "endpoints": [
+                "DELETE /products/{id}",
+                "GET /products",
+                "POST /alerts",
+                "GET /shipping-status/{order_id}",
+                "POST /benchmarking/compare",
+                "GET /sources",
+                "POST /products"
+            ]
+        },
+        {
+            "query": "Place a new order between a supplier and a distributor for several products, retrieve historical environmental assessment reports to ensure sustainable practices of the supplier, submit feedback on the ordering process, and obtain a list of available distributors to confirm the distributor involved in the order.",
+            "endpoints": [
+                "POST /orders",
+                "GET /reports/historical",
+                "POST /feedback",
+                "GET /distributors"
+            ]
+        },
+        {
+            "query": "Provide a summary of customer feedback analysis to understand overall product reception, gather insights derived from the analyzed feedback to identify key performance indicators and trends, and retrieve a list of all distributors to explore potential distribution channels for the most positively reviewed products.",
+            "endpoints": [
+                "GET /feedback/summary",
+                "GET /distributors",
+                "GET /insights"
+            ]
+        },
+        {
+            "query": "Retrieve insights into the current trends in consumer staples product sourcing practices, list all ingredient sources with their detailed information, and compile a comprehensive list of all available products along with their associated ingredients to assess alignment with the identified trends.",
+            "endpoints": [
+                "GET /trends",
+                "GET /sources",
+                "GET /products"
+            ]
+        },
+        {
+            "query": "Retrieve detailed sourcing practices and information for a specific ingredient source identified by its ID to evaluate its alignment with sustainable and ethical sourcing standards.",
+            "endpoints": [
+                "GET /sources/{id}"
+            ]
+        },
+        {
+            "query": "Analyze customer feedback to identify overall trends and sentiment towards a product category, confirm the category's attributes and details, and check the shipping status of an order related to that category to evaluate fulfillment efficiency.",
+            "endpoints": [
+                "GET /feedback",
+                "GET /shipping-status/{order_id}",
+                "GET /categories"
+            ]
+        },
+        {
+            "query": "Determine the environmental impact of a specific set of materials by analyzing their composition and individual contribution to overall sustainability, providing detailed insights into how each material affects the environment.",
+            "endpoints": [
+                "GET /materials/impact"
+            ]
+        },
+        {
+            "query": "Retrieve a comprehensive list of all registered suppliers in the system, including their contact information and location, to evaluate potential supply chain partnerships.",
+            "endpoints": [
+                "GET /suppliers"
+            ]
+        },
+        {
+            "query": "I need to assess historical environmental performance by retrieving past reports and comparing environmental footprints of similar manufacturing processes to identify areas for improvement. After this, I will delete outdated demand forecasts to maintain system efficiency. Then, I will launch a new eco-friendly product by creating its entry in the system. To ensure compliance with sustainability practices, I will schedule a facility audit for an updated evaluation. Additionally, I will analyze the customer feedback summary to understand recent sentiments towards sustainable products and check the shipping status of an order to confirm timely delivery of necessary materials for the product launch.",
+            "endpoints": [
+                "GET /feedback/summary",
+                "POST /facility/audit/request",
+                "DELETE /forecasts/{forecast_id}",
+                "GET /reports/historical",
+                "POST /products",
+                "POST /benchmarking/compare",
+                "GET /shipping-status/{order_id}"
+            ]
+        }
+    ]
+}

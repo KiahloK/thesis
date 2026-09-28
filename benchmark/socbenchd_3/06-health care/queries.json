@@ -1,0 +1,109 @@
+{
+    "queries": [
+        {
+            "query": "Retrieve the scheduled appointments and types of appointments available for a specific patient using their patient ID, check the lab results for that patient, review the stock levels of an item to verify if sufficient medications or equipment are available for their appointments, update the scheduling details of an existing appointment, adjust the inventory stock levels if required for their appointments, and finalize by updating the insurance claim associated with their scheduled appointments.",
+            "endpoints": [
+                "GET /patients/{patientId}/appointments",
+                "GET /appointment-types",
+                "PUT /claims/{claimId}",
+                "GET /patients/{patientId}/lab-results",
+                "GET /stock-levels/{item-id}",
+                "PATCH /appointments/{appointment_id}",
+                "POST /inventory-update"
+            ]
+        },
+        {
+            "query": "Update the details of an existing insurance claim for a specific patient to include new information, verify the list of all submitted claims beforehand, fetch the available types of medical appointments for reference, register a new healthcare provider associated with the claim, and retrieve the details of a specific document linked to the claim.",
+            "endpoints": [
+                "GET /claims",
+                "GET /appointment-types",
+                "POST /providers",
+                "GET /documents/{id}",
+                "PUT /claims/{claimId}"
+            ]
+        },
+        {
+            "query": "Approve a pending insurance claim for a patient by submitting the necessary approval details, provide feedback on the claim processing experience, register a new healthcare provider related to the claim, modify the scheduling details of an existing medical appointment associated with the claim, create a new appointment for follow-up care, delete a telemedicine consultation session that is no longer required, and retrieve the patient's historical appointment data to ensure all necessary steps are documented.",
+            "endpoints": [
+                "POST /claims/{claimId}/approval",
+                "POST /feedback",
+                "POST /providers",
+                "PATCH /appointments/{appointment_id}",
+                "POST /appointments",
+                "DELETE /consultations/{id}",
+                "GET /patients/{patientId}/history"
+            ]
+        },
+        {
+            "query": "Retrieve the historical insurance claim data for a patient based on their unique patient ID and review the insurance policies related to their healthcare coverage.",
+            "endpoints": [
+                "GET /policies",
+                "GET /patients/{patient_id}/history"
+            ]
+        },
+        {
+            "query": "Identify the inventory restocking requirements to ensure sufficient medication stock, add a new medication to a specific patient's profile, retrieve a list of practitioners to consult for the patient's treatment plan, provide feedback on medication availability and service experience, approve an insurance claim related to the medication provided, and review the list of healthcare providers to evaluate their network and accessibility.",
+            "endpoints": [
+                "GET /inventory-requirements",
+                "POST /patients/{patientId}/medications",
+                "GET /practitioners",
+                "POST /feedback",
+                "POST /claims/{claimId}/approval",
+                "GET /providers"
+            ]
+        },
+        {
+            "query": "Retrieve the details of a specific telemedicine consultation session to verify the associated patient and provider information, send a notification to remind the patient about their upcoming lab test consultation, upload the lab test results to the patient's records, access their historical consultation records to check previous test results, and modify the scheduling details of an existing appointment linked to the consultation.",
+            "endpoints": [
+                "PATCH /appointments/{appointment_id}",
+                "GET /records",
+                "GET /consultations/{id}",
+                "POST /notifications",
+                "POST /patients/{patientId}/lab-results"
+            ]
+        },
+        {
+            "query": "List all patients in the system, add lab results for a specific patient, determine inventory restocking requirements to ensure necessary medications or resources are available, retrieve the medication details for a specific patient, generate analytics data related to medical care and treatments, update the scheduling details of an existing appointment for the patient, and review the patient's historical appointment records to verify the continuity of their medical activities and track outcomes.",
+            "endpoints": [
+                "GET /patients",
+                "POST /patients/{patientId}/lab-results",
+                "GET /inventory-requirements",
+                "GET /patients/{patientId}/medications",
+                "GET /analytics",
+                "PATCH /appointments/{appointment_id}",
+                "GET /patients/{patient_id}/history"
+            ]
+        },
+        {
+            "query": "Update the availability schedule for a specific practitioner to include additional time slots, delete a telemedicine consultation session that is no longer needed by the practitioner, retrieve the patient's historical appointment records to ensure accurate rescheduling, and adjust the inventory levels to reflect the availability of necessary resources for the appointments.",
+            "endpoints": [
+                "POST /inventory-update",
+                "DELETE /consultations/{id}",
+                "GET /patients/{patientId}/history",
+                "POST /practitioners/{practitioner_id}/availability"
+            ]
+        },
+        {
+            "query": "Retrieve the stock level details of a specific pharmaceutical item to ensure supply for an upcoming consultation, verify the consumption trends of related resources to anticipate future needs, update the details of a telemedicine consultation session to adjust its scheduling based on resource availability, add additional availability for a specified practitioner to accommodate the updated consultation schedule, review the list of healthcare providers to identify suitable alternatives for the consultation, fetch a specific medical document associated with the consultation for reference, analyze the stock levels of all inventory items to determine if adequate resources are maintained for future consultations, and retrieve the lab results for a specific patient to verify their medical information before finalizing the consultation.",
+            "endpoints": [
+                "GET /stock-levels",
+                "GET /documents/{id}",
+                "GET /reports/consumption-trends",
+                "PUT /consultations/{id}",
+                "POST /practitioners/{practitioner_id}/availability",
+                "GET /stock-levels/{item-id}",
+                "GET /providers",
+                "GET /patients/{patientId}/lab-results"
+            ]
+        },
+        {
+            "query": "Determine the lab results for a specific patient using their unique ID, generate a report analyzing the trends in the consumption of pharmaceutical resources associated with those results, and update the inventory stock levels to align with the findings while reviewing the healthcare policies to verify coverage for the prescribed treatments based on the lab results.",
+            "endpoints": [
+                "POST /inventory-update",
+                "GET /reports/consumption-trends",
+                "GET /patients/{patientId}/lab-results",
+                "GET /policies"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,102 @@
+{
+    "queries": [
+        {
+            "query": "Analyze the overall performance of renewable energy sources, identify trends in renewable energy advancements, check integration status with power grids, retrieve available energy models for supply-demand insights, get strategic recommendations for energy management, and calculate carbon emissions based on specified operational data to optimize sustainability.",
+            "endpoints": [
+                "GET /renewables/overview",
+                "GET /renewables/trends",
+                "GET /grids/integration-status",
+                "GET /energy-models",
+                "GET /recommendations/strategy",
+                "POST /factors/emissions/calculations"
+            ]
+        },
+        {
+            "query": "Analyze the operational status of the energy monitoring system, review the latest maintenance history of a specified renewable energy system, and receive optimization recommendations for efficient operation of power grids.",
+            "endpoints": [
+                "GET /grid/optimization",
+                "GET /status",
+                "GET /renewables/{id}/maintenance-history"
+            ]
+        },
+        {
+            "query": "Identify actionable strategies for improving energy management that align with current operational insights, evaluate the carbon emissions produced from a given set of operational activities using predefined factors, and obtain detailed insights into energy usage trends to enhance the implementation of sustainable practices.",
+            "endpoints": [
+                "GET /recommendations/strategy",
+                "POST /factors/emissions/calculations",
+                "GET /energy-insights"
+            ]
+        },
+        {
+            "query": "Upload historical energy consumption data to generate a carbon emissions report, analyze renewable energy advancements for identifying sustainable trends, retrieve energy trade flow data to explore potential markets, reset all existing datasets to start a new analysis cycle, and list available energy models to optimize supply-demand dynamics effectively.",
+            "endpoints": [
+                "GET /energy-models",
+                "GET /renewables/trends",
+                "GET /energy/trade-flows",
+                "DELETE /data/reset",
+                "POST /data/upload",
+                "POST /emissions/reports"
+            ]
+        },
+        {
+            "query": "Design and upload an energy consumption dataset to create a new energy supply-demand model, optimize grid operations by submitting specific grid parameters, and update an emissions report with additional data while retrieving predefined emissions factors for accurate calculations.",
+            "endpoints": [
+                "POST /energy-model/create",
+                "POST /grid/parameters",
+                "PUT /emissions/reports/{report_id}",
+                "POST /data/upload",
+                "GET /factors/emissions"
+            ]
+        },
+        {
+            "query": "Plan a strategy to achieve sustainability goals by analyzing current progress, adjust operational preferences for renewable energy system notifications and settings, identify energy usage trends to optimize consumption patterns, evaluate power grid operations for efficiency improvements, assess the geopolitical factors impacting energy resource availability, analyze active alert data for critical issues, and retrieve emission factor details for aligning operations with environmental standards.",
+            "endpoints": [
+                "GET /sustainability/goals",
+                "PUT /renewables/{id}/settings",
+                "GET /energy-usage/analytics",
+                "GET /grid/optimization",
+                "GET /energy/geopolitical-impact",
+                "GET /alerts",
+                "GET /factors/emissions"
+            ]
+        },
+        {
+            "query": "Analyze the daily energy demand forecast for a specified range to predict potential consumption trends, create a predictive maintenance alert for a specific renewable energy system to address an anticipated issue, conduct a simulation to estimate renewable energy production under specific conditions, and retrieve standardized emission factors to assess environmental impact during operations.",
+            "endpoints": [
+                "GET /forecast/daily",
+                "POST /alerts/predictive-maintenance",
+                "GET /simulation",
+                "GET /factors/emissions"
+            ]
+        },
+        {
+            "query": "Analyze the potential impact of geopolitical events on energy markets, retrieve the latest active alerts related to sudden changes in pricing or supply levels, and review the details of a previously generated emissions report to evaluate compliance with environmental standards.",
+            "endpoints": [
+                "GET /energy/alerts",
+                "GET /energy/geopolitical-impact",
+                "GET /emissions/reports/{report_id}"
+            ]
+        },
+        {
+            "query": "Create a comprehensive report analyzing energy market trends by including future pricing predictions and the geopolitical impact on energy resources. Ensure the report integrates insights from a newly generated emissions report and provides a summary of active alerts regarding sudden price or supply changes. Clear all outdated datasets before generating the report and retrieve the final analysis report for review.",
+            "endpoints": [
+                "GET /analysis/reports",
+                "GET /analytics/price-prediction",
+                "GET /energy/geopolitical-impact",
+                "POST /emissions/reports",
+                "DELETE /data/reset",
+                "GET /alerts"
+            ]
+        },
+        {
+            "query": "Provide a daily energy demand forecast for the upcoming week, analyze the current supply levels of gas across regions, update the storage strategy preferences to prioritize cost-efficient energy usage by specifying a new threshold, verify the integration status of all monitored renewable energy systems with power grids, and reset all previously uploaded datasets to ensure a fresh analysis cycle.",
+            "endpoints": [
+                "GET /forecast/daily",
+                "GET /energy/supply-levels",
+                "PUT /user-preferences/storage-strategy",
+                "GET /grids/integration-status",
+                "DELETE /data/reset"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,97 @@
+{
+    "queries": [
+        {
+            "query": "Analyze my daily and monthly energy consumption patterns for the last year, configure an alert to notify me via email if the daily energy usage exceeds 10 kWh, and integrate new supply chain data to monitor energy efficiency improvements.",
+            "endpoints": [
+                "GET /consumption/monthly",
+                "POST /alerts/configure",
+                "POST /supply-chain-data",
+                "GET /consumption/daily"
+            ]
+        },
+        {
+            "query": "Evaluate the monthly energy consumption trends for the previous year, update the maintenance status of specific equipment to \"Under Inspection,\" adjust sensor settings to improve monitoring accuracy, verify the real-time status of the energy distribution grid, and review past audit reports for compliance and process improvements.",
+            "endpoints": [
+                "GET /audit-reports",
+                "GET /consumption/monthly",
+                "PUT /equipment/{id}/maintenance-status",
+                "PATCH /sensors/settings",
+                "GET /distribution/status"
+            ]
+        },
+        {
+            "query": "Recommend strategies to optimize the integration of renewable energy sources into the grid while forecasting energy output for the next quarter, analyzing associated emission factors, and aligning with relevant environmental guidelines.",
+            "endpoints": [
+                "GET /environmental-guidelines",
+                "GET /recommendations/optimization",
+                "GET /forecasts/energy-output",
+                "GET /emission-factors"
+            ]
+        },
+        {
+            "query": "Reconfigure the operational production parameters to optimize energy efficiency, adjust the monitoring sensor settings to improve data accuracy, set up alert notifications via SMS for thresholds exceeding specific energy consumption levels, create an alert for monitoring equipment conditions under certain predefined criteria, analyze user feedback to enhance system functionality, evaluate the impact of emission factors on production strategies, and retrieve a detailed carbon emissions report for a selected process.",
+            "endpoints": [
+                "GET /carbon-emissions",
+                "PATCH /sensors/settings",
+                "PUT /production/parameters",
+                "POST /emission-factors",
+                "POST /alerts/notifications",
+                "POST /feedback/analysis",
+                "POST /alerts/create"
+            ]
+        },
+        {
+            "query": "Update the maintenance schedule for specific equipment using its ID to prevent conflicts, initiate an optimization process to enhance energy production and distribution strategies, and integrate new supply chain data to reflect updated logistical details, ensuring seamless alignment with the optimization process.",
+            "endpoints": [
+                "PUT /maintenance/update/{id}",
+                "POST /optimization/run",
+                "POST /supply-chain-data"
+            ]
+        },
+        {
+            "query": "Generate a comprehensive carbon emissions report for a specific production process over the last three months, including detailed daily metrics.",
+            "endpoints": [
+                "GET /carbon-emissions"
+            ]
+        },
+        {
+            "query": "Provide a detailed report on renewable energy generation statistics, schedule maintenance activities for equipment to align with the renewable energy targets, submit updated carbon emissions data for compliance purposes, and remove outdated energy usage reports no longer required for analysis.",
+            "endpoints": [
+                "GET /reports/generation",
+                "GET /maintenance/schedule",
+                "POST /carbon-emissions",
+                "DELETE /reports/history"
+            ]
+        },
+        {
+            "query": "Retrieve the operational status and availability of all energy production sources, forecast energy output for the next quarter, submit feedback analysis to improve system functionality, update the maintenance schedule for specific equipment to avoid conflicts, access the current maintenance schedule, and analyze daily energy consumption patterns while submitting updated emission factors affecting energy production.",
+            "endpoints": [
+                "POST /emission-factors",
+                "POST /feedback/analysis",
+                "GET /forecasts/energy-output",
+                "PUT /maintenance/update/{id}",
+                "GET /maintenance/schedule",
+                "GET /consumption/daily",
+                "GET /production/sources"
+            ]
+        },
+        {
+            "query": "Retrieve the generation statistics for renewable energy sources, access the relevant environmental guidelines to align the operations for compliance, check the operational statuses of all monitoring devices, review all active alerts for any system-wide issues, and identify any critical system-level alerts related to energy production or grid operations.",
+            "endpoints": [
+                "GET /reports/generation",
+                "GET /environmental-guidelines",
+                "GET /devices/status",
+                "GET /alerts",
+                "GET /alerts/system"
+            ]
+        },
+        {
+            "query": "I want to modify the configurations of my energy monitoring sensors to enhance their accuracy, set up notifications to alert me via SMS whenever energy consumption exceeds a specified threshold, and remove outdated energy usage data from the system to free up storage.",
+            "endpoints": [
+                "DELETE /data/history",
+                "PATCH /sensors/settings",
+                "POST /alerts/notifications"
+            ]
+        }
+    ]
+}

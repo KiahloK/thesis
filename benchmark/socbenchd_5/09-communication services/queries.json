@@ -1,0 +1,99 @@
+{
+    "queries": [
+        {
+            "query": "I want to retrieve the popular content on the platform and also check the performance statistics of a specific player, while initiating matchmaking for the player with customized settings. Additionally, I need to update the player's customization preferences to reflect their desired gaming experience.",
+            "endpoints": [
+                "GET /content/popular",
+                "GET /player/stats",
+                "POST /multiplayer/matchmaking",
+                "PUT /settings/customization"
+            ]
+        },
+        {
+            "query": "I need to delete a broadcasting channel that is no longer active, retrieve the current list of all media items to analyze available content, review all conversations to gather recent user discussions, and check for any reported network faults. Additionally, I want to update the metadata for a specific media item, record achievements for a player, modify network configurations to optimize performance, and retrieve the API documentation to ensure correct implementation of changes.",
+            "endpoints": [
+                "DELETE /channels/{channelId}",
+                "GET /media",
+                "GET /conversations",
+                "GET /faults/reports",
+                "PATCH /media/{mediaId}",
+                "POST /achievements/record",
+                "PATCH /networks/configurations",
+                "GET /help/documentation"
+            ]
+        },
+        {
+            "query": "I need to initiate a secure call with a user, while starting the training process for predictive maintenance models. Additionally, I want to share a file securely with another recipient, update the notification settings to enable genre-specific notifications for my preferred content, and delete sensitive player data from the system.",
+            "endpoints": [
+                "DELETE /player/data/{playerId}",
+                "POST /files/share",
+                "PUT /notifications/settings",
+                "POST /calls/start",
+                "POST /predictive/models"
+            ]
+        },
+        {
+            "query": "I need to update my notification preferences to enable alerts for content genres that I prefer, ensure that the broadcasting channel configurations are adjusted to support optimized streaming performance, and retrieve personalized content recommendations based on my preferences.",
+            "endpoints": [
+                "GET /recommendations",
+                "PATCH /channels/{channelId}",
+                "PUT /notifications/settings"
+            ]
+        },
+        {
+            "query": "I want to analyze the detailed information of a specific message using its unique ID, retrieve a list of all media items to identify relevant content, securely process an in-game transaction for a player, check the connectivity status of a specific device within the network, and initiate the training of predictive maintenance models to enhance system reliability.",
+            "endpoints": [
+                "POST /admin/training",
+                "GET /messages/{message_id}",
+                "GET /media",
+                "POST /transactions/process",
+                "GET /devices/connectivity"
+            ]
+        },
+        {
+            "query": "I want to fetch personalized content recommendations for a user, create a new multiplayer game session with specific participants, update the user's customization settings to tailor their preferences, and download a specific file securely by providing its unique ID.",
+            "endpoints": [
+                "GET /recommendations",
+                "POST /game-session/create",
+                "PUT /settings/customization",
+                "GET /files/{file_id}/download"
+            ]
+        },
+        {
+            "query": "I want to submit user feedback on network performance issues, delete a specific media item that is no longer needed, check the upcoming maintenance schedule to ensure availability during planned activities, log my interaction behavior with content for better personalization, and initiate a secure call with a user to discuss ongoing network concerns.",
+            "endpoints": [
+                "POST /user/behavior",
+                "GET /maintenance/schedule",
+                "DELETE /media/{mediaId}",
+                "POST /users/feedback",
+                "POST /calls/start"
+            ]
+        },
+        {
+            "query": "I want to analyze the reported network faults for any recurring issues, update customization settings to tailor user-specific preferences, and retrieve detailed information about a specific game by providing its unique ID.",
+            "endpoints": [
+                "GET /faults/reports",
+                "PUT /settings/customization",
+                "GET /game-details/{gameId}"
+            ]
+        },
+        {
+            "query": "I need to check the connectivity status of a specific device within the network for diagnostics, analyze the trending content on the platform for user engagement strategies, and review the reported network faults to identify potential recurring issues.",
+            "endpoints": [
+                "GET /devices/connectivity",
+                "GET /content/popular",
+                "GET /faults/reports"
+            ]
+        },
+        {
+            "query": "I want to delete a player's data due to privacy concerns, update the customization settings to reflect new preferences for another player, retrieve the complete list of media items to analyze current content, initiate matchmaking for a player with specific skill level and region preferences, and send a secure message to inform the player about the matchmaking results.",
+            "endpoints": [
+                "PUT /settings/customization",
+                "DELETE /player/data/{playerId}",
+                "GET /media",
+                "POST /multiplayer/matchmaking",
+                "POST /messages/send"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,109 @@
+{
+    "queries": [
+        {
+            "query": "Analyze raw sensor data for a specified time range alongside efficiency metrics, evaluate regional configuration settings, and generate custom gas consumption forecasts for the given period.",
+            "endpoints": [
+                "GET /sensor-data",
+                "POST /forecast",
+                "GET /regions/config",
+                "GET /efficiency/metrics"
+            ]
+        },
+        {
+            "query": "Gather real-time electricity demand data, analyze and adjust the power distribution strategy for specified regions, review the configuration of a specific billing template, generate actionable energy-saving recommendations for critical regions, notify repair teams of these high-priority recommendations, and remove inactive distribution points from the monitoring system.",
+            "endpoints": [
+                "POST /alerts/notifications",
+                "PUT /adjust-distribution",
+                "POST /recommendations/generate",
+                "GET /billing/{template_id}",
+                "GET /realtime-demand",
+                "DELETE /distribution-points/{id}",
+                "GET /distribution-points"
+            ]
+        },
+        {
+            "query": "Report a grid incident in a specified region with detailed incident data, forecast gas consumption for the impacted region to anticipate resource needs, and adjust the gas distribution network to mitigate the effects of the incident while ensuring efficient supply.",
+            "endpoints": [
+                "POST /incident-response",
+                "GET /forecast",
+                "POST /distribution/manipulate"
+            ]
+        },
+        {
+            "query": "Retrieve energy-saving recommendations already available for a specific client, analyze historical energy output data to identify trends in energy production, evaluate system efficiency metrics to highlight potential improvements, examine the billing template associated with the client for review and cost adjustments, review the severity and analysis details of a specific water leak detection to assess its operational impact, and adjust the gas supply allocation plan to ensure efficiency and balance based on these findings.",
+            "endpoints": [
+                "GET /clients/{client_id}/recommendations",
+                "GET /efficiency/metrics",
+                "GET /energy-output/history",
+                "GET /leak-detections/{id}",
+                "PUT /supply/balance",
+                "GET /billing/{template_id}"
+            ]
+        },
+        {
+            "query": "Create a new billing template to streamline invoicing, configure alerts to monitor unusual utility usage patterns, retrieve energy output forecasts to anticipate future demand, evaluate the efficiency of the power grid system using recent performance data, check the live status of current resource distribution across the network, and dynamically allocate resources to high-priority zones based on these assessments.",
+            "endpoints": [
+                "POST /billing/templates",
+                "POST /alerts",
+                "GET /energy-output/forecast",
+                "GET /efficiency-reports",
+                "GET /distribution/status",
+                "POST /allocate-resources"
+            ]
+        },
+        {
+            "query": "Adjust the supply allocation for a specific region to optimize resource distribution, retrieve the current distribution status to ensure real-time monitoring, fetch the performance metrics of solar panels to assess energy output and efficiency, review renewable energy production metrics to evaluate the contributions of alternative energy sources, initiate adjustments in the gas distribution network to balance supply-demand dynamics, and update an existing billing template to reflect changes in resource allocation costs.",
+            "endpoints": [
+                "PUT /supply/balance",
+                "GET /distribution/status",
+                "GET /performance/solar-panels",
+                "GET /renewables-status",
+                "POST /distribution/manipulate",
+                "PUT /billing/{template_id}"
+            ]
+        },
+        {
+            "query": "Optimize the energy usage in high-demand zones by dynamically allocating resources, identify surges through real-time electricity demand data, configure alerts for future unusual patterns, generate targeted energy-saving suggestions based on data insights, forecast utility consumption trends, and reset manual overrides in the system to ensure automation.",
+            "endpoints": [
+                "DELETE /override-settings",
+                "GET /realtime-demand",
+                "POST /forecast",
+                "POST /recommendations/generate",
+                "POST /alerts",
+                "PUT /adjust-distribution"
+            ]
+        },
+        {
+            "query": "Analyze recent leak detection data to identify potential patterns, optimize solar panel performance by reviewing their metrics, update demand thresholds to prevent electricity surges during peak scenarios, evaluate the efficiency of the distribution system to identify gaps, and retrieve the real-time status of resources distributed across the network to ensure balanced operations.",
+            "endpoints": [
+                "GET /distribution/status",
+                "GET /efficiency/metrics",
+                "GET /performance/solar-panels",
+                "POST /leak-detections/analyze",
+                "PATCH /update-thresholds"
+            ]
+        },
+        {
+            "query": "Evaluate the efficiency metrics of the energy distribution system, analyze the metrics based on submitted parameters for detailed insights, update an existing billing template to reflect changes in cost structures influenced by resource efficiency, retrieve raw sensor data to validate the collected metrics, check the alert configuration for any relevant threshold notifications, allocate additional resources to zones showing inefficiency, examine renewable energy production to understand contributions to the grid, and configure new alerts based on the findings to monitor future performance anomalies.",
+            "endpoints": [
+                "GET /efficiency/metrics",
+                "POST /efficiency/metrics",
+                "PUT /billing/{template_id}",
+                "GET /sensor-data",
+                "GET /alerts/{alert_id}",
+                "POST /allocate-resources",
+                "GET /renewables-status",
+                "POST /alerts"
+            ]
+        },
+        {
+            "query": "Notify the repair crew about critical renewable energy zones requiring immediate attention, update the monitoring configuration of a specific distribution point to enhance operational efficiency, modify the regional configuration settings to align with renewable energy contributions, retrieve renewable energy production data to evaluate solar, wind, and hydroelectric outputs, and examine the configuration details of monitored regions to ensure proper alignment with system requirements.",
+            "endpoints": [
+                "POST /alerts/notifications",
+                "PUT /distribution-points/{id}",
+                "PUT /regions/config",
+                "GET /renewables-status"
+            ]
+        }
+    ]
+}

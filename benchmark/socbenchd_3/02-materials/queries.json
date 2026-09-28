@@ -1,0 +1,99 @@
+{
+    "queries": [
+        {
+            "query": "Initiate a monitoring process for a chemical production line with ID \"Line-001\" by providing necessary parameters. Then, add a new movement record for a forest product with ID \"123\" to track its journey, update the product's details with a new type and origin, and retrieve its updated information. Finally, retrieve the movement logs for the product and confirm the list of all supply chain locations involved.",
+            "endpoints": [
+                "POST /process/start",
+                "PUT /products/{id}",
+                "GET /locations",
+                "GET /products/{id}",
+                "GET /movements",
+                "POST /movements"
+            ]
+        },
+        {
+            "query": "Update the settings of an ongoing chemical monitoring process to refine its configuration, and retrieve the processed data insights from the monitoring to inform the evaluation process. Submit a material sample for compliance evaluation and retrieve material recommendations based on evaluation results. Analyze recycling trends to optimize eco-friendly practices, update the details of a recycling center to process the evaluated material, and create a new recycling request for it.",
+            "endpoints": [
+                "PUT /process/{id}/update",
+                "PUT /recycling-centers/{id}",
+                "POST /materials/evaluate",
+                "GET /analytics/recycling-trends",
+                "GET /materials/recommendations",
+                "GET /insights/data",
+                "POST /recycling-requests"
+            ]
+        },
+        {
+            "query": "Compare the compliance differences between two construction materials with IDs \"mat-101\" and \"mat-202.\" Then, analyze the materials used in a specific construction project to evaluate their compliance and performance. Retrieve the quality compliance metrics derived from the analysis to assess the project's alignment with standards. Finally, based on the analysis insights, create a recycling request for materials identified as non-compliant to ensure proper waste management and sustainability.",
+            "endpoints": [
+                "POST /recycling-requests",
+                "POST /materials/compare",
+                "POST /projects/analyze",
+                "GET /insights/quality"
+            ]
+        },
+        {
+            "query": "Generate a power usage alert for the site by setting a threshold trigger based on the current power consumption metrics. Update the configuration of an ongoing chemical monitoring process to include energy efficiency parameters, and retrieve the detailed report for a specific project to determine areas for optimization.",
+            "endpoints": [
+                "GET /projects/{id}/report",
+                "GET /site/power-usage",
+                "POST /alerts/create",
+                "PUT /process/{id}/update"
+            ]
+        },
+        {
+            "query": "Archive the monitoring logs from a chemical process that has been started and initiated with identified parameters. Then, categorize material types to identify which kinds can be processed and managed. Add a new recycling center to the database and define its location, capacity, and contact details. Afterward, eliminate an existing recycling center by its unique ID, and finally generate a new chemical monitoring process to track a specific production line based on provided configurations.",
+            "endpoints": [
+                "DELETE /recycling-centers/{id}",
+                "POST /process/start",
+                "POST /logs/save",
+                "POST /recycling-centers",
+                "GET /materials/categories"
+            ]
+        },
+        {
+            "query": "Schedule a training session to cover advanced safety protocols for equipment handling, specifying the topic, date, and instructor assigned to lead the session.",
+            "endpoints": [
+                "POST /training/schedule"
+            ]
+        },
+        {
+            "query": "Assign a maintenance task to equipment with ID \"EQ-45\" specifying the task details and deadline. Then, log an inspection result for the same equipment after the task is completed, including updates on its status, identified issues, and recommendations. Record the movement of a forest product with ID \"FP-123\" to track its journey across the supply chain and update the details of the product with new type and origin information. Afterward, retrieve the evaluation status of a material used during the process by its unique evaluation ID and delete an existing alert with its unique ID once the task is fully confirmed.",
+            "endpoints": [
+                "POST /movements",
+                "DELETE /alerts/{id}",
+                "POST /equipment/{id}/assign",
+                "PUT /inspection/{id}/log",
+                "GET /evaluation/{id}/status",
+                "PUT /products/{id}"
+            ]
+        },
+        {
+            "query": "Send an alert about an inventory shortage of a critical material based on current stock levels, list all available materials in storage to confirm quantities, log a detailed inspection report for the equipment involved in handling the material, retrieve associated sustainability certifications of the material, and review the status of recycling requests to check if the material has been processed or is pending.",
+            "endpoints": [
+                "POST /alerts/send",
+                "GET /recycling-status",
+                "GET /inventory/materials",
+                "PUT /inspection/{id}/log",
+                "GET /certifications"
+            ]
+        },
+        {
+            "query": "Analyze the materials used in a recently completed construction project by submitting comprehensive project details, including all associated material IDs, to ensure compliance with quality standards. Include a specific focus on energy efficiency in the analysis by updating the configuration of an ongoing chemical monitoring process, and archive the results obtained from the process. Lastly, review the sustainability certifications relevant to the materials used in the project to verify alignment with environmental guidelines.",
+            "endpoints": [
+                "POST /logs/save",
+                "GET /certifications",
+                "PUT /process/{id}/update",
+                "POST /projects/analyze"
+            ]
+        },
+        {
+            "query": "Create an alert to notify users about below-threshold recycling performance based on trends data insights. Retrieve the historical recycling trends to analyze performance metrics and identify deficiencies. Lastly, categorize all available material types to evaluate which ones may be impacting the recycling performance.",
+            "endpoints": [
+                "POST /alerts",
+                "GET /analytics/recycling-trends",
+                "GET /materials/categories"
+            ]
+        }
+    ]
+}

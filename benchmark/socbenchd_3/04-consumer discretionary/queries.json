@@ -1,0 +1,102 @@
+{
+    "queries": [
+        {
+            "query": "Analyze the global automotive sales growth trends for a specified region and time period, then use the insights to register a new product category for feedback collection, and finally update consumer preference data to enhance the analysis models.",
+            "endpoints": [
+                "GET /analytics/sales",
+                "POST /register-product",
+                "POST /preferences/update"
+            ]
+        },
+        {
+            "query": "Provide a summary of active marketing campaigns targeting regions with planned resource allocations for optimization, then submit feedback about the effectiveness of a recent campaign, fetch a list of upcoming automotive technologies for integration into new campaigns, and finally clear cached resource data to ensure accuracy in optimization.",
+            "endpoints": [
+                "GET /marketing/campaign",
+                "GET /resource-allocation",
+                "POST /submit-feedback",
+                "GET /technologies/upcoming",
+                "DELETE /cache"
+            ]
+        },
+        {
+            "query": "Identify the latest automotive technologies predicted to impact the industry and analyze consumer preferences, including trending behaviors, related to these technologies for a more targeted market strategy alignment.",
+            "endpoints": [
+                "GET /technologies/upcoming",
+                "GET /preferences"
+            ]
+        },
+        {
+            "query": "Retrieve a list of managed leisure facilities and analyze current fashion trends segmented by demographics. Use the insights to identify preferences for specific fabrics and submit feedback on consumer preferences. Then, retrieve feedback summaries and align the findings with demographic segments to optimize textile production and leisure facility resource planning.",
+            "endpoints": [
+                "GET /facilities",
+                "GET /fabrics",
+                "GET /feedback-summary",
+                "POST /feedback",
+                "GET /trends",
+                "GET /demographics"
+            ]
+        },
+        {
+            "query": "Explore the latest trends in consumer behavior and analyze their impact on market segments by retrieving relevant trend analysis data. Forecast the sales potential of a specific automotive category in a target region and time period, using these insights to determine optimal pricing strategies. Evaluate seasonal demand variations to adjust predictions and submit updated consumer preference data to improve accuracy. Finally, review flagged feedback entries to refine trend assessments and ensure alignment with market strategies.",
+            "endpoints": [
+                "GET /trend-analysis",
+                "POST /flag-feedback",
+                "POST /preferences/update",
+                "GET /seasonal-demands",
+                "GET /pricing/strategy",
+                "POST /forecasts/sales-request"
+            ]
+        },
+        {
+            "query": "Generate a detailed report comparing historical sales data of automobiles across regions and categories with resource allocations for leisure facilities. Use the insights to update resource allocation data for improved service quality. Additionally, retrieve resource planning advice for targeted improvements and request a custom report summarizing strategic recommendations.",
+            "endpoints": [
+                "GET /historical-data/sales",
+                "GET /resource-allocation",
+                "POST /resource-allocation",
+                "GET /resource/plan",
+                "POST /customreports"
+            ]
+        },
+        {
+            "query": "Plan a new marketing campaign around a regional event by submitting details of the event, retrieve optimal pricing strategies for the campaign based on forecasted demand, and submit feedback about the campaign\u2019s success to refine future marketing strategies.",
+            "endpoints": [
+                "POST /regional/events",
+                "GET /pricing/strategy",
+                "POST /feedback"
+            ]
+        },
+        {
+            "query": "Analyze the regional economic indicators to identify high-growth areas, then submit details of a regional event that could influence market behavior. Explore demographic-specific insights to align strategies with target customer groups, retrieve performance reports for specific manufacturers to evaluate market penetration, and request the removal of irrelevant feedback to ensure data accuracy. Use marketing campaign insights to determine regions with effective promotional activities, retrieve aggregated consumer preferences to refine product offerings, review the list of supported products to identify market alignment opportunities, and identify top distributors to enhance the supply chain strategy.",
+            "endpoints": [
+                "GET /regions/economic-indicators",
+                "POST /regional/events",
+                "GET /demographics",
+                "GET /manufacturer-reports",
+                "DELETE /remove-feedback",
+                "GET /marketing/campaign",
+                "GET /preferences",
+                "GET /products",
+                "GET /distributors/top"
+            ]
+        },
+        {
+            "query": "Analyze demographic-specific insights to identify popular consumer preferences for sustainable fabrics. Use this information to create an optimized resource allocation plan for leisure facilities, ensuring proper distribution of eco-friendly materials and services aligned with sustainability trends.",
+            "endpoints": [
+                "GET /demographics",
+                "GET /fabrics",
+                "POST /resource-allocation"
+            ]
+        },
+        {
+            "query": "Retrieve market trends segmented by global regions and upload historical data for targeted regions to enhance market analysis. Utilize the insights to create effective resource planning strategies and generate optimization performance reports for evaluation. Additionally, submit information about a regional event impacting market dynamics and retrieve manufacturer-specific reports to assess alignment with market trends. Ensure that current resource planning strategies are reviewed to optimize operations further.",
+            "endpoints": [
+                "GET /resource/plan",
+                "GET /optimization-reports",
+                "GET /manufacturer-reports",
+                "POST /historical/upload",
+                "POST /regional/events",
+                "GET /trends/regions"
+            ]
+        }
+    ]
+}

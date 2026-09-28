@@ -1,0 +1,96 @@
+{
+    "queries": [
+        {
+            "query": "Update the shift schedule for an employee by adjusting the shift timings, retrieve the updated list of all planned and active projects, and optimize the route for a delivery with specified cargo details to minimize travel time and cost.",
+            "endpoints": [
+                "PUT /shifts/{id}",
+                "GET /projects",
+                "POST /optimize_route"
+            ]
+        },
+        {
+            "query": "Create a new maintenance task for a facility by specifying the task details and due date, report a breakdown issue for a specific asset with a detailed description, retrieve the real-time shift schedules of all employees to ensure availability for handling the tasks, and track the progress of a specific project that could be impacted by the maintenance or breakdown.",
+            "endpoints": [
+                "GET /projects/{id}/progress",
+                "POST /breakdown/report",
+                "GET /shifts",
+                "POST /maintenance/tasks"
+            ]
+        },
+        {
+            "query": "Add a new vehicle to the fleet to support project transportation needs, update the details of an ongoing project by incorporating the newly available vehicle, and generate an analytical report to evaluate the resource allocation and resulting project performance.",
+            "endpoints": [
+                "POST /add_vehicle",
+                "PUT /projects/{id}",
+                "POST /analytics"
+            ]
+        },
+        {
+            "query": "Generate a comprehensive analysis of a factory's environmental compliance by retrieving its compliance analytics, review overall historical compliance reports to identify trends or issues, evaluate delivery performance via completed statistics, analyze historical route data for fleet vehicles for improvements, monitor the current real-time status and locations of active vehicles, create a detailed resource allocation analytical report to optimize workforce and project performance, and adjust an employee's shift schedule to better align with operational needs based on these findings.",
+            "endpoints": [
+                "GET /vehicle_status",
+                "POST /analytics",
+                "GET /delivery_statistics",
+                "GET /route_history",
+                "PUT /shifts/{id}",
+                "GET /factories/{factory_id}/analytics",
+                "GET /reports"
+            ]
+        },
+        {
+            "query": "Optimize the route for transporting fragile and refrigerated goods to a destination with a specified delivery schedule, assign a maintenance schedule to the sensors needed for monitoring cargo conditions during transit, and retrieve workforce allocation recommendations for the optimized transportation plan. Finally, remove a vehicle from the fleet after ensuring it is no longer required for ongoing or scheduled assignments.",
+            "endpoints": [
+                "POST /optimize_route",
+                "DELETE /remove_vehicle",
+                "POST /recommendations",
+                "POST /sensors/{sensor_id}/calibration"
+            ]
+        },
+        {
+            "query": "Retrieve a detailed list of all registered factories, access the information about a specific facility to gather operational details, and submit pollutant data for one of the factories by providing the required pollutant levels and names to ensure compliance with environmental regulations.",
+            "endpoints": [
+                "POST /factories/{factory_id}/pollutants",
+                "GET /factories",
+                "GET /facilities/{facility_id}/details"
+            ]
+        },
+        {
+            "query": "Retrieve the calibration status and upcoming due dates for a sensor identified by its unique sensor_id to ensure it is operational for monitoring purposes, and fetch the list of employees to determine who is available with the required skills to perform the calibration if needed.",
+            "endpoints": [
+                "GET /sensors/{sensor_id}/calibration",
+                "GET /employees"
+            ]
+        },
+        {
+            "query": "Log a breakdown issue for an asset by specifying its details and facility ID, retrieve the historical compliance reports to understand recurring issues, assign a workforce resource to resolve the breakdown issue, and analyze the historical route history of vehicles to identify any transportation delays contributing to the problem.",
+            "endpoints": [
+                "GET /route_history",
+                "POST /breakdown/report",
+                "GET /reports",
+                "POST /resources/{id}/assign"
+            ]
+        },
+        {
+            "query": "Retrieve the progress of a specific project to understand its completion status, list all upcoming maintenance tasks for addressing pending facility obligations, create a new project to handle additional requirements, log a new maintenance task to ensure smooth operations, and track the historical route data for vehicles to identify patterns or inefficiencies that might impact project timelines.",
+            "endpoints": [
+                "GET /maintenance/tasks",
+                "GET /route_history",
+                "GET /projects/{id}/progress",
+                "POST /projects",
+                "POST /maintenance/tasks"
+            ]
+        },
+        {
+            "query": "Analyze the spare parts inventory for a facility to ensure sufficient stock is available, log a breakdown issue for any critical asset with detailed information, generate workforce allocation recommendations to address the breakdown promptly, retrieve the list of ongoing and planned projects to understand potential dependencies, monitor the real-time status of active vehicles to check any feasibility for transporting spare parts if needed, review historical reports to assess past breakdown trends and resolutions, and fetch the real-time shift schedules of employees to allocate the necessary workforce for resolving the issue efficiently.",
+            "endpoints": [
+                "GET /inventory/spare-parts",
+                "POST /breakdown/report",
+                "POST /recommendations",
+                "GET /projects",
+                "GET /vehicle_status",
+                "GET /reports",
+                "GET /shifts"
+            ]
+        }
+    ]
+}

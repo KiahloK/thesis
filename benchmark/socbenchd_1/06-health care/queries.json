@@ -1,0 +1,105 @@
+{
+    "queries": [
+        {
+            "query": "Retrieve the system's current configuration settings to confirm compliance parameters, check the available health insurance policies to ensure coverage details, update the details of a specific patient\u2019s profile, and then modify the details of a submitted insurance claim based on the updated information.",
+            "endpoints": [
+                "GET /settings",
+                "PUT /claims/{claim_id}",
+                "PUT /patients/{id}",
+                "GET /policies"
+            ]
+        },
+        {
+            "query": "Retrieve active health alerts to identify patients requiring attention. Validate their insurance policies to confirm coverage eligibility. Access their health metric readings and detailed medical records to analyze and document significant findings. Record these findings in their medical history, update existing insurance claims with the new information, and dismiss resolved alerts. Finally, verify that the system's current configuration settings comply with standard regulations.",
+            "endpoints": [
+                "POST /alerts/dismiss",
+                "PUT /claims/{claim_id}",
+                "GET /settings",
+                "GET /readings",
+                "GET /patients/{id}/records",
+                "POST /records/{patient_id}",
+                "POST /policies/validate"
+            ]
+        },
+        {
+            "query": "Update the details of a specific patient to correct an address error, retrieve their healthcare provider information to ensure accuracy, modify their scheduled appointment to reflect a new time, verify the updated appointment information by retrieving its details, and adjust inventory levels of required medical supplies for the updated appointment.",
+            "endpoints": [
+                "GET /appointments/{id}",
+                "POST /inventory/update",
+                "PATCH /appointments/{id}",
+                "GET /providers",
+                "PUT /patients/{id}"
+            ]
+        },
+        {
+            "query": "Retrieve a list of active alerts to identify potential issues, fetch the details of all registered patients to identify those linked to the alerts, verify the system's compliance status to ensure regulatory adherence, and update the details of any scheduled appointments mentioned in the alerts to resolve scheduling conflicts or inaccuracies.",
+            "endpoints": [
+                "PATCH /appointments/{id}",
+                "GET /patients",
+                "GET /compliance/status",
+                "GET /alerts"
+            ]
+        },
+        {
+            "query": "Register a new patient in the system with their full details, retrieve their list of upcoming scheduled consultations to plan their treatment accordingly, validate their insurance coverage for the planned consultations, securely share their medical data with a designated healthcare provider to discuss treatment options, and finally register another patient using the same process if needed.",
+            "endpoints": [
+                "POST /patients",
+                "GET /patients/{id}/scheduled-consultations",
+                "POST /policies/validate",
+                "POST /secure-data-exchange",
+                "POST /patients"
+            ]
+        },
+        {
+            "query": "Organize a virtual consultation for a patient by first retrieving their upcoming scheduled consultations to check for availability, then analyzing their detailed medical records to prepare for the session. Proceed to initiate the consultation, during which provide an activity overview report to the healthcare provider for reference. Monitor insurance claim statuses for the patient and update their existing claims if any changes are required. Finally, dismiss related alerts after addressing the identified issues during the consultation.",
+            "endpoints": [
+                "GET /patients/{id}/scheduled-consultations",
+                "GET /reports/overview",
+                "PUT /claims/{claim_id}",
+                "POST /alerts/dismiss",
+                "POST /virtual-consultations",
+                "GET /patients/{id}/records",
+                "GET /claims"
+            ]
+        },
+        {
+            "query": "Analyze the specialized healthcare services offered by a specific provider using their unique ID, review the system's latest compliance status to ensure that all offered services align with regulations, generate an activity report to evaluate recent system performance, and retrieve aggregated claim statistics to assess the overall efficiency of the claims handling process.",
+            "endpoints": [
+                "GET /compliance/status",
+                "GET /reports/overview",
+                "GET /analytics/claim-statistics",
+                "GET /providers/{id}"
+            ]
+        },
+        {
+            "query": "Fetch all registered providers to analyze available services, securely exchange medical data with a specific provider for collaboration, retrieve all recorded health metric readings within a specified timeframe, identify active alerts related to any discrepancies, validate and update the address information of a specific patient, and finally verify the system's current configuration to ensure it aligns with compliance standards.",
+            "endpoints": [
+                "GET /settings",
+                "GET /providers",
+                "POST /secure-data-exchange",
+                "GET /readings",
+                "GET /alerts",
+                "PUT /patients/{id}"
+            ]
+        },
+        {
+            "query": "Analyze healthcare performance by identifying utilization trends to assess resource efficiency, examining detailed consolidated health records of patients to understand their medical history, retrieving diagnostic tools to enhance consultation effectiveness, summarizing statistical data on insurance claims to evaluate claims handling efficiency, verifying the coverage details of a specific insurance policy for service alignment, and submitting a new insurance claim based on recent treatments using the gathered insights.",
+            "endpoints": [
+                "GET /analytics/trends",
+                "GET /patients/{id}/records",
+                "GET /consultation-tools",
+                "GET /analytics/claim-statistics",
+                "GET /policies/{policy_id}/coverage",
+                "POST /claims/submit"
+            ]
+        },
+        {
+            "query": "Retrieve the list of all registered patients to identify individuals requiring specific medical supplies, analyze inventory levels to prioritize restocking of those items, update the stock quantities for critical supplies, and review active restocking alerts to address any immediate issues.",
+            "endpoints": [
+                "GET /patients",
+                "POST /inventory/update",
+                "GET /alerts"
+            ]
+        }
+    ]
+}

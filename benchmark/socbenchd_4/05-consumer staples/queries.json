@@ -1,0 +1,105 @@
+{
+    "queries": [
+        {
+            "query": "Monitor the stock levels of products with a real-time alert system, add a new ERP integration for inventory synchronization, and update the inventory for a specific product to reflect the latest changes. Also, evaluate the environmental impact of a product based on its ID to ensure its eco-friendliness aligns with company policies.",
+            "endpoints": [
+                "GET /products/{id}/environmental-impact",
+                "GET /alerts",
+                "POST /inventory/update",
+                "POST /erp/integrations/add"
+            ]
+        },
+        {
+            "query": "Update the stock levels for a specific product, configure email notifications for low stock alerts, retrieve recyclability details of the product, upload a customer's ID for verification purposes, personalize product recommendations based on user preferences, gather environmental impact statistics for products in a specific region, and review recent order statuses to address supply chain needs accordingly.",
+            "endpoints": [
+                "POST /inventory/update",
+                "PUT /update-settings",
+                "GET /recyclability/{id}",
+                "POST /upload-id",
+                "POST /user/preferences",
+                "GET /regions/{region_id}/impact-statistics",
+                "GET /orders"
+            ]
+        },
+        {
+            "query": "Display the current inventory levels, highlight trending products and popular categories, recommend suitable products for dry skin type while excluding allergens such as parabens, and list all product categories along with the products available in a selected category.",
+            "endpoints": [
+                "GET /categories",
+                "GET /product/recommendations",
+                "GET /categories/{id}/products",
+                "GET /trends",
+                "GET /inventory"
+            ]
+        },
+        {
+            "query": "Update the notification settings to customize alerts, retrieve environmental news highlights to stay up-to-date on the latest sustainability practices, and fetch products available in a specific category for informed product selection.",
+            "endpoints": [
+                "GET /environmental-news/highlights",
+                "GET /categories/{id}/products",
+                "PUT /update-settings"
+            ]
+        },
+        {
+            "query": "Analyze trending products and categories to identify popular items, search for specific food items by keywords or ingredients, retrieve a comprehensive list of all available product categories, determine products within a specified carbon footprint range to evaluate their environmental impact, verify the age of a customer for eligibility to purchase specific items, and retrieve a detailed transaction log of all age verification processes for audit purposes.",
+            "endpoints": [
+                "POST /search",
+                "GET /trends",
+                "GET /categories",
+                "GET /carbon-footprint/range",
+                "POST /verify-age",
+                "GET /transaction-log"
+            ]
+        },
+        {
+            "query": "Delete a specific product from the inventory system due to discontinuation, evaluate multiple consumer staples products in bulk for their environmental impact, remove a specific age verification transaction record for compliance and privacy purposes, retrieve a list of all food items available with their nutrition information, fetch all food brands listed in the system, and gather environmental impact statistics for products in a specific region to assess their sustainability performance.",
+            "endpoints": [
+                "DELETE /transaction/{transaction_id}",
+                "POST /products/bulk-evaluate",
+                "DELETE /inventory/remove",
+                "GET /brands",
+                "GET /foods",
+                "GET /regions/{region_id}/impact-statistics"
+            ]
+        },
+        {
+            "query": "Upload a customer's ID for verification purposes, retrieve all products within a specific category using its ID, and gather detailed reviews for each product in that category to analyze user feedback and ratings.",
+            "endpoints": [
+                "POST /upload-id",
+                "GET /categories/{id}/products",
+                "GET /reviews/{id}"
+            ]
+        },
+        {
+            "query": "Configure stock alert thresholds for inventory, retrieve a list of ingredients used in products to identify any concerning components, ensure compliance by reviewing the service policies and guidelines, and delete a specific transaction record to maintain data privacy and regulatory compliance.",
+            "endpoints": [
+                "DELETE /transaction/{transaction_id}",
+                "POST /alerts/configure",
+                "GET /ingredients",
+                "GET /service-policies"
+            ]
+        },
+        {
+            "query": "Evaluate the environmental impact of multiple products by submitting them in bulk, fetch all products belonging to a specific category, and retrieve detailed information about a selected product within that category to analyze its features and suitability.",
+            "endpoints": [
+                "GET /products/{id}",
+                "GET /categories/{id}/products",
+                "POST /products/bulk-evaluate"
+            ]
+        },
+        {
+            "query": "Provide a list of food categories and detailed information about their impact statistics for a specific region, conduct a search for food items using customized keywords and ingredient filters, analyze demand forecasting data for a specific product to predict its future sales, review the certification standards applicable to the products, retrieve details about a specific ingredient to understand its properties, monitor active alerts related to stock levels, investigate the verification status of a specific transaction using its ID, explore trending product categories and their popularity, and evaluate the environmental impact of multiple products submitted in bulk.",
+            "endpoints": [
+                "GET /categories",
+                "GET /ingredients/{id}",
+                "GET /certifications",
+                "GET /status/{transaction_id}",
+                "GET /alerts",
+                "GET /forecast/demand",
+                "POST /search",
+                "GET /regions/{region_id}/impact-statistics",
+                "GET /trends",
+                "POST /products/bulk-evaluate"
+            ]
+        }
+    ]
+}

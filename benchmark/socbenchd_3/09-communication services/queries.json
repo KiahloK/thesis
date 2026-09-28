@@ -1,0 +1,93 @@
+{
+    "queries": [
+        {
+            "query": "Analyze the current latency status of the network, retrieve detailed information of a specific alert using its unique ID, gather statistics on platform usage trends, and identify the list of popular telecom services to determine optimal resource allocation and performance strategies.",
+            "endpoints": [
+                "GET /platform-statistics",
+                "GET /alerts/{alert_id}",
+                "GET /metrics/latency",
+                "GET /popular_services"
+            ]
+        },
+        {
+            "query": "Identify the regions where the service is actively supported and retrieve user engagement metrics, such as the total number of active users and interaction rates, to determine the performance impact in those regions.",
+            "endpoints": [
+                "GET /user-engagement",
+                "GET /regions/supported"
+            ]
+        },
+        {
+            "query": "Identify the current error rate of the network in all regions, retrieve detailed usage statistics to assess performance in those regions, and create targeted alerts to address potential issues or provide updates based on the findings.",
+            "endpoints": [
+                "GET /regions",
+                "GET /usage_statistics",
+                "GET /metrics/errorrate",
+                "POST /alerts"
+            ]
+        },
+        {
+            "query": "Analyze the latency trends across monitored regions, identify any existing alerts with detailed information by their specific ID, discover suitable content distribution channels for potential service broadcasting, and generate custom insights to optimize service performance based on the latency and content distribution data.",
+            "endpoints": [
+                "GET /alerts",
+                "GET /metrics/latency",
+                "POST /custom-insights",
+                "GET /content-distribution",
+                "GET /alerts/{alert_id}"
+            ]
+        },
+        {
+            "query": "Subscribe to network alerts for potential disruptions to monitor performance issues, retrieve aggregated feedback on the quality of current network services to understand user satisfaction, analyze usage statistics of telecom services across different regions to evaluate performance, and unsubscribe from unnecessary alert notifications to streamline communication efforts.",
+            "endpoints": [
+                "GET /usage_statistics",
+                "GET /service_feedback",
+                "DELETE /alerts/unsubscribe",
+                "POST /alerts/subscribe"
+            ]
+        },
+        {
+            "query": "Retrieve the communication logs to review past emergency message dissemination effectiveness, identify available content distribution channels suitable for broadcasting alerts, analyze in-game purchase behaviors for insights into audience spending trends that may influence notification strategies, and assess current network latency status to ensure optimal service performance during alert transmissions.",
+            "endpoints": [
+                "GET /communications/logs",
+                "GET /content-distribution",
+                "GET /in-game-purchases",
+                "GET /metrics/latency"
+            ]
+        },
+        {
+            "query": "Update an existing emergency alert with new message content and type, allocate resources to regions impacted by the alert, analyze player retention metrics to assess engagement trends, retrieve feedback on current telecom services to evaluate user satisfaction, and discover available content distribution channels for further broadcasting of emergency messages.",
+            "endpoints": [
+                "GET /content-distribution",
+                "POST /resources/allocation",
+                "GET /player-retention",
+                "GET /service_feedback",
+                "PUT /alerts/{alert_id}"
+            ]
+        },
+        {
+            "query": "Retrieve player retention metrics to analyze engagement rates over specific periods, access aggregated feedback on telecom services to identify areas for improvement, and update monitoring preferences to optimize network performance based on the retention trends and user satisfaction data.",
+            "endpoints": [
+                "GET /player-retention",
+                "GET /service_feedback",
+                "PUT /settings/monitoring"
+            ]
+        },
+        {
+            "query": "Analyze user engagement metrics to identify active users and interaction rates across the platform, modify an existing alert with new details and message type to address a critical issue, and access the list of available emergency resources to determine their allocation for effective response management.",
+            "endpoints": [
+                "GET /user-engagement",
+                "PUT /alerts/{alert_id}",
+                "GET /resources"
+            ]
+        },
+        {
+            "query": "Unsubscribe from unnecessary alert notifications to streamline communication efforts, remove information about obsolete services that are no longer in use, analyze overall trend patterns to identify emerging opportunities, review the allocation of emergency resources to ensure that they are effectively distributed, and assess predictive insights from trend analysis to improve resource and alert management strategies.",
+            "endpoints": [
+                "DELETE /alerts/unsubscribe",
+                "DELETE /obsolete_services",
+                "GET /trend_analysis",
+                "GET /trend-analysis",
+                "GET /resources"
+            ]
+        }
+    ]
+}
