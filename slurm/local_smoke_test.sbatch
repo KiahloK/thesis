@@ -13,6 +13,14 @@ set -euo pipefail
 PROJECT_ROOT="${SLURM_SUBMIT_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
 cd "$PROJECT_ROOT"
 
+# The venv is built on this module's Python (socbenchsc needs Python >= 3.10).
+PYTHON_MODULE="${PYTHON_MODULE:-devel/python/3.12.3-gnu-14.2}"
+if command -v module >/dev/null 2>&1; then
+    set +u  # Lmod scripts may read unset variables
+    module load "$PYTHON_MODULE"
+    set -u
+fi
+
 MODEL_ID="${LOCAL_MODEL_ID:-Qwen/Qwen2.5-Coder-7B-Instruct}"
 export LOCAL_MODEL_ID="$MODEL_ID"
 export HF_HOME="${HF_HOME:-$PROJECT_ROOT/.hf-cache}"
