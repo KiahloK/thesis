@@ -1,10 +1,11 @@
 import json
 import threading
+from collections.abc import Collection
 
 import faiss
 from sentence_transformers import SentenceTransformer
 
-from filter import _endpoint_text
+from filter import _endpoint_text, _keep_indices
 
 _MODEL_NAME = "BAAI/bge-small-en-v1.5"
 _EMBED_DIM = 384
@@ -21,7 +22,9 @@ def _get_model() -> SentenceTransformer:
     return _model
 
 
-def filter_services_rag(services: list[str], query: str, top_k: int = 5) -> list[str]:
+def filter_services_rag(
+    services: list[str], query: str, top_k: int = 5, always_keep: Collection[str] = ()
+) -> list[str]:
     """Return pruned OpenAPI JSON strings keeping only the top_k most query-relevant endpoints,
     ranked globally across all given services (not per service) - so a query touching five
     services still gets a total budget of top_k endpoints, not top_k per service.
@@ -31,6 +34,9 @@ def filter_services_rag(services: list[str], query: str, top_k: int = 5) -> list
     endpoints from all services. The info/servers/components blocks are preserved so the model
     still has base URLs and shared schemas. Services that cannot be parsed, or have no paths,
     are returned unchanged.
+
+    Endpoints whose "METHOD /path" label is in `always_keep` (e.g. the ones the code under
+    refinement already calls) are kept on top of the top_k budget.
     """
     if not services:
         return services
@@ -63,6 +69,7 @@ def filter_services_rag(services: list[str], query: str, top_k: int = 5) -> list
         index.add(embeddings)
         _, top_indices_arr = index.search(query_vector, top_k)
         top_indices = set(int(i) for i in top_indices_arr[0] if i != -1)
+        top_indices |= _keep_indices(all_endpoints, always_keep)
 
         selected_paths: dict[int, dict] = {}
         for i, (si, method, path, operation) in enumerate(all_endpoints):

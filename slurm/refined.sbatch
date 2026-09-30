@@ -44,6 +44,9 @@ export FILTER_SERVICES="${FILTER_SERVICES:-1}"
 # (RAG at the same top_k drops ~13%); see sweep_top_k_coverage.py.
 export FILTER_MODE="${FILTER_MODE:-bm25}"
 export TOP_K="${TOP_K:-25}"
+# Also keep every endpoint the initial code already calls, on top of TOP_K, so the filter can't
+# prune a call the model already made (and Idea 2 gets to judge it).
+export KEEP_CALLED="${KEEP_CALLED:-1}"
 export ENDPOINT_CHECK="${ENDPOINT_CHECK:-1}"
 
 PYTHON="${PYTHON:-$PROJECT_ROOT/.venv/bin/python}"
@@ -62,7 +65,7 @@ fi
 echo "Job: ${SLURM_JOB_ID:-local} on $(hostname)"
 echo "Model: $LOCAL_MODEL_ID | HF_HOME: $HF_HOME | HF_HUB_OFFLINE: ${HF_HUB_OFFLINE:-0}"
 echo "Benchmarks: $BENCHMARK_TYPES | Queries: $QUERY_LIMIT | Load baseline: $LOAD_BASELINE"
-echo "Filter: $FILTER_SERVICES ($FILTER_MODE, top_k=$TOP_K) | Endpoint check: $ENDPOINT_CHECK"
+echo "Filter: $FILTER_SERVICES ($FILTER_MODE, top_k=$TOP_K, keep_called=$KEEP_CALLED) | Endpoint check: $ENDPOINT_CHECK"
 nvidia-smi
 "$PYTHON" -c "import torch; print('torch', torch.__version__, 'cuda', torch.cuda.is_available()); assert torch.cuda.is_available()"
 command -v ruff

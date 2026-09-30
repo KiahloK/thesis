@@ -1,5 +1,6 @@
 import json
 import re
+from collections.abc import Collection
 
 from rank_bm25 import BM25Okapi
 
@@ -28,7 +29,14 @@ def _endpoint_text(method: str, path: str, operation: dict) -> str:
     return ' '.join(parts)
 
 
-def filter_services(services: list[str], query: str, top_k: int = 5) -> list[str]:
+def _keep_indices(all_endpoints: list[tuple[int, str, str, dict]], always_keep: Collection[str]) -> set[int]:
+    keep = set(always_keep)
+    return {i for i, (_, method, path, _) in enumerate(all_endpoints) if f"{method} {path}" in keep}
+
+
+def filter_services(
+    services: list[str], query: str, top_k: int = 5, always_keep: Collection[str] = ()
+) -> list[str]:
     """Return pruned OpenAPI JSON strings keeping only the top_k most query-relevant endpoints,
     ranked globally across all given services (not per service) - so a query touching five
     services still gets a total budget of top_k endpoints, not top_k per service.
@@ -36,6 +44,9 @@ def filter_services(services: list[str], query: str, top_k: int = 5) -> list[str
     Endpoints are scored with BM25 against the query. The info/servers/components blocks are
     preserved so the model still has base URLs and shared schemas. Services that cannot be
     parsed, or have no paths, are returned unchanged.
+
+    Endpoints whose "METHOD /path" label is in `always_keep` (e.g. the ones the code under
+    refinement already calls) are kept on top of the top_k budget.
     """
     if not services:
         return services
@@ -65,7 +76,7 @@ def filter_services(services: list[str], query: str, top_k: int = 5) -> list[str
 
     top_indices = set(
         sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:top_k]
-    )
+    ) | _keep_indices(all_endpoints, always_keep)
 
     selected_paths: dict[int, dict] = {}
     for i, (si, method, path, operation) in enumerate(all_endpoints):

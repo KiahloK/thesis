@@ -104,16 +104,10 @@ def find_necessary_endpoints(services: list[str], query: str, model: str) -> lis
     return necessary
 
 
-def find_endpoint_issues(generated_code: str, services: list[str], query: str, model: str) -> dict:
-    """Reference-free coverage check: determine which endpoints are necessary for `query` (via LLM
-    judgment over `services`, no ground truth involved) and diff that against what the code
-    actually calls (via the existing static AST analysis).
-
-    Returns {'necessary': [...], 'called': [...], 'missing': [...], 'additional': [...]}.
-    `missing` (necessary but not called) and `additional` (called but not necessary) are meant to
-    be fed into a refinement prompt as actionable findings, the same way Ruff/spec-conformance
-    findings already are. `additional` only covers endpoints present in `services`: a call to an
-    endpoint the retrieval filter removed was never judged, so it can't be called unnecessary.
+def _called_endpoints(generated_code: str, services: list[str]) -> tuple[set[str], set[str]]:
+    """Statically extract the endpoints `generated_code` calls and fold each one onto its matching
+    "METHOD /path" template in `services`. Returns (called, matched): `called` holds every call
+    (unmatched ones as extracted), `matched` only the calls that map onto an endpoint in `services`.
     """
     # Analysis only detects requests calls reachable from a top-level compose() invocation,
     # so code with the call stripped (e.g. the refinement prompt's "original code") would
@@ -127,21 +121,43 @@ def find_endpoint_issues(generated_code: str, services: list[str], query: str, m
     except SyntaxError:
         extracted = set()
 
-    necessary = find_necessary_endpoints(services, query, model)
-    necessary_set = set(necessary)
     candidates = {c: _normalize_endpoint(c) for c in _all_endpoints(_parse_services(services))}
 
     # Fold each extracted (possibly concrete, e.g. path params filled in) endpoint onto its
     # matching candidate template, so e.g. "GET /tracks/abc123" and "GET /tracks/{id}"
     # count as the same call instead of showing up as both missing and additional.
     called = set()
-    judged_calls = set()
+    matched = set()
     for ext in extracted:
         norm_ext = _normalize_endpoint(ext)
         match = next((c for c, norm_c in candidates.items() if _matches_template(norm_ext, norm_c)), None)
         called.add(match if match else ext)
         if match:
-            judged_calls.add(match)
+            matched.add(match)
+    return called, matched
+
+
+def called_endpoints(generated_code: str, services: list[str]) -> list[str]:
+    """Endpoints of `services` (as "METHOD /path" templates) that `generated_code` calls - used to
+    keep the retrieval filter from pruning an endpoint the code under refinement already uses."""
+    return sorted(_called_endpoints(generated_code, services)[1])
+
+
+def find_endpoint_issues(generated_code: str, services: list[str], query: str, model: str) -> dict:
+    """Reference-free coverage check: determine which endpoints are necessary for `query` (via LLM
+    judgment over `services`, no ground truth involved) and diff that against what the code
+    actually calls (via the existing static AST analysis).
+
+    Returns {'necessary': [...], 'called': [...], 'missing': [...], 'additional': [...]}.
+    `missing` (necessary but not called) and `additional` (called but not necessary) are meant to
+    be fed into a refinement prompt as actionable findings, the same way Ruff/spec-conformance
+    findings already are. `additional` only covers endpoints present in `services`: a call to an
+    endpoint the retrieval filter removed was never judged, so it can't be called unnecessary
+    (filtering with always_keep=called_endpoints(...) keeps those in, so they get judged too).
+    """
+    called, judged_calls = _called_endpoints(generated_code, services)
+    necessary = find_necessary_endpoints(services, query, model)
+    necessary_set = set(necessary)
 
     return {
         'necessary': sorted(necessary_set),
