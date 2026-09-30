@@ -22,7 +22,10 @@ TASK:
 You are given a query and a set of OpenAPI specifications. Check for each of the given endpoints in the list of endpoints if it is required to fulfill the task. Return "Yes" if it is required or "No" if not.
 
 EXAMPLE
+Query: Book a table for two at the restaurant with the best rating.
+Endpoint: POST /reservations - Create a table reservation at a restaurant
 Yes
+Endpoint: DELETE /reservations/{{reservationId}} - Cancel an existing reservation
 No
 
 INSTRUCTIONS:

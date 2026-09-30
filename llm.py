@@ -43,6 +43,28 @@ def _get_model(model_id: str) -> tuple[Any, Any]:
                 }
                 if device_map:
                     model_kwargs["device_map"] = device_map
+
+                # Opt-in YaRN context extension (e.g. LOCAL_ROPE_SCALING_FACTOR=2 -> 64k tokens for
+                # Qwen2.5), needed for large specs like RestBench Spotify. Static YaRN can slightly
+                # hurt short prompts, so it stays off unless set.
+                rope_factor = float(_setting("LOCAL_ROPE_SCALING_FACTOR", "0") or 0)
+                if rope_factor > 1:
+                    from transformers import AutoConfig
+
+                    config = AutoConfig.from_pretrained(
+                        model_id,
+                        local_files_only=model_kwargs["local_files_only"],
+                    )
+                    original = config.max_position_embeddings
+                    config.rope_scaling = {
+                        **(config.rope_scaling or {}),  # newer transformers keep rope_theta here
+                        "rope_type": "yarn",
+                        "factor": rope_factor,
+                        "original_max_position_embeddings": original,
+                    }
+                    config.max_position_embeddings = int(original * rope_factor)
+                    model_kwargs["config"] = config
+
                 _model = AutoModelForCausalLM.from_pretrained(model_id, **model_kwargs)
                 if not device_map:
                     device = "mps" if torch.backends.mps.is_available() else "cpu"
