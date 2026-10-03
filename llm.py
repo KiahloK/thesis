@@ -89,6 +89,8 @@ def _tokenize_messages(messages: list[dict], tokenizer):
             add_generation_prompt=True,
             return_tensors="pt",
             return_dict=True,
+            # Qwen3-style templates read this flag; templates without it ignore it.
+            enable_thinking=_setting("LOCAL_ENABLE_THINKING", "0") == "1",
         )
     return tokenizer(
         _format_messages(messages, tokenizer),
