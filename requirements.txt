@@ -7,8 +7,9 @@
 torch>=2.1,<2.7
 
 accelerate>=0.34,<2
-transformers>=4.45,<5
-sentence-transformers>=3.4,<4
+# Qwen3.5/3.8 checkpoints (model_type qwen3_5) need Transformers 5.x.
+transformers>=5.2,<6
+sentence-transformers>=5.2,<6
 faiss-cpu>=1.8,<2
 
 socbenchsc @ git+https://github.com/IAAS/SOCBench.git@88ad5a947d151f56976c215ebd4707094909f14b#subdirectory=socbenchsc
