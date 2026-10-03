@@ -28,7 +28,7 @@ if command -v module >/dev/null 2>&1; then
     set -u
 fi
 
-export LOCAL_MODEL_ID="${LOCAL_MODEL_ID:-Qwen/Qwen2.5-Coder-7B-Instruct}"
+export LOCAL_MODEL_ID="${LOCAL_MODEL_ID:-Qwen/Qwen3.8-27B}"
 export LOCAL_MAX_NEW_TOKENS="${LOCAL_MAX_NEW_TOKENS:-1024}"
 export LOCAL_DO_SAMPLE="${LOCAL_DO_SAMPLE:-0}"
 export LOCAL_MAX_WORKERS="${LOCAL_MAX_WORKERS:-1}"
