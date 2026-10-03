@@ -14,6 +14,7 @@
 #
 # Every notebook setting can be overridden at submission time, e.g.
 #   QUERY_LIMIT=50 FILTER_MODE=bm25 sbatch slurm/refined.sbatch
+# To split a run across dev-queue jobs, run chunks with QUERY_OFFSET=0, 10, 20, ... and QUERY_LIMIT=10.
 
 set -euo pipefail
 
@@ -39,6 +40,7 @@ export TOKENIZERS_PARALLELISM=false
 # Notebook configuration (see the Configuration cell in refined.ipynb).
 export BENCHMARK_TYPES="${BENCHMARK_TYPES:-socbenchd_1}"
 export QUERY_LIMIT="${QUERY_LIMIT:-10}"
+export QUERY_OFFSET="${QUERY_OFFSET:-0}"
 export LOAD_BASELINE="${LOAD_BASELINE:-0}"
 export FILTER_SERVICES="${FILTER_SERVICES:-1}"
 # BM25 at top_k=25 keeps half the spec and drops ~1% of expected endpoints on SOCBench-D1
@@ -65,7 +67,7 @@ fi
 
 echo "Job: ${SLURM_JOB_ID:-local} on $(hostname)"
 echo "Model: $LOCAL_MODEL_ID | HF_HOME: $HF_HOME | HF_HUB_OFFLINE: ${HF_HUB_OFFLINE:-0}"
-echo "Benchmarks: $BENCHMARK_TYPES | Queries: $QUERY_LIMIT | Load baseline: $LOAD_BASELINE"
+echo "Benchmarks: $BENCHMARK_TYPES | Queries: $QUERY_LIMIT (offset $QUERY_OFFSET) | Load baseline: $LOAD_BASELINE"
 echo "Filter: $FILTER_SERVICES ($FILTER_MODE, top_k=$TOP_K, keep_called=$KEEP_CALLED) | Endpoint check: $ENDPOINT_CHECK"
 nvidia-smi
 "$PYTHON" -c "import torch; print('torch', torch.__version__, 'cuda', torch.cuda.is_available()); assert torch.cuda.is_available()"
