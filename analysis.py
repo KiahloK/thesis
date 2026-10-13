@@ -90,6 +90,29 @@ def _strip_to_path(url: str) -> str:
     return parsed.path if parsed.path else url
 
 
+def _server_base_paths(specs: list[dict]) -> list[str]:
+    """Path parts of the specs' `servers` URLs (e.g. `/3` for https://api.themoviedb.org/3),
+    longest first. Spec paths are relative to them, so they are stripped before matching."""
+    bases = set()
+    for spec in specs:
+        for server in spec.get("servers", []):
+            if isinstance(server, dict) and isinstance(server.get("url"), str):
+                base = urlparse(server["url"]).path.rstrip("/")
+                if base:
+                    bases.add(base)
+    return sorted(bases, key=len, reverse=True)
+
+
+def _spec_relative_path(url: str, base_paths: list[str]) -> str:
+    """Path of `url` relative to its server: strip a matching server base path, otherwise a
+    version prefix (/v1, /v2, ...)."""
+    path = _strip_to_path(url)
+    for base in base_paths:
+        if path.startswith(base + "/"):
+            return path[len(base):]
+    return _normalize_path(path)
+
+
 def _path_matches(concrete: str, template: str) -> bool:
     """Segment-by-segment comparison; {…} in either side is treated as a wildcard.
 
@@ -274,8 +297,141 @@ def analyze_ruff(code: str, *, filename_hint: str = "generated.py") -> list[str]
     return [f"Ruff: {line}" for line in output.splitlines() if line.strip()]
 
 
-_HTTPRETTY_RUNNER = textwrap.dedent("""\
-    import re, sys
+# ---------------------------------------------------------------------------
+# Mock responses for the runtime analyses
+# ---------------------------------------------------------------------------
+# Answering every request with `{}` makes generated code crash as soon as it reads a field
+# of a response (e.g. `resp.json()["id"]`), so every call after that point goes unobserved.
+# Instead, each request is answered with a body synthesized from the 2xx JSON response of
+# the matching operation in the OpenAPI spec (the spec is task input, not ground truth).
+
+_MOCK_MAX_DEPTH = 8
+
+
+def _resolve_ref(node: object, spec: dict, seen: frozenset[str]) -> tuple[object, frozenset[str]]:
+    """Follow local `$ref`s (`#/components/...`); unresolvable or cyclic refs yield `{}`."""
+    while isinstance(node, dict) and "$ref" in node:
+        ref = node["$ref"]
+        if not isinstance(ref, str) or not ref.startswith("#/") or ref in seen:
+            return {}, seen
+        seen = seen | {ref}
+        target: object = spec
+        for part in ref[2:].split("/"):
+            part = part.replace("~1", "/").replace("~0", "~")
+            if not isinstance(target, dict) or part not in target:
+                return {}, seen
+            target = target[part]
+        node = target
+    return node, seen
+
+
+_STRING_FORMAT_EXAMPLES = {
+    "date": "2024-01-01",
+    "date-time": "2024-01-01T00:00:00Z",
+    "time": "00:00:00",
+    "uuid": "00000000-0000-0000-0000-000000000001",
+    "email": "user@example.com",
+    "uri": "https://example.com",
+    "url": "https://example.com",
+}
+
+
+def _mock_value(
+    schema: object, spec: dict, depth: int = 0, seen: frozenset[str] = frozenset(), name: str = ""
+) -> object:
+    """Synthesize a JSON value that conforms to `schema` (best effort). `name` is the property
+    name, used to give URL-like string fields a valid URL (code may request them)."""
+    schema, seen = _resolve_ref(schema, spec, seen)
+    if not isinstance(schema, dict) or depth > _MOCK_MAX_DEPTH:
+        return {}
+    if "example" in schema:
+        return schema["example"]
+    if schema.get("enum"):
+        return schema["enum"][0]
+    if schema.get("allOf"):
+        merged: dict = {}
+        for part in schema["allOf"]:
+            value = _mock_value(part, spec, depth + 1, seen)
+            if isinstance(value, dict):
+                merged.update(value)
+        return merged
+    for key in ("oneOf", "anyOf"):
+        if schema.get(key):
+            return _mock_value(schema[key][0], spec, depth + 1, seen)
+
+    kind = schema.get("type")
+    if isinstance(kind, list):  # OpenAPI 3.1 allows ["string", "null"]
+        kind = next((k for k in kind if k != "null"), None)
+    if kind == "object" or (kind is None and "properties" in schema):
+        return {
+            prop_name: _mock_value(prop, spec, depth + 1, seen, prop_name)
+            for prop_name, prop in schema.get("properties", {}).items()
+        }
+    if kind == "array":
+        # One element, so loops over a response body run once and their calls are observed.
+        return [_mock_value(schema.get("items", {}), spec, depth + 1, seen)]
+    if kind == "string":
+        if schema.get("format") in _STRING_FORMAT_EXAMPLES:
+            return _STRING_FORMAT_EXAMPLES[schema["format"]]
+        if re.search(r"(url|uri|link|href)$", name, re.IGNORECASE):
+            return "https://example.com"
+        return "example"
+    if kind == "integer":
+        return 1
+    if kind == "number":
+        return 1.0
+    if kind == "boolean":
+        return True
+    return {}
+
+
+def _mock_response_body(operation: dict, spec: dict) -> object:
+    """Body of the first 2xx JSON response of `operation`, from its example or its schema."""
+    responses = operation.get("responses", {})
+    for status in sorted(responses, key=str):
+        if not str(status).startswith("2"):
+            continue
+        response, _ = _resolve_ref(responses[status], spec, frozenset())
+        if not isinstance(response, dict):
+            continue
+        content = response.get("content", {})
+        media = content.get("application/json") or next(
+            (v for k, v in content.items() if "json" in k), None
+        )
+        if not isinstance(media, dict):
+            continue
+        if "example" in media:
+            return media["example"]
+        examples = media.get("examples")
+        if isinstance(examples, dict) and examples:
+            first, _ = _resolve_ref(next(iter(examples.values())), spec, frozenset())
+            if isinstance(first, dict) and "value" in first:
+                return first["value"]
+        return _mock_value(media.get("schema", {}), spec)
+    return {}
+
+
+def _mock_routes(service_files: list[str] | None, benchmark_dir: str | Path) -> dict:
+    """Route table for the runtime runner: one (METHOD, path template, body) per operation,
+    plus the base paths of the specs' `servers` URLs, which are stripped before matching."""
+    specs = _load_openapi_specs(service_files or [], benchmark_dir)
+    routes: list[list] = []
+    for spec in specs:
+        for path, methods in spec.get("paths", {}).items():
+            if not isinstance(methods, dict):
+                continue
+            for method, operation in methods.items():
+                if isinstance(operation, dict):
+                    routes.append([method.upper(), path, _mock_response_body(operation, spec)])
+    return {"routes": routes, "base_paths": _server_base_paths(specs)}
+
+
+# Executes the code under analysis with all outbound HTTP intercepted by httpretty.
+# argv: <code file> <routes file>. Prints one HTTP_CALL line per request (method, URI and
+# JSON-encoded body, tab-separated) and a RUNTIME_ERROR line if the code raised.
+_RUNTIME_RUNNER = textwrap.dedent("""\
+    import json, re, sys
+    from urllib.parse import urlparse
     import httpretty
     from httpretty.core import fakesock
 
@@ -284,11 +440,43 @@ _HTTPRETTY_RUNNER = textwrap.dedent("""\
     # Patching it to a no-op lets multi-request code run uninterrupted.
     fakesock.socket.shutdown = lambda self, *a, **kw: None
 
+    with open(sys.argv[2], encoding="utf-8") as _f:
+        _config = json.load(_f)
+    _routes = _config["routes"]
+    _base_paths = _config["base_paths"]
+
+    def _matches(concrete, template):
+        c_segs, t_segs = concrete.split("/"), template.split("/")
+        if len(c_segs) != len(t_segs):
+            return False
+        for cs, ts in zip(c_segs, t_segs):
+            if ts.startswith("{") and ts.endswith("}"):
+                if not cs:
+                    return False
+            elif cs != ts:
+                return False
+        return True
+
+    def _mock_body(method, uri):
+        path = urlparse(uri).path.rstrip("/") or "/"
+        candidates = [path, re.sub(r"^/v\\d+(?=/)", "", path)]
+        candidates += [path[len(b):] for b in _base_paths if path.startswith(b + "/")]
+        for candidate in candidates:
+            for r_method, r_path, r_body in _routes:
+                if r_method == method and _matches(candidate, r_path.rstrip("/") or "/"):
+                    return r_body
+        return {}
+
     _calls = []
 
     def _handler(request, uri, response_headers):
-        _calls.append(f"{request.method} {uri}")
-        return [200, response_headers, b"{}"]
+        try:
+            body_str = request.body.decode("utf-8", errors="replace") if request.body else ""
+        except Exception:
+            body_str = ""
+        _calls.append((request.method, uri, body_str))
+        response_headers["content-type"] = "application/json"
+        return [200, response_headers, json.dumps(_mock_body(request.method, uri)).encode("utf-8")]
 
     httpretty.enable(allow_net_connect=False, verbose=False)
     for _method in (
@@ -301,39 +489,87 @@ _HTTPRETTY_RUNNER = textwrap.dedent("""\
         with open(sys.argv[1], encoding="utf-8") as _f:
             exec(compile(_f.read(), sys.argv[1], "exec"), {"__name__": "__main__"})
     except Exception as exc:
-        print(f"RUNTIME_ERROR:{exc}", file=sys.stderr)
+        print(f"RUNTIME_ERROR:{type(exc).__name__}: {exc}", file=sys.stderr)
     finally:
-        for _call in _calls:
-            print(f"HTTP_CALL:{_call}")
+        for _method, _uri, _body in _calls:
+            print(f"HTTP_CALL:{_method}\\t{_uri}\\t{json.dumps(_body)}")
         httpretty.disable()
         httpretty.reset()
 """)
 
 
-def analyze_httpretty(code: str, *, filename_hint: str = "generated.py") -> list[str]:
-    """Execute the code with httpretty intercepting all HTTP calls."""
+def mock_response_mode() -> str:
+    """ANALYSIS_MOCK_RESPONSES: "spec" (default) answers requests with bodies derived from the
+    specs; "empty" answers every request with `{}` (the behaviour before 2026-10-13, kept for
+    comparison runs)."""
+    mode = os.environ.get("ANALYSIS_MOCK_RESPONSES", "spec").strip().lower() or "spec"
+    if mode not in ("spec", "empty"):
+        raise ValueError(f"ANALYSIS_MOCK_RESPONSES must be 'spec' or 'empty', not {mode!r}.")
+    return mode
+
+
+def _run_with_mocks(
+    code: str,
+    service_files: list[str] | None,
+    benchmark_dir: str | Path,
+    filename_hint: str = "generated.py",
+) -> subprocess.CompletedProcess | None:
+    """Run `code` in a subprocess under the httpretty runner; None on timeout."""
+    routes = (
+        _mock_routes(service_files, benchmark_dir)
+        if mock_response_mode() == "spec"
+        else {"routes": [], "base_paths": []}
+    )
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp = Path(tmpdir)
         code_path = tmp / filename_hint
         runner_path = tmp / "_runner.py"
+        routes_path = tmp / "_routes.json"
         code_path.write_text(code, encoding="utf-8")
-        runner_path.write_text(_HTTPRETTY_RUNNER, encoding="utf-8")
-
+        runner_path.write_text(_RUNTIME_RUNNER, encoding="utf-8")
+        routes_path.write_text(json.dumps(routes), encoding="utf-8")
         try:
-            completed = subprocess.run(
-                [sys.executable, str(runner_path), str(code_path)],
+            return subprocess.run(
+                [sys.executable, str(runner_path), str(code_path), str(routes_path)],
                 capture_output=True,
                 text=True,
                 check=False,
                 timeout=10,
             )
         except subprocess.TimeoutExpired:
-            return ["Httpretty: Execution timed out after 10 seconds."]
+            return None
+
+
+def _parse_http_calls(stdout: str) -> list[tuple[str, str, str]]:
+    calls = []
+    for line in stdout.splitlines():
+        if line.startswith("HTTP_CALL:"):
+            parts = line[len("HTTP_CALL:"):].split("\t", 2)
+            if len(parts) == 3:
+                try:
+                    body = json.loads(parts[2])
+                except ValueError:
+                    body = ""
+                calls.append((parts[0], parts[1], body))
+    return calls
+
+
+def analyze_httpretty(
+    code: str,
+    *,
+    service_files: list[str] | None = None,
+    benchmark_dir: str | Path = "./benchmark",
+    filename_hint: str = "generated.py",
+) -> list[str]:
+    """Execute the code with httpretty intercepting all HTTP calls. With `service_files`,
+    requests are answered with mock bodies derived from the specs' response schemas."""
+    completed = _run_with_mocks(code, service_files, benchmark_dir, filename_hint)
+    if completed is None:
+        return ["Httpretty: Execution timed out after 10 seconds."]
 
     findings: list[str] = []
-    for line in completed.stdout.splitlines():
-        if line.startswith("HTTP_CALL:"):
-            findings.append(f"Httpretty: {line[len('HTTP_CALL:'):]}")
+    for method, uri, _body in _parse_http_calls(completed.stdout):
+        findings.append(f"Httpretty: {method} {uri}")
     for line in completed.stderr.splitlines():
         if line.startswith("RUNTIME_ERROR:"):
             findings.append(f"Httpretty: Runtime error — {line[len('RUNTIME_ERROR:'):]}")
@@ -367,6 +603,8 @@ def analyze_ast_spec(
     for spec in specs:
         all_endpoints.extend(_spec_endpoints(spec))
 
+    base_paths = _server_base_paths(specs)
+
     try:
         tree = ast.parse(code)
     except SyntaxError:
@@ -386,7 +624,7 @@ def analyze_ast_spec(
             )
             continue
 
-        raw_path = _normalize_path(_strip_to_path(url))
+        raw_path = _spec_relative_path(url, base_paths)
 
         matched_methods: list[str] = []
         has_exact_method = False
@@ -416,44 +654,6 @@ def analyze_ast_spec(
     return findings
 
 
-# Extended httpretty runner that also captures request body per call.
-_OPENAPI_RUNNER = textwrap.dedent("""\
-    import re, sys, json as _json
-    import httpretty
-    from httpretty.core import fakesock
-
-    fakesock.socket.shutdown = lambda self, *a, **kw: None
-
-    _calls = []
-
-    def _handler(request, uri, response_headers):
-        try:
-            body_str = request.body.decode("utf-8", errors="replace") if request.body else ""
-        except Exception:
-            body_str = ""
-        _calls.append((request.method, uri, body_str))
-        return [200, response_headers, b"{}"]
-
-    httpretty.enable(allow_net_connect=False, verbose=False)
-    for _method in (
-        httpretty.GET, httpretty.POST, httpretty.PUT,
-        httpretty.PATCH, httpretty.DELETE, httpretty.HEAD, httpretty.OPTIONS,
-    ):
-        httpretty.register_uri(_method, re.compile(r".*"), body=_handler)
-
-    try:
-        with open(sys.argv[1], encoding="utf-8") as _f:
-            exec(compile(_f.read(), sys.argv[1], "exec"), {"__name__": "__main__"})
-    except Exception as exc:
-        print(f"RUNTIME_ERROR:{exc}", file=sys.stderr)
-    finally:
-        for _method, _uri, _body in _calls:
-            print(f"HTTP_CALL:{_method}\\t{_uri}\\t{_body}")
-        httpretty.disable()
-        httpretty.reset()
-""")
-
-
 def analyze_openapi(
     code: str,
     service_files: list[str] | None,
@@ -471,37 +671,18 @@ def analyze_openapi(
     for spec in specs:
         all_endpoints.extend(_spec_endpoints(spec))
 
-    with tempfile.TemporaryDirectory() as tmpdir:
-        tmp = Path(tmpdir)
-        code_path = tmp / "generated.py"
-        runner_path = tmp / "_openapi_runner.py"
-        code_path.write_text(code, encoding="utf-8")
-        runner_path.write_text(_OPENAPI_RUNNER, encoding="utf-8")
+    base_paths = _server_base_paths(specs)
 
-        try:
-            completed = subprocess.run(
-                [sys.executable, str(runner_path), str(code_path)],
-                capture_output=True,
-                text=True,
-                check=False,
-                timeout=10,
-            )
-        except subprocess.TimeoutExpired:
-            return ["OpenAPI: Execution timed out after 10 seconds."]
+    completed = _run_with_mocks(code, service_files, benchmark_dir)
+    if completed is None:
+        return ["OpenAPI: Execution timed out after 10 seconds."]
 
     findings: list[str] = []
     for line in completed.stderr.splitlines():
         if line.startswith("RUNTIME_ERROR:"):
             findings.append(f"OpenAPI: Runtime error — {line[len('RUNTIME_ERROR:'):]}")
 
-    http_calls: list[tuple[str, str, str]] = []
-    for line in completed.stdout.splitlines():
-        if line.startswith("HTTP_CALL:"):
-            parts = line[len("HTTP_CALL:"):].split("\t", 2)
-            if len(parts) >= 2:
-                method, uri = parts[0], parts[1]
-                body_str = parts[2] if len(parts) > 2 else ""
-                http_calls.append((method, uri, body_str))
+    http_calls = _parse_http_calls(completed.stdout)
 
     if not http_calls:
         if not findings:
@@ -509,7 +690,7 @@ def analyze_openapi(
         return findings
 
     for method, uri, body_str in http_calls:
-        path = _normalize_path(_strip_to_path(uri))
+        path = _spec_relative_path(uri, base_paths)
 
         body_keys: list[str] | None = None
         if body_str.strip():
@@ -581,7 +762,7 @@ def analyze(
     if "ruff" in selected:
         findings.extend(analyze_ruff(code))
     if "httpretty" in selected:
-        findings.extend(analyze_httpretty(code))
+        findings.extend(analyze_httpretty(code, service_files=service_files, benchmark_dir=benchmark_dir))
     if "ast_spec" in selected:
         findings.extend(analyze_ast_spec(code, service_files, benchmark_dir))
     if "openapi" in selected:

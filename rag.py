@@ -23,7 +23,7 @@ def _get_model() -> SentenceTransformer:
 
 
 def filter_services_rag(
-    services: list[str], query: str, top_k: int = 5, always_keep: Collection[str] = ()
+    services: list[str], query: str, top_k: int = 25, always_keep: Collection[str] = ()
 ) -> list[str]:
     """Return pruned OpenAPI JSON strings keeping only the top_k most query-relevant endpoints,
     ranked globally across all given services (not per service) - so a query touching five

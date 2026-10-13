@@ -35,7 +35,7 @@ def _keep_indices(all_endpoints: list[tuple[int, str, str, dict]], always_keep: 
 
 
 def filter_services(
-    services: list[str], query: str, top_k: int = 5, always_keep: Collection[str] = ()
+    services: list[str], query: str, top_k: int = 25, always_keep: Collection[str] = ()
 ) -> list[str]:
     """Return pruned OpenAPI JSON strings keeping only the top_k most query-relevant endpoints,
     ranked globally across all given services (not per service) - so a query touching five

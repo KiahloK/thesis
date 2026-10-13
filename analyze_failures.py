@@ -163,8 +163,9 @@ def load_results(out_dir: Path, use_initial: bool) -> list[dict]:
         if code_path.exists():
             try:
                 sys.path.insert(0, str(Path(__file__).parent))
-                from evaluate import evaluate
-                m = evaluate(code_path.read_text(), list(expected))
+                from evaluate import base_paths_for_files, evaluate
+                base_paths = base_paths_for_files(data.get('services', []), Path(__file__).parent / 'benchmark')
+                m = evaluate(code_path.read_text(), list(expected), base_paths)
                 extracted = set(m.get('extracted', set()))
             except Exception:
                 stored = data.get(metrics_key, {})

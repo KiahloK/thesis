@@ -15,6 +15,8 @@
 # Every notebook setting can be overridden at submission time, e.g.
 #   QUERY_LIMIT=50 FILTER_MODE=bm25 sbatch slurm/refined.sbatch
 # To split a run across dev-queue jobs, run chunks with QUERY_OFFSET=0, 10, 20, ... and QUERY_LIMIT=10.
+# This also works with LOAD_BASELINE=1 BASELINE_DIR=output/<run>: each chunk then refines a slice
+# of that run's stored initial code.
 
 set -euo pipefail
 
@@ -51,6 +53,9 @@ export TOP_K="${TOP_K:-25}"
 # prune a call the model already made (and Idea 2 gets to judge it).
 export KEEP_CALLED="${KEEP_CALLED:-1}"
 export ENDPOINT_CHECK="${ENDPOINT_CHECK:-1}"
+# Runtime analyses answer requests with bodies derived from the specs ("spec") or with {} ("empty",
+# the behaviour before 2026-10-13).
+export ANALYSIS_MOCK_RESPONSES="${ANALYSIS_MOCK_RESPONSES:-spec}"
 
 PYTHON="${PYTHON:-$PROJECT_ROOT/.venv/bin/python}"
 if [[ ! -x "$PYTHON" ]]; then
@@ -67,8 +72,8 @@ fi
 
 echo "Job: ${SLURM_JOB_ID:-local} on $(hostname)"
 echo "Model: $LOCAL_MODEL_ID | HF_HOME: $HF_HOME | HF_HUB_OFFLINE: ${HF_HUB_OFFLINE:-0}"
-echo "Benchmarks: $BENCHMARK_TYPES | Queries: $QUERY_LIMIT (offset $QUERY_OFFSET) | Load baseline: $LOAD_BASELINE"
-echo "Filter: $FILTER_SERVICES ($FILTER_MODE, top_k=$TOP_K, keep_called=$KEEP_CALLED) | Endpoint check: $ENDPOINT_CHECK"
+echo "Benchmarks: $BENCHMARK_TYPES | Queries: $QUERY_LIMIT (offset $QUERY_OFFSET) | Load baseline: $LOAD_BASELINE ${BASELINE_DIR:-}"
+echo "Filter: $FILTER_SERVICES ($FILTER_MODE, top_k=$TOP_K, keep_called=$KEEP_CALLED) | Endpoint check: $ENDPOINT_CHECK | Mock responses: $ANALYSIS_MOCK_RESPONSES"
 nvidia-smi
 "$PYTHON" -c "import torch; print('torch', torch.__version__, 'cuda', torch.cuda.is_available()); assert torch.cuda.is_available()"
 command -v ruff

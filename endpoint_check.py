@@ -2,7 +2,7 @@ import json
 
 from socbenchsc.analysis import Analysis
 
-from evaluate import _matches_template, _normalize_endpoint
+from evaluate import _matches_template, _normalize_endpoint, server_base_paths
 from llm import call_llm_chat
 
 _TEMPLATE = '''SUMMARY:
@@ -121,7 +121,9 @@ def _called_endpoints(generated_code: str, services: list[str]) -> tuple[set[str
     except SyntaxError:
         extracted = set()
 
-    candidates = {c: _normalize_endpoint(c) for c in _all_endpoints(_parse_services(services))}
+    specs = _parse_services(services)
+    base_paths = server_base_paths(specs)
+    candidates = {c: _normalize_endpoint(c) for c in _all_endpoints(specs)}
 
     # Fold each extracted (possibly concrete, e.g. path params filled in) endpoint onto its
     # matching candidate template, so e.g. "GET /tracks/abc123" and "GET /tracks/{id}"
@@ -129,7 +131,7 @@ def _called_endpoints(generated_code: str, services: list[str]) -> tuple[set[str
     called = set()
     matched = set()
     for ext in extracted:
-        norm_ext = _normalize_endpoint(ext)
+        norm_ext = _normalize_endpoint(ext, base_paths)
         match = next((c for c, norm_c in candidates.items() if _matches_template(norm_ext, norm_c)), None)
         called.add(match if match else ext)
         if match:

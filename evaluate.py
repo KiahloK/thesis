@@ -1,11 +1,45 @@
 from socbenchsc.analysis import Analysis
-from typing import Dict, Set, List
+from pathlib import Path
+from typing import Dict, Iterable, Set, List
+from urllib.parse import urlparse
+import json
 import re
 
 
-def _normalize_endpoint(endpoint: str) -> str:
-    """Strip version prefix (e.g. /v1/, /v2/) from endpoint paths so that
+def server_base_paths(specs: Iterable[dict]) -> list[str]:
+    """Path parts of the specs' `servers` URLs (e.g. '/3' for https://api.themoviedb.org/3),
+    longest first. Spec paths - and so the expected endpoints - are relative to them."""
+    bases = set()
+    for spec in specs:
+        for server in spec.get('servers', []) if isinstance(spec, dict) else []:
+            if isinstance(server, dict) and isinstance(server.get('url'), str):
+                base = urlparse(server['url']).path.rstrip('/')
+                if base:
+                    bases.add(base)
+    return sorted(bases, key=len, reverse=True)
+
+
+def base_paths_for_files(service_files: Iterable[str], benchmark_dir: str | Path) -> list[str]:
+    """server_base_paths() for OpenAPI files given relative to benchmark_dir."""
+    specs = []
+    for service_file in service_files or []:
+        try:
+            specs.append(json.loads((Path(benchmark_dir) / service_file).read_text(encoding='utf-8')))
+        except (OSError, ValueError):
+            continue
+    return server_base_paths(specs)
+
+
+def _normalize_endpoint(endpoint: str, base_paths: Iterable[str] = ()) -> str:
+    """Make an endpoint's path relative to its server: strip a server base path (e.g. '/3'
+    for TMDB) if one matches, else a version prefix (e.g. /v1/, /v2/), so that
     'GET /v1/foo' and 'GET /foo' are treated as equivalent."""
+    parts = endpoint.split(' ', 1)
+    if len(parts) == 2:
+        method, path = parts
+        for base in base_paths:
+            if path.startswith(base + '/'):
+                return f'{method} {path[len(base):]}'
     return re.sub(r'^(\w+ )/v\d+/', r'\1/', endpoint)
 
 
@@ -39,8 +73,12 @@ def _matches_template(extracted_ep: str, expected_ep: str) -> bool:
     return True
 
 
-def evaluate(generated_code: str, expected_endpoints: List[str]) -> Dict:
-    """Evaluate generated code by extracting used endpoints and computing precision/recall/f1."""
+def evaluate(generated_code: str, expected_endpoints: List[str], base_paths: Iterable[str] = ()) -> Dict:
+    """Evaluate generated code by extracting used endpoints and computing precision/recall/f1.
+
+    `base_paths` are the server base paths of the query's specs (see base_paths_for_files);
+    without them, only /v1-style version prefixes are stripped from extracted paths.
+    """
     expected = set(expected_endpoints)
 
     try:
@@ -55,7 +93,7 @@ def evaluate(generated_code: str, expected_endpoints: List[str]) -> Dict:
             "syntax_error": f"{exc.msg} at line {exc.lineno}, column {exc.offset}",
         }
 
-    norm_extracted = {_normalize_endpoint(e) for e in extracted}
+    norm_extracted = {_normalize_endpoint(e, base_paths) for e in extracted}
     norm_expected = {_normalize_endpoint(e) for e in expected}
 
     # Template-aware matching: each expected template can match at most one extracted endpoint.
