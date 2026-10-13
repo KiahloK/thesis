@@ -53,6 +53,9 @@ export TOP_K="${TOP_K:-25}"
 # prune a call the model already made (and Idea 2 gets to judge it).
 export KEEP_CALLED="${KEEP_CALLED:-1}"
 export ENDPOINT_CHECK="${ENDPOINT_CHECK:-1}"
+# "stepwise": split the query into steps, one endpoint per step; "per_endpoint": Yes/No per endpoint
+# (the check used until 2026-10-13).
+export ENDPOINT_CHECK_MODE="${ENDPOINT_CHECK_MODE:-stepwise}"
 # Runtime analyses answer requests with bodies derived from the specs ("spec") or with {} ("empty",
 # the behaviour before 2026-10-13).
 export ANALYSIS_MOCK_RESPONSES="${ANALYSIS_MOCK_RESPONSES:-spec}"
@@ -73,7 +76,7 @@ fi
 echo "Job: ${SLURM_JOB_ID:-local} on $(hostname)"
 echo "Model: $LOCAL_MODEL_ID | HF_HOME: $HF_HOME | HF_HUB_OFFLINE: ${HF_HUB_OFFLINE:-0}"
 echo "Benchmarks: $BENCHMARK_TYPES | Queries: $QUERY_LIMIT (offset $QUERY_OFFSET) | Load baseline: $LOAD_BASELINE ${BASELINE_DIR:-}"
-echo "Filter: $FILTER_SERVICES ($FILTER_MODE, top_k=$TOP_K, keep_called=$KEEP_CALLED) | Endpoint check: $ENDPOINT_CHECK | Mock responses: $ANALYSIS_MOCK_RESPONSES"
+echo "Filter: $FILTER_SERVICES ($FILTER_MODE, top_k=$TOP_K, keep_called=$KEEP_CALLED) | Endpoint check: $ENDPOINT_CHECK ($ENDPOINT_CHECK_MODE) | Mock responses: $ANALYSIS_MOCK_RESPONSES"
 nvidia-smi
 "$PYTHON" -c "import torch; print('torch', torch.__version__, 'cuda', torch.cuda.is_available()); assert torch.cuda.is_available()"
 command -v ruff

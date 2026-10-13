@@ -1,4 +1,5 @@
 import json
+import re
 
 from socbenchsc.analysis import Analysis
 
@@ -167,6 +168,135 @@ def find_endpoint_issues(generated_code: str, services: list[str], query: str, m
         'missing': sorted(necessary_set - called),
         'additional': sorted(judged_calls - necessary_set),
     }
+
+
+# ---------------------------------------------------------------------------
+# Step-wise check
+# ---------------------------------------------------------------------------
+# The per-endpoint check above answers Yes/No for every endpoint independently, so it cannot
+# express "only one of these two alternatives is needed": on SOCBench-D it judged ~10 endpoints
+# per query necessary where ~5 are expected, and its "possibly missing" list was 75% noise.
+# The step-wise check instead splits the query into its steps and lets the LLM pick exactly one
+# endpoint (or none) per step, which yields a step -> endpoint mapping the refinement can act on.
+
+_STEPS_TEMPLATE = '''Split the following task into the individual steps it asks for. Each step is one action that a single API call could perform, e.g. retrieving, creating, updating or deleting something. Keep the order of the task. Do not add steps the task does not ask for, and do not merge two actions into one step.
+
+Return one step per line, numbered "1.", "2.", ..., and nothing else.
+
+Task:
+{query}'''
+
+_SELECT_TEMPLATE = '''You map one step of a task to the API endpoint that performs it.
+
+Task:
+{query}
+
+Step:
+{step}
+
+Candidate endpoints:
+{endpoints}
+
+Answer with the one candidate endpoint that performs this step best, written exactly as "METHOD /path" from the list. If none of the candidates performs this step, answer NONE. Do not write anything else.'''
+
+_STEP_LINE = re.compile(r'^\s*(?:step\s*)?\d+\s*[.):-]\s*(.+?)\s*$', re.IGNORECASE)
+
+
+def _parse_steps(response: str) -> list[str]:
+    """Numbered lines of `response`; if the model did not number them, every non-empty line."""
+    lines = [line.strip() for line in response.strip().splitlines() if line.strip()]
+    numbered = [m.group(1) for line in lines if (m := _STEP_LINE.match(line))]
+    return numbered or [line.lstrip('-* ').strip() for line in lines]
+
+
+def _parse_selection(response: str, labels: list[str]) -> str | None:
+    """The candidate label named in `response`, or None. If several labels occur in the first
+    line (e.g. 'GET /alerts' inside 'GET /alerts/{id}'), the longest one wins."""
+    first_line = next((line.strip().strip('`*"\'') for line in response.splitlines() if line.strip()), '')
+    if not first_line or first_line.upper().startswith('NONE'):
+        return None
+    contained = [label for label in labels if label in first_line]
+    return max(contained, key=len) if contained else None
+
+
+def _endpoint_lines(specs: list[dict]) -> list[tuple[str, str]]:
+    """(label, "label - summary. description") per operation; the description helps the LLM
+    tell apart near-duplicate endpoints from different services."""
+    endpoints = []
+    for spec in specs:
+        for path, methods in spec.get('paths', {}).items():
+            if not isinstance(methods, dict):
+                continue
+            for method, operation in methods.items():
+                if isinstance(operation, dict):
+                    label = f"{method.upper()} {path}"
+                    parts = [str(operation.get(key) or '').strip() for key in ('summary', 'description')]
+                    text = ' '.join(' '.join(p for p in dict.fromkeys(parts) if p).split())
+                    endpoints.append((label, f"{label} - {text}" if text else label))
+    return endpoints
+
+
+def find_step_issues(generated_code: str, services: list[str], query: str, model: str) -> dict:
+    """Reference-free, step-wise coverage check: split `query` into steps, map each step to one
+    endpoint of `services` via the LLM, and diff that mapping against the calls of the code.
+
+    Returns {'steps': [{'step', 'endpoint', 'called'}], 'necessary', 'called', 'missing',
+    'additional'} - the last four with the same meaning as in find_endpoint_issues(), so runs of
+    both modes can be analysed with the same tools.
+    """
+    called, judged_calls = _called_endpoints(generated_code, services)
+    candidates = _endpoint_lines(_parse_services(services))
+    labels = [label for label, _ in candidates]
+
+    response, _usage = call_llm_chat([{'role': 'user', 'content': _STEPS_TEMPLATE.format(query=query)}], model)
+    steps = _parse_steps(response)
+
+    endpoints_block = '\n'.join(line for _, line in candidates)
+    mapping = []
+    for step in steps:
+        prompt = _SELECT_TEMPLATE.format(query=query, step=step, endpoints=endpoints_block)
+        response, _usage = call_llm_chat([{'role': 'user', 'content': prompt}], model)
+        endpoint = _parse_selection(response, labels)
+        mapping.append({'step': step, 'endpoint': endpoint, 'called': endpoint in called if endpoint else None})
+
+    necessary = {m['endpoint'] for m in mapping if m['endpoint']}
+    return {
+        'steps': mapping,
+        'necessary': sorted(necessary),
+        'called': sorted(called),
+        'missing': sorted(necessary - called),
+        'additional': sorted(judged_calls - necessary),
+    }
+
+
+def format_step_issues_for_prompt(issues: dict) -> str:
+    """Render find_step_issues() output as findings text for the refinement prompt."""
+    if not issues['steps']:
+        return ''
+    lines = ["Step coverage (an automated check split the Task into steps and mapped each step to the endpoint that performs it):"]
+    for i, m in enumerate(issues['steps'], start=1):
+        if m['endpoint'] is None:
+            lines.append(f"{i}. {m['step']} -> no endpoint in Source performs this step")
+        elif m['called']:
+            lines.append(f"{i}. {m['step']} -> {m['endpoint']} (called)")
+        else:
+            lines.append(f"{i}. {m['step']} -> {m['endpoint']} (NOT called: use this endpoint for this step)")
+    if issues['additional']:
+        unmapped = [str(i) for i, m in enumerate(issues['steps'], start=1) if m['endpoint'] is None]
+        if unmapped:
+            # A step the check could not map may well be served by one of these calls, so they
+            # must not be presented as definitely unnecessary.
+            lines.append(
+                f"Calls not mapped to any step: {', '.join(issues['additional'])}. Keep such a call only "
+                f"if it performs step {', '.join(unmapped)}; otherwise remove it or replace it with the "
+                "endpoint mapped above."
+            )
+        else:
+            lines.append(
+                "Calls that perform no step of the Task (remove them, or replace them with the endpoint "
+                "mapped above): " + ', '.join(issues['additional'])
+            )
+    return '\n'.join(lines)
 
 
 def format_issues_for_prompt(issues: dict) -> str:
