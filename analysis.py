@@ -258,6 +258,9 @@ def analyze_ast(code: str) -> list[str]:
     return findings
 
 
+_RUFF_META_LINE = re.compile(r"^(Found \d+ errors?|\[\*\] \d+ fixable|No fixes available)")
+
+
 def analyze_ruff(code: str, *, filename_hint: str = "generated.py") -> list[str]:
     """Run Ruff against a Python source string."""
     ruff_bin = shutil.which("ruff")
@@ -294,7 +297,15 @@ def analyze_ruff(code: str, *, filename_hint: str = "generated.py") -> list[str]
             return ["Ruff: No issues found."]
         return ["Ruff: Linting failed without output."]
 
-    return [f"Ruff: {line}" for line in output.splitlines() if line.strip()]
+    # Keep only the findings: Ruff's summary lines ("Found 4 errors.", "[*] 2 fixable with the
+    # `--fix` option ...") and its "[*]" autofix markers refer to Ruff's CLI and carry no
+    # information for the refinement model.
+    findings = [
+        line.replace(" [*] ", " ")
+        for line in output.splitlines()
+        if line.strip() and not _RUFF_META_LINE.match(line.strip())
+    ]
+    return [f"Ruff: {line}" for line in findings] or ["Ruff: No issues found."]
 
 
 # ---------------------------------------------------------------------------
@@ -768,4 +779,19 @@ def analyze(
     if "openapi" in selected:
         findings.extend(analyze_openapi(code, service_files, benchmark_dir))
 
-    return "\n".join(findings)
+    return "\n".join(_drop_repeated_runtime_errors(findings))
+
+
+def _drop_repeated_runtime_errors(findings: list[str]) -> list[str]:
+    """`httpretty` and `openapi` both execute the code, so a crash is reported by both. Keep the
+    first report of each runtime error and drop identical ones from later analyses."""
+    seen: set[str] = set()
+    kept = []
+    for finding in findings:
+        _, sep, error = finding.partition(": Runtime error — ")
+        if sep:
+            if error in seen:
+                continue
+            seen.add(error)
+        kept.append(finding)
+    return kept
