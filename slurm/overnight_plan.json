@@ -1,0 +1,127 @@
+{
+  "comment": "Robin's 8 tests on Qwen3.8-27B, dev set (queries 0-29 = SOCBench-D1 sectors 01-03): reasoning level (applies to generation AND refinement) x analysis tools on/off (ANALYSES=all|none). Filtering + step-wise check (reasoning off) in all refinements. off/tools-on = A2 (run by hand). 'chunk' = queries per job until the first chunk of a run has finished; afterwards the size follows from its measured time. Measured 2026-10-14: ~15 tokens/s, so reasoning adds up to ~1 / ~4 / ~15-18 min per call (low/medium/high) -> high runs 1 query per job.",
+  "queries": [
+    0,
+    30
+  ],
+  "poll_seconds": 60,
+  "model_load_seconds": 150,
+  "env": {
+    "LOCAL_MODEL_ID": "Qwen/Qwen3.8-27B",
+    "BENCHMARK_TYPES": "socbenchd_1",
+    "LOCAL_REASONING_CHECK": "off",
+    "FILTER_SERVICES": "1",
+    "FILTER_MODE": "bm25",
+    "TOP_K": "25",
+    "KEEP_CALLED": "1",
+    "ENDPOINT_CHECK": "1",
+    "ENDPOINT_CHECK_MODE": "stepwise",
+    "ANALYSIS_MOCK_RESPONSES": "spec",
+    "REFINE_MODE": "repair"
+  },
+  "runs": [
+    {
+      "name": "base-off",
+      "kind": "baseline",
+      "existing_dirs": [
+        "output/2026-10-14_14-53-20_baseline_q0-5",
+        "output/2026-10-14_15-10-07_baseline_q5-17",
+        "output/2026-10-14_15-16-52_baseline_q17-30"
+      ]
+    },
+    {
+      "name": "ref-off-notools",
+      "kind": "refined",
+      "baseline": "base-off",
+      "chunk": 10,
+      "env": {
+        "LOCAL_REASONING_REFINE": "off",
+        "ANALYSES": "none"
+      }
+    },
+    {
+      "name": "base-low",
+      "kind": "baseline",
+      "chunk": 10,
+      "env": {
+        "LOCAL_REASONING_GENERATE": "low"
+      }
+    },
+    {
+      "name": "ref-low-tools",
+      "kind": "refined",
+      "baseline": "base-low",
+      "chunk": 8,
+      "env": {
+        "LOCAL_REASONING_REFINE": "low",
+        "ANALYSES": "all"
+      }
+    },
+    {
+      "name": "ref-low-notools",
+      "kind": "refined",
+      "baseline": "base-low",
+      "chunk": 8,
+      "env": {
+        "LOCAL_REASONING_REFINE": "low",
+        "ANALYSES": "none"
+      }
+    },
+    {
+      "name": "base-medium",
+      "kind": "baseline",
+      "chunk": 4,
+      "env": {
+        "LOCAL_REASONING_GENERATE": "medium"
+      }
+    },
+    {
+      "name": "ref-medium-tools",
+      "kind": "refined",
+      "baseline": "base-medium",
+      "chunk": 3,
+      "env": {
+        "LOCAL_REASONING_REFINE": "medium",
+        "ANALYSES": "all"
+      }
+    },
+    {
+      "name": "ref-medium-notools",
+      "kind": "refined",
+      "baseline": "base-medium",
+      "chunk": 3,
+      "env": {
+        "LOCAL_REASONING_REFINE": "medium",
+        "ANALYSES": "none"
+      }
+    },
+    {
+      "name": "base-high",
+      "kind": "baseline",
+      "chunk": 1,
+      "env": {
+        "LOCAL_REASONING_GENERATE": "high"
+      }
+    },
+    {
+      "name": "ref-high-tools",
+      "kind": "refined",
+      "baseline": "base-high",
+      "chunk": 1,
+      "env": {
+        "LOCAL_REASONING_REFINE": "high",
+        "ANALYSES": "all"
+      }
+    },
+    {
+      "name": "ref-high-notools",
+      "kind": "refined",
+      "baseline": "base-high",
+      "chunk": 1,
+      "env": {
+        "LOCAL_REASONING_REFINE": "high",
+        "ANALYSES": "none"
+      }
+    }
+  ]
+}

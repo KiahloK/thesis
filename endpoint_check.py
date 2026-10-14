@@ -248,7 +248,7 @@ def find_step_issues(generated_code: str, services: list[str], query: str, model
     candidates = _endpoint_lines(_parse_services(services))
     labels = [label for label, _ in candidates]
 
-    response, _usage = call_llm_chat([{'role': 'user', 'content': _STEPS_TEMPLATE.format(query=query)}], model, role='check')
+    response, _usage = call_llm_chat([{'role': 'user', 'content': _STEPS_TEMPLATE.format(query=query)}], model, role='check_split')
     steps = _parse_steps(response)
 
     endpoints_block = '\n'.join(line for _, line in candidates)

@@ -105,11 +105,14 @@ def _format_messages(messages: list[dict], tokenizer) -> str:
 # The level is set per call type, so e.g. refinement can reason while the endpoint check doesn't:
 #   LOCAL_REASONING_GENERATE / LOCAL_REASONING_REFINE / LOCAL_REASONING_CHECK = off|low|medium|high
 # each falling back to LOCAL_REASONING (default off). LOCAL_ENABLE_THINKING=1 (older runs) = high.
+# Within the step-wise check, LOCAL_REASONING_CHECK_SPLIT sets the level of the one call that splits
+# the query into steps (falls back to LOCAL_REASONING_CHECK); the per-step endpoint selections use
+# LOCAL_REASONING_CHECK. Reasoning only on the split costs one reasoning call per query instead of ~7.
 # Budgets per level can be overridden with LOCAL_REASONING_BUDGET_LOW/_MEDIUM/_HIGH (tokens).
 
 REASONING_LEVELS = ("off", "low", "medium", "high")
 _DEFAULT_BUDGETS = {"low": 1024, "medium": 4096, "high": 16384}
-REASONING_ROLES = ("generate", "refine", "check")
+REASONING_ROLES = ("generate", "refine", "check", "check_split")
 
 
 def reasoning_budget(level: str) -> int:
@@ -117,9 +120,11 @@ def reasoning_budget(level: str) -> int:
 
 
 def reasoning_level(role: str | None) -> str:
-    """Configured reasoning level for a call type (`generate`, `refine`, `check`)."""
+    """Configured reasoning level for a call type (`generate`, `refine`, `check`, `check_split`)."""
     fallback = "high" if _setting("LOCAL_ENABLE_THINKING", "0") == "1" else "off"
     level = _setting("LOCAL_REASONING", fallback).lower() or fallback
+    if role == "check_split":
+        level = reasoning_level("check")
     if role:
         level = _setting(f"LOCAL_REASONING_{role.upper()}", level).lower() or level
     if level not in REASONING_LEVELS:

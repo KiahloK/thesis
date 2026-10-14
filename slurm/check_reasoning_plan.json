@@ -1,0 +1,55 @@
+{
+  "comment": "Optional (decide with Robin): does a STRONGER check bring the benefit of refinement back for Qwen3.8? All on the reasoning-off baseline, refinement without reasoning, tools on - i.e. A2 with only the check's reasoning changed. 'split' = reasoning only for the call that splits the query into steps (1 call per query, where most check errors come from); 'check-low' = reasoning for all ~7 check calls. Cost at ~15 tokens/s: split-medium adds up to ~4 min per query, check-low up to ~7 min per query.",
+  "queries": [
+    0,
+    30
+  ],
+  "poll_seconds": 60,
+  "model_load_seconds": 150,
+  "env": {
+    "LOCAL_MODEL_ID": "Qwen/Qwen3.8-27B",
+    "BENCHMARK_TYPES": "socbenchd_1",
+    "LOCAL_REASONING_CHECK": "off",
+    "FILTER_SERVICES": "1",
+    "FILTER_MODE": "bm25",
+    "TOP_K": "25",
+    "KEEP_CALLED": "1",
+    "ENDPOINT_CHECK": "1",
+    "ENDPOINT_CHECK_MODE": "stepwise",
+    "ANALYSIS_MOCK_RESPONSES": "spec",
+    "REFINE_MODE": "repair",
+    "LOCAL_REASONING_GENERATE": "off",
+    "LOCAL_REASONING_REFINE": "off",
+    "ANALYSES": "all"
+  },
+  "runs": [
+    {
+      "name": "base-off",
+      "kind": "baseline",
+      "existing_dirs": [
+        "output/2026-10-14_14-53-20_baseline_q0-5",
+        "output/2026-10-14_15-10-07_baseline_q5-17",
+        "output/2026-10-14_15-16-52_baseline_q17-30"
+      ]
+    },
+    {
+      "name": "ref-off-split-medium",
+      "kind": "refined",
+      "baseline": "base-off",
+      "chunk": 4,
+      "env": {
+        "LOCAL_REASONING_CHECK": "off",
+        "LOCAL_REASONING_CHECK_SPLIT": "medium"
+      }
+    },
+    {
+      "name": "ref-off-check-low",
+      "kind": "refined",
+      "baseline": "base-off",
+      "chunk": 2,
+      "env": {
+        "LOCAL_REASONING_CHECK": "low"
+      }
+    }
+  ]
+}

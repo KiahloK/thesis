@@ -48,6 +48,8 @@ export LOCAL_REASONING="${LOCAL_REASONING:-off}"
 export LOCAL_REASONING_GENERATE="${LOCAL_REASONING_GENERATE:-$LOCAL_REASONING}"
 export LOCAL_REASONING_REFINE="${LOCAL_REASONING_REFINE:-$LOCAL_REASONING}"
 export LOCAL_REASONING_CHECK="${LOCAL_REASONING_CHECK:-$LOCAL_REASONING}"
+# Step-wise check: level of the single call that splits the query into steps (default: as CHECK).
+export LOCAL_REASONING_CHECK_SPLIT="${LOCAL_REASONING_CHECK_SPLIT:-$LOCAL_REASONING_CHECK}"
 export LOCAL_MAX_WORKERS="${LOCAL_MAX_WORKERS:-1}"
 export HF_HOME="${HF_HOME:-$PROJECT_ROOT/.hf-cache}"
 export TOKENIZERS_PARALLELISM=false
@@ -75,6 +77,9 @@ export ANALYSIS_MOCK_RESPONSES="${ANALYSIS_MOCK_RESPONSES:-spec}"
 # "repair": repair the code using the findings; "plan": rewrite compose() to follow the step-wise
 # check's step -> endpoint plan (needs ENDPOINT_CHECK=1 and ENDPOINT_CHECK_MODE=stepwise).
 export REFINE_MODE="${REFINE_MODE:-repair}"
+# Analysis tools in the refinement prompt ("tools on/off"): all | none | comma-separated subset of
+# ast,ruff,httpretty,ast_spec,openapi. Filtering and the endpoint check are not affected.
+export ANALYSES="${ANALYSES:-all}"
 
 PYTHON="${PYTHON:-$PROJECT_ROOT/.venv/bin/python}"
 if [[ ! -x "$PYTHON" ]]; then
@@ -91,9 +96,9 @@ fi
 
 echo "Job: ${SLURM_JOB_ID:-local} on $(hostname)"
 echo "Model: $LOCAL_MODEL_ID | HF_HOME: $HF_HOME | HF_HUB_OFFLINE: ${HF_HUB_OFFLINE:-0}"
-echo "Reasoning: generate=$LOCAL_REASONING_GENERATE refine=$LOCAL_REASONING_REFINE check=$LOCAL_REASONING_CHECK"
+echo "Reasoning: generate=$LOCAL_REASONING_GENERATE refine=$LOCAL_REASONING_REFINE check=$LOCAL_REASONING_CHECK check_split=$LOCAL_REASONING_CHECK_SPLIT"
 echo "Benchmarks: $BENCHMARK_TYPES | Queries: $QUERY_LIMIT (offset $QUERY_OFFSET) | Load baseline: $LOAD_BASELINE ${BASELINE_DIR:-}"
-echo "Filter: $FILTER_SERVICES ($FILTER_MODE, top_k=$TOP_K, keep_called=$KEEP_CALLED) | Endpoint check: $ENDPOINT_CHECK ($ENDPOINT_CHECK_MODE) | Mock responses: $ANALYSIS_MOCK_RESPONSES | Refine mode: $REFINE_MODE"
+echo "Filter: $FILTER_SERVICES ($FILTER_MODE, top_k=$TOP_K, keep_called=$KEEP_CALLED) | Endpoint check: $ENDPOINT_CHECK ($ENDPOINT_CHECK_MODE) | Mock responses: $ANALYSIS_MOCK_RESPONSES | Refine mode: $REFINE_MODE | Analyses: $ANALYSES"
 nvidia-smi
 "$PYTHON" -c "import torch; print('torch', torch.__version__, 'cuda', torch.cuda.is_available()); assert torch.cuda.is_available()"
 command -v ruff

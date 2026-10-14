@@ -3,3 +3,7 @@
 pycache/
 *.py[cod]
 output/
+# run_queue.py state and log files
+slurm/*_state.json
+slurm/*_state.tmp
+slurm/*.log
