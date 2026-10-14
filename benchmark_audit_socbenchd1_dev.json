@@ -1,0 +1,63 @@
+{
+  "comment": "Audit of the ground truth of the 30 dev queries (SOCBench-D1, sectors 01-03), drafted by Claude on 2026-10-14 from the query texts, the endpoint summaries/descriptions and the endpoints all runs consistently chose instead. Judgements are interpretations - to be reviewed by Tom / Robin. Used by benchmark_audit.py for a lenient re-scoring (sensitivity analysis only, never for tuning). Categories: alternatives = an endpoint that fits the query clause as well as or better than the expected one (counts as correct); optional = expected endpoint only implied by the query (counts if called, not missing if not); justified_extras = clearly asked for by the query but not expected (not counted as a false positive).",
+  "queries": {
+    "01-energy/query_001": {
+      "alternatives": {"POST /alert-settings": ["POST /alerts/configuration"]},
+      "reason": "'configure new alert thresholds for unusual energy GENERATION patterns' - POST /alerts/configuration is 'alerts for specified energy generation ... thresholds'; POST /alert-settings is for unusual CONSUMPTION patterns. The alternative fits at least as well."
+    },
+    "01-energy/query_003": {
+      "alternatives": {"POST /alerts/configuration": ["POST /alert-settings", "POST /alerts/configure"]},
+      "optional": ["POST /equipment-efficiency-check"],
+      "reason": "'configuring alerts for abnormal energy USAGE scenarios' - POST /alert-settings (unusual consumption) fits better than the expected generation-threshold endpoint; mirror image of query_001. 'Assess the energy efficiency ... BY retrieving consumption patterns' only implies the efficiency check (missed by 7/7 runs)."
+    },
+    "01-energy/query_006": {
+      "alternatives": {"POST /alerts/configuration": ["POST /alert-settings", "POST /alerts/configure"]},
+      "reason": "'configure alerts for exceeding predefined energy USAGE thresholds' - all three alert endpoints fit; POST /alert-settings (consumption) arguably best."
+    },
+    "01-energy/query_008": {
+      "alternatives": {"DELETE /alert-settings/{id}": ["DELETE /alerts"]},
+      "reason": "'deleting outdated ALERT CONFIGURATIONS' literally matches DELETE /alerts ('Delete specific alert configurations using their unique identifier'); 6/7 runs chose it."
+    },
+    "01-energy/query_009": {
+      "alternatives": {"POST /alert-settings": ["POST /alerts/configuration", "POST /alerts/configure"]},
+      "reason": "'configure alerts to track and respond to unusual energy usage or thresholds' - all three alert endpoints fit."
+    },
+    "02-materials/query_001": {
+      "alternatives": {"POST /recyclers/suggestions": ["GET /recyclers/compatibility"]},
+      "reason": "'suggest a new recycler that can process the improved materials, including their name, location, and the materials they accept' - reads both as submitting a recycler (expected) and as finding a compatible one (5/5 runs). Genuinely ambiguous."
+    },
+    "02-materials/query_002": {
+      "optional": ["GET /regulatory-updates", "GET /equipment-status"],
+      "reason": "'generate a custom report that INCLUDES regulatory updates and the current operational status' - the two retrievals are only implied as inputs of the report (each missed by 4/5 runs)."
+    },
+    "02-materials/query_003": {
+      "justified_extras": ["POST /materials/classify"],
+      "reason": "'Analyze the RECYCLABILITY of all available materials' matches POST /materials/classify ('determine its recyclability classification'), which is not expected; 5/5 runs called it."
+    },
+    "02-materials/query_004": {
+      "alternatives": {"POST /subscribe-updates": ["PUT /settings/notifications"]},
+      "reason": "'Subscribe to notifications for market trends and necessary updates' - the expected forest-market subscription fits 'market trends', the notification settings fit 'notifications ... updates'."
+    },
+    "02-materials/query_006": {
+      "optional": ["GET /suggestions/material-improvements"],
+      "reason": "'Configure notification settings to receive daily updates about improvements' - configuring the notifications does not require retrieving the suggestions now."
+    },
+    "02-materials/query_007": {
+      "alternatives": {"POST /subscribe-updates": ["PUT /settings/notifications"]},
+      "reason": "'subscribe to notifications for updates related to the SHIPMENT status' - PUT /settings/notifications ('updates about procurement, inventory, and LOGISTICS') fits better than the forest-market subscription."
+    },
+    "02-materials/query_010": {
+      "alternatives": {"DELETE /materials/{id}": ["DELETE /inventory/material/{material_id}"], "POST /custom-report": ["POST /reports/generate"]},
+      "reason": "'remove outdated materials from the system to optimize INVENTORY management' fits the inventory removal endpoint; 'request a custom report summarizing historical data insights and ... inventory handling' fits POST /reports/generate (procurement and logistics report) at least as well as the forest-market custom report."
+    },
+    "03-industrials/query_001": {
+      "optional": ["GET /resources"],
+      "reason": "'Include information about any available resources utilized across these tasks' - vague, only implies listing resources (missed by 4/5 runs)."
+    },
+    "03-industrials/query_005": {
+      "alternatives": {"GET /inventory/resources": ["GET /resources"]},
+      "reason": "'retrieve available resources for operational ALLOCATION' matches GET /resources ('available resources for project and task allocation') better than the expected environmental resource list; missed by 5/5 runs."
+    }
+  },
+  "not_changed": "Consistent misses/extras judged as model errors, not label problems: energy q4 (extra GET /resources/list), q9 (GET /maintenance-schedule, literal match), q10 (GET /forecast-usage); materials q4 (GET /sites/resources-overview, literal match), q5 and q9 (GET /calculations/{id}/result - query says 'calculation results'), q8/q9 (lookup calls like GET /materials, GET /equipment-status to obtain IDs - see notes); industrials q4, q6, q8, q10 (extra or hallucinated calls)."
+}
