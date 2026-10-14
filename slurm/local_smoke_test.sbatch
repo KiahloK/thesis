@@ -10,6 +10,12 @@
 
 set -euo pipefail
 
+# Print the job's wall-clock time when the script ends - also on errors and on the time limit
+# (Slurm sends SIGTERM before killing the job). Compare with `sacct -j <jobid> --format=JobID,Elapsed,State`.
+JOB_STARTED="$(date '+%Y-%m-%d %H:%M:%S')"
+trap 'echo "Job started $JOB_STARTED, ended $(date "+%Y-%m-%d %H:%M:%S"), wall time $((SECONDS / 60))m $((SECONDS % 60))s"' EXIT
+trap 'exit 143' TERM
+
 PROJECT_ROOT="${SLURM_SUBMIT_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
 cd "$PROJECT_ROOT"
 
@@ -46,4 +52,4 @@ nvidia-smi
 "$PYTHON" -c "import torch; print('torch', torch.__version__, 'cuda', torch.cuda.is_available()); assert torch.cuda.is_available()"
 
 srun --ntasks=1 --cpus-per-task="${SLURM_CPUS_PER_GPU:-24}" \
-    "$PYTHON" local_smoke_test.py --model "$LOCAL_MODEL_ID"
+    "$PYTHON" local_smoke_test.py --model "$LOCAL_MODEL_ID" --reasoning "${LOCAL_REASONING:-off}"

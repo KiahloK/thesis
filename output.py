@@ -1,5 +1,7 @@
 import os
 import json
+import time
+from datetime import datetime
 from pathlib import Path
 
 def make_output_dir(name: str) -> str:
@@ -56,12 +58,21 @@ def write_query_output(output_dir: str, result: dict) -> None:
         'generated_file': os.path.basename(gen_file) if gen_file else None,
         'analysis_file': os.path.basename(analysis_file) if analysis_file else None,
         'initial_metrics': _serialize_metrics(result.get('initial_metrics')),
+        # token usage incl. reasoning tokens (absent when the initial code was loaded from disk)
+        'initial_usage': result.get('_usage'),
+        'timing_seconds': {
+            label: round(result[key], 1)
+            for label, key in _QUERY_TIMING_KEYS.items()
+            if result.get(key) is not None
+        },
     }
     if not baseline:
         data['generated_refined_file'] = os.path.basename(gen_ref_file) if gen_ref_file else None
         data['refined_metrics'] = _serialize_metrics(result.get('refined_metrics'))
         if result.get('endpoint_issues'):
             data['endpoint_issues'] = result['endpoint_issues']
+        if result.get('_refine_usage'):
+            data['refined_usage'] = result['_refine_usage']
         if result.get('filtered_endpoints'):
             data['filtered_endpoints'] = result['filtered_endpoints']
 
@@ -83,7 +94,57 @@ def _serialize_metrics(metrics: dict | None) -> dict | None:
     return out
 
 
-def write_overall_summary(output_dir: str, sector_results: list, run_config: dict | None = None) -> None:
+def format_duration(seconds: float | None) -> str:
+    """12.3 -> '0m 12s', 4000 -> '1h 06m 40s'."""
+    seconds = int(round(seconds or 0))
+    hours, rest = divmod(seconds, 3600)
+    minutes, secs = divmod(rest, 60)
+    return f"{hours}h {minutes:02d}m {secs:02d}s" if hours else f"{minutes}m {secs:02d}s"
+
+
+_QUERY_TIMING_KEYS = {
+    "initial_generation": "_elapsed",
+    "analysis": "_analysis_seconds",
+    "endpoint_check": "_check_seconds",
+    "refinement_total": "_refine_seconds",
+}
+
+
+def run_timing(run_start: float, stage_seconds: dict, sector_results: list, model_load_seconds: float | None = None) -> dict:
+    """Wall-clock timing of a notebook run, for summary.json. `refinement_total` per query covers
+    filtering, endpoint check and the refinement LLM call."""
+    now = time.time()
+    total = now - run_start
+    per_query = {}
+    for label, key in _QUERY_TIMING_KEYS.items():
+        values = [r[key] for r in sector_results if r.get(key) is not None]
+        if values:
+            per_query[label] = {"mean": round(sum(values) / len(values), 1), "max": round(max(values), 1)}
+    return {
+        "started_at": datetime.fromtimestamp(run_start).isoformat(timespec="seconds"),
+        "finished_at": datetime.fromtimestamp(now).isoformat(timespec="seconds"),
+        "total_seconds": round(total, 1),
+        "total": format_duration(total),
+        "model_load_seconds": round(model_load_seconds, 1) if model_load_seconds is not None else None,
+        "stages_seconds": {stage: round(seconds, 1) for stage, seconds in stage_seconds.items()},
+        "queries": len(sector_results),
+        "seconds_per_query": round(total / len(sector_results), 1) if sector_results else None,
+        "per_query_seconds": per_query,
+    }
+
+
+def print_timing(timing: dict) -> None:
+    print(f"Run took {timing['total']} ({timing['queries']} queries, "
+          f"{timing['seconds_per_query']}s per query on average)")
+    if timing.get("model_load_seconds") is not None:
+        print(f"  model load:  {format_duration(timing['model_load_seconds'])}")
+    for stage, seconds in timing["stages_seconds"].items():
+        print(f"  {stage + ':':<20} {format_duration(seconds)}")
+    for label, stats in timing["per_query_seconds"].items():
+        print(f"  per query, {label}: mean {stats['mean']}s, max {stats['max']}s")
+
+
+def write_overall_summary(output_dir: str, sector_results: list, run_config: dict | None = None, timing: dict | None = None) -> None:
     fname = os.path.join(output_dir, "summary.json")
     initial_metrics = [r.get('initial_metrics') for r in sector_results if r.get('initial_metrics')]
     refined_metrics = [r.get('refined_metrics') for r in sector_results if r.get('refined_metrics')]
@@ -95,6 +156,8 @@ def write_overall_summary(output_dir: str, sector_results: list, run_config: dic
     is_baseline = (run_config or {}).get('baseline', False)
 
     summary = {'config': run_config or {}}
+    if timing:
+        summary['timing'] = timing
 
     summary['count'] = len(initial_metrics)
     summary['avg_precision'] = avg(initial_metrics, 'precision')

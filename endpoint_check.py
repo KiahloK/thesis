@@ -97,7 +97,7 @@ def find_necessary_endpoints(services: list[str], query: str, model: str) -> lis
     necessary = []
     for label, display in candidates:
         messages.append({"role": "user", "content": display})
-        response, _usage = call_llm_chat(messages, model)
+        response, _usage = call_llm_chat(messages, model, role='check')
         messages.append({"role": "assistant", "content": response})
         if response.strip().startswith("Yes") or response.strip().startswith("**Yes**"):
             necessary.append(label)
@@ -248,14 +248,14 @@ def find_step_issues(generated_code: str, services: list[str], query: str, model
     candidates = _endpoint_lines(_parse_services(services))
     labels = [label for label, _ in candidates]
 
-    response, _usage = call_llm_chat([{'role': 'user', 'content': _STEPS_TEMPLATE.format(query=query)}], model)
+    response, _usage = call_llm_chat([{'role': 'user', 'content': _STEPS_TEMPLATE.format(query=query)}], model, role='check')
     steps = _parse_steps(response)
 
     endpoints_block = '\n'.join(line for _, line in candidates)
     mapping = []
     for step in steps:
         prompt = _SELECT_TEMPLATE.format(query=query, step=step, endpoints=endpoints_block)
-        response, _usage = call_llm_chat([{'role': 'user', 'content': prompt}], model)
+        response, _usage = call_llm_chat([{'role': 'user', 'content': prompt}], model, role='check')
         endpoint = _parse_selection(response, labels)
         mapping.append({'step': step, 'endpoint': endpoint, 'called': endpoint in called if endpoint else None})
 
@@ -269,12 +269,27 @@ def find_step_issues(generated_code: str, services: list[str], query: str, model
     }
 
 
+def _merge_repeated_steps(steps: list[dict]) -> list[dict]:
+    """Merge consecutive steps mapped to the same endpoint into one entry. The decomposition often
+    splits one action into several steps ("Review reports", "Provide feedback on reports", ...);
+    repeating the same endpoint once per sub-step only lengthens the refinement prompt. Unmapped
+    steps are never merged."""
+    merged: list[dict] = []
+    for m in steps:
+        if merged and m['endpoint'] is not None and merged[-1]['endpoint'] == m['endpoint']:
+            merged[-1] = {**merged[-1], 'step': f"{merged[-1]['step'].rstrip('.')}; {m['step']}"}
+        else:
+            merged.append(dict(m))
+    return merged
+
+
 def format_step_issues_for_prompt(issues: dict) -> str:
     """Render find_step_issues() output as findings text for the refinement prompt."""
     if not issues['steps']:
         return ''
+    steps = _merge_repeated_steps(issues['steps'])
     lines = ["Step coverage (an automated check split the Task into steps and mapped each step to the endpoint that performs it):"]
-    for i, m in enumerate(issues['steps'], start=1):
+    for i, m in enumerate(steps, start=1):
         if m['endpoint'] is None:
             lines.append(f"{i}. {m['step']} -> no endpoint in Source performs this step")
         elif m['called']:
@@ -282,7 +297,7 @@ def format_step_issues_for_prompt(issues: dict) -> str:
         else:
             lines.append(f"{i}. {m['step']} -> {m['endpoint']} (NOT called: use this endpoint for this step)")
     if issues['additional']:
-        unmapped = [str(i) for i, m in enumerate(issues['steps'], start=1) if m['endpoint'] is None]
+        unmapped = [str(i) for i, m in enumerate(steps, start=1) if m['endpoint'] is None]
         if unmapped:
             # A step the check could not map may well be served by one of these calls, so they
             # must not be presented as definitely unnecessary.

@@ -20,6 +20,12 @@
 
 set -euo pipefail
 
+# Print the job's wall-clock time when the script ends - also on errors and on the time limit
+# (Slurm sends SIGTERM before killing the job). Compare with `sacct -j <jobid> --format=JobID,Elapsed,State`.
+JOB_STARTED="$(date '+%Y-%m-%d %H:%M:%S')"
+trap 'echo "Job started $JOB_STARTED, ended $(date "+%Y-%m-%d %H:%M:%S"), wall time $((SECONDS / 60))m $((SECONDS % 60))s"' EXIT
+trap 'exit 143' TERM
+
 PROJECT_ROOT="${SLURM_SUBMIT_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
 cd "$PROJECT_ROOT"
 
@@ -34,7 +40,14 @@ fi
 export LOCAL_MODEL_ID="${LOCAL_MODEL_ID:-Qwen/Qwen3.8-27B}"
 export LOCAL_MAX_NEW_TOKENS="${LOCAL_MAX_NEW_TOKENS:-1024}"
 export LOCAL_DO_SAMPLE="${LOCAL_DO_SAMPLE:-0}"
-export LOCAL_ENABLE_THINKING="${LOCAL_ENABLE_THINKING:-0}"
+# Reasoning per call type: off|low|medium|high (thinking budget 1024/4096/16384 tokens, see llm.py).
+# LOCAL_REASONING sets all three; LOCAL_REASONING_GENERATE/_REFINE/_CHECK override it per call type.
+# Only takes effect for models with a thinking mode (e.g. Qwen3-style templates). Reasoning makes
+# calls much slower - use smaller chunks (e.g. QUERY_LIMIT=3) to stay within the 30-minute limit.
+export LOCAL_REASONING="${LOCAL_REASONING:-off}"
+export LOCAL_REASONING_GENERATE="${LOCAL_REASONING_GENERATE:-$LOCAL_REASONING}"
+export LOCAL_REASONING_REFINE="${LOCAL_REASONING_REFINE:-$LOCAL_REASONING}"
+export LOCAL_REASONING_CHECK="${LOCAL_REASONING_CHECK:-$LOCAL_REASONING}"
 export LOCAL_MAX_WORKERS="${LOCAL_MAX_WORKERS:-1}"
 export HF_HOME="${HF_HOME:-$PROJECT_ROOT/.hf-cache}"
 export TOKENIZERS_PARALLELISM=false
@@ -75,6 +88,7 @@ fi
 
 echo "Job: ${SLURM_JOB_ID:-local} on $(hostname)"
 echo "Model: $LOCAL_MODEL_ID | HF_HOME: $HF_HOME | HF_HUB_OFFLINE: ${HF_HUB_OFFLINE:-0}"
+echo "Reasoning: generate=$LOCAL_REASONING_GENERATE refine=$LOCAL_REASONING_REFINE check=$LOCAL_REASONING_CHECK"
 echo "Benchmarks: $BENCHMARK_TYPES | Queries: $QUERY_LIMIT (offset $QUERY_OFFSET) | Load baseline: $LOAD_BASELINE ${BASELINE_DIR:-}"
 echo "Filter: $FILTER_SERVICES ($FILTER_MODE, top_k=$TOP_K, keep_called=$KEEP_CALLED) | Endpoint check: $ENDPOINT_CHECK ($ENDPOINT_CHECK_MODE) | Mock responses: $ANALYSIS_MOCK_RESPONSES"
 nvidia-smi

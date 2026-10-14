@@ -13,7 +13,14 @@ def main() -> None:
         "--prompt",
         default="Write a Python function named compose that returns the integer 1.",
     )
+    parser.add_argument(
+        "--reasoning",
+        choices=["off", "low", "medium", "high"],
+        help="reasoning level for this call (default: LOCAL_REASONING / off)",
+    )
     args = parser.parse_args()
+    if args.reasoning:
+        os.environ["LOCAL_REASONING"] = args.reasoning
 
     if not args.model:
         parser.error("provide --model or set LOCAL_MODEL_ID")
