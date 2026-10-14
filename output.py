@@ -136,7 +136,7 @@ def run_timing(run_start: float, stage_seconds: dict, sector_results: list, mode
 def print_timing(timing: dict) -> None:
     print(f"Run took {timing['total']} ({timing['queries']} queries, "
           f"{timing['seconds_per_query']}s per query on average)")
-    if timing.get("model_load_seconds") is not None:
+    if timing.get("model_load_seconds") is not None and "model_load" not in timing["stages_seconds"]:
         print(f"  model load:  {format_duration(timing['model_load_seconds'])}")
     for stage, seconds in timing["stages_seconds"].items():
         print(f"  {stage + ':':<20} {format_duration(seconds)}")

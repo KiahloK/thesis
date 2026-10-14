@@ -80,6 +80,12 @@ def _get_model(model_id: str) -> tuple[Any, Any]:
     return _model, _tokenizer
 
 
+def load_model(model: str) -> None:
+    """Load the model (LOCAL_MODEL_ID overrides `model`) up front, so that its loading time is
+    measured on its own and not attributed to the first LLM call."""
+    _get_model(_setting("LOCAL_MODEL_ID", model))
+
+
 def _format_messages(messages: list[dict], tokenizer) -> str:
     return "\n".join(
         f"{message['role'].upper()}: {message.get('content', '')}"
