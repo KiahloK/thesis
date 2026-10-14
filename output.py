@@ -71,6 +71,8 @@ def write_query_output(output_dir: str, result: dict) -> None:
         data['refined_metrics'] = _serialize_metrics(result.get('refined_metrics'))
         if result.get('endpoint_issues'):
             data['endpoint_issues'] = result['endpoint_issues']
+        if result.get('refine_mode_used'):
+            data['refine_mode_used'] = result['refine_mode_used']
         if result.get('_refine_usage'):
             data['refined_usage'] = result['_refine_usage']
         if result.get('filtered_endpoints'):

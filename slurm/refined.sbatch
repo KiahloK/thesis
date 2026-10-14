@@ -72,6 +72,9 @@ export ENDPOINT_CHECK_MODE="${ENDPOINT_CHECK_MODE:-stepwise}"
 # Runtime analyses answer requests with bodies derived from the specs ("spec") or with {} ("empty",
 # the behaviour before 2026-10-13).
 export ANALYSIS_MOCK_RESPONSES="${ANALYSIS_MOCK_RESPONSES:-spec}"
+# "repair": repair the code using the findings; "plan": rewrite compose() to follow the step-wise
+# check's step -> endpoint plan (needs ENDPOINT_CHECK=1 and ENDPOINT_CHECK_MODE=stepwise).
+export REFINE_MODE="${REFINE_MODE:-repair}"
 
 PYTHON="${PYTHON:-$PROJECT_ROOT/.venv/bin/python}"
 if [[ ! -x "$PYTHON" ]]; then
@@ -90,7 +93,7 @@ echo "Job: ${SLURM_JOB_ID:-local} on $(hostname)"
 echo "Model: $LOCAL_MODEL_ID | HF_HOME: $HF_HOME | HF_HUB_OFFLINE: ${HF_HUB_OFFLINE:-0}"
 echo "Reasoning: generate=$LOCAL_REASONING_GENERATE refine=$LOCAL_REASONING_REFINE check=$LOCAL_REASONING_CHECK"
 echo "Benchmarks: $BENCHMARK_TYPES | Queries: $QUERY_LIMIT (offset $QUERY_OFFSET) | Load baseline: $LOAD_BASELINE ${BASELINE_DIR:-}"
-echo "Filter: $FILTER_SERVICES ($FILTER_MODE, top_k=$TOP_K, keep_called=$KEEP_CALLED) | Endpoint check: $ENDPOINT_CHECK ($ENDPOINT_CHECK_MODE) | Mock responses: $ANALYSIS_MOCK_RESPONSES"
+echo "Filter: $FILTER_SERVICES ($FILTER_MODE, top_k=$TOP_K, keep_called=$KEEP_CALLED) | Endpoint check: $ENDPOINT_CHECK ($ENDPOINT_CHECK_MODE) | Mock responses: $ANALYSIS_MOCK_RESPONSES | Refine mode: $REFINE_MODE"
 nvidia-smi
 "$PYTHON" -c "import torch; print('torch', torch.__version__, 'cuda', torch.cuda.is_available()); assert torch.cuda.is_available()"
 command -v ruff

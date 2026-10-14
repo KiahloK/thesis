@@ -314,6 +314,16 @@ def format_step_issues_for_prompt(issues: dict) -> str:
     return '\n'.join(lines)
 
 
+def format_step_plan(issues: dict) -> str:
+    """Render find_step_issues() output as a plan for plan-guided refinement (REFINE_MODE=plan):
+    one line per step with the endpoint that performs it, without any judgement of the code."""
+    lines = []
+    for i, m in enumerate(_merge_repeated_steps(issues.get('steps', [])), start=1):
+        target = m['endpoint'] if m['endpoint'] else 'no endpoint in Source performs this step'
+        lines.append(f"{i}. {m['step']} -> {target}")
+    return '\n'.join(lines)
+
+
 def format_issues_for_prompt(issues: dict) -> str:
     """Render find_endpoint_issues() output as findings text to append to a refinement prompt."""
     lines = []
